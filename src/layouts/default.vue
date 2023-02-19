@@ -1,13 +1,15 @@
 <template>
-  <main class="default-layout">
-    <slot />
+  <main class="layout default">
+    <RouterView />
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+</script>
 
 <style scoped lang="postcss">
-.default-layout {
+.default {
   @apply bg-primary-bg;
 }
 </style>

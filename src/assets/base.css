@@ -5,6 +5,10 @@
 }
 
 
+html, body, #app, .n-config-provider, .layout {
+  @apply full;
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {
