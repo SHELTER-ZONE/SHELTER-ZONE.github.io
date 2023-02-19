@@ -6,7 +6,7 @@
 
 
 html, body, #app, .n-config-provider, .layout {
-  @apply full;
+  @apply full text-base;
 }
 
 

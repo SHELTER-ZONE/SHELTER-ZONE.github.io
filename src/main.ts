@@ -6,6 +6,7 @@ import router from './router'
 
 import 'virtual:windi.css'
 import './assets/base.css'
+import '@shelter-zone/shelter-ui/style'
 
 const app = createApp(App)
 
