@@ -1,31 +1,35 @@
 <template>
   <main class="signin">
     {{ stage }}
+    {{ oauthStore.user }}
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useMessage } from 'naive-ui'
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-const store = useStore()
+import { useRoute, useRouter } from 'vue-router'
+import { useOauthStore } from '@/stores/oauth'
+
 const router = useRouter()
-const message = useMessage()
+const route = useRoute()
+const oauthStore = useOauthStore()
 const stage = ref('認證中...')
+
 onMounted(async () => {
   await router.isReady()
-  let code = location.href.split('/')[4].split('=')[1]
-  code = code.replace('#', '')
-  if (code.includes('access_denied') || code.includes('error_description')) {
-    return router.replace('/')
-  }
-  const [, getTokenErr] = await store.dispatch('getDCAccessToken', { code })
-  if (getTokenErr) return message.error(getTokenErr.message)
+  // let code = location.href.split('/')[4].split('=')[1]
+  // code = code.replace('#', '')
+  // if (code.includes('access_denied') || code.includes('error_description')) {
+  //   return router.replace('/')
+  // }
+  const code = route.query.code
+  if (!code) return
+  await oauthStore.getDCAccessToken(code as string)
+  if (!oauthStore.accessToken) return
   stage.value = '取得使用者資訊...'
-  await store.dispatch('findMe')
-  router.replace('/important')
-  store.commit('SET_LOGGEDIN', true)
+  await oauthStore.findUserMe()
+  if (!oauthStore.user) return
+  // router.replace('/important')
 })
 </script>
 

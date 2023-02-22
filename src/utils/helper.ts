@@ -3,5 +3,5 @@ import { useAppStore } from '@/stores/app'
 
 export const getHost = (hostName: string) => {
   const appStore = useAppStore()
-  return get(appStore.apiEndPoints, `apiEndPoints.${hostName}`)
+  return get(appStore.apiEndPoints, hostName)
 }

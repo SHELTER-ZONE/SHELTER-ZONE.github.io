@@ -1,34 +1,43 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { GetDCAccessToken, GetDCAuthorizeUrl, FindMe } from '@/api/oauth'
 
-export const useCounterStore = defineStore('app', () => {
-  const loggedIn = ref(0)
+export const useOauthStore = defineStore('oauth', () => {
   const user = ref(null)
   const accessToken = ref(null)
 
   async function getDCAuthorizeUrl() {
     const [res, err]: any = await GetDCAuthorizeUrl({
-      redirectUri: `${location.protocol}//${location.host}/sz-single-entrance/#/callback`,
+      redirectUri: `${location.protocol}//${location.host}/callback`,
     })
-    if (err) return [null, err]
-    return [res, null]
+    if (err) {
+      console.log(err)
+      return null
+    }
+    return res
   }
-  async function getDCAccessToken({ commit }, { code }) {
+  async function getDCAccessToken(code: string) {
     const [res, err]: any = await GetDCAccessToken({
       code,
-      redirectUri: `${location.protocol}//${location.host}/sz-single-entrance/#/callback`,
+      redirectUri: `${location.protocol}//${location.host}/callback`,
     })
-    if (err) return [null, err]
-    commit('SET_ACCESS_TOKEN', res.access_token)
-    return [res, null]
+    if (err) return null
+    console.log('res', res)
+    accessToken.value = res.access_token
   }
-  async function findMe({ state, commit }) {
-    const [res, err] = await FindMe(state.accessToken)
-    if (err) return [null, err]
-    commit('SET_USER', res)
-    return [res, null]
+  async function findUserMe() {
+    if (!accessToken.value) return
+    const [res, err]: any = await FindMe(accessToken.value)
+    if (err) return
+    user.value = res
+    return
   }
 
-  return { count, doubleCount, increment }
+  return {
+    getDCAuthorizeUrl,
+    getDCAccessToken,
+    findUserMe,
+    accessToken,
+    user,
+  }
 })
