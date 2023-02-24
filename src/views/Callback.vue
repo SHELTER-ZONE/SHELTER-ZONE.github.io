@@ -29,6 +29,10 @@ onMounted(async () => {
   // router.replace('/important')
 
   // TODO SZUser login
+  await oauthStore.findSZUser()
+
+  // 無註冊 szUser -> 前往註冊頁
+  // 已註冊 szUser -> 未認證 -> 前往註冊頁
 })
 </script>
 

@@ -253,6 +253,11 @@
     color "^4.2.3"
     vue "^3.2.45"
 
+"@shelter-zone/sz-api-types@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@shelter-zone/sz-api-types/-/sz-api-types-2.0.4.tgz#95dc6bac3033b8b54a316d52e229c38eff7d2eaf"
+  integrity sha512-/lJQ56/sa9TFs3o3x5hPqeh5apIhn+S9NGkGtmXvYjMGtGAxoCq2RU29Zx0T3iluNoyzZPCu+Y0pUs1tq9cAeA==
+
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"

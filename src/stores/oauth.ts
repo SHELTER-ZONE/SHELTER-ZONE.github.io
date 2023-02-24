@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { GetDCAccessToken, GetDCAuthorizeUrl, FindMe } from '@/api/oauth'
+import { FindSZUser } from '@/api/user'
 import { get } from 'lodash-es'
 
 export const useOauthStore = defineStore('oauth', () => {
@@ -33,6 +34,13 @@ export const useOauthStore = defineStore('oauth', () => {
     user.value = res
     return
   }
+  async function findSZUser() {
+    if (!user.value) return
+    const userId = user.value.id
+    const [res, err]: any = await FindSZUser({ userId })
+    if (err) return
+    console.log(res)
+  }
 
   const userAvatar = computed(() => {
     if (!user.value) return ''
@@ -48,5 +56,6 @@ export const useOauthStore = defineStore('oauth', () => {
     accessToken,
     user,
     userAvatar,
+    findSZUser,
   }
 })
