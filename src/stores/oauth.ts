@@ -36,7 +36,7 @@ export const useOauthStore = defineStore('oauth', () => {
   }
   async function findSZUser() {
     if (!user.value) return
-    const userId = user.value.id
+    const userId = get(user.value, 'id')
     const [res, err]: any = await FindSZUser({ userId })
     if (err) return
     console.log(res)

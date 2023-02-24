@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Component } from 'vue'
 import { SZHighLightContainer } from '@shelter-zone/shelter-ui'
 import { NTag, NIcon } from 'naive-ui'
 import {
@@ -49,11 +50,20 @@ import {
   Chemistry,
 } from '@vicons/carbon'
 
+type TagsTypes = Record<
+  string,
+  {
+    icon: Component
+    color: { color: string }
+    type: 'info' | 'warning' | 'success' | 'error'
+  }
+>
+
 defineProps({
   data: Object,
 })
 
-const tagTypes = {
+const tagTypes: TagsTypes = {
   fullStack: {
     icon: StarFilled,
     color: { color: 'rgba(99, 226, 183, 0.16)' },

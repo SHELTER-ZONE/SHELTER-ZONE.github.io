@@ -1,23 +1,23 @@
 <template>
   <Provider>
-    <component :is="layouts[layout]" />
+    <component :is="activeLayout" />
     <!-- <router-view /> -->
   </Provider>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue'
+import { computed, onBeforeMount, type Component } from 'vue'
 import Provider from '@/components/Provider.vue'
 import Default from '@/layouts/Default.vue'
 import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
-import { NSpin } from 'naive-ui'
 
 const route = useRoute()
 const appStore = useAppStore()
 const layout = computed(() => route.meta.layout || 'default')
+const activeLayout = computed(() => layouts[layout.value as string])
 
-const layouts = {
+const layouts: Record<string, Component> = {
   default: Default,
 }
 

@@ -8,7 +8,7 @@ api.interceptors.request.use(async (config) => {
 })
 
 //= > handler
-const handleSuccessRes = (response: any) => {
+const handleSuccessRes = (response: any): any => {
   return [response.data, null]
 }
 

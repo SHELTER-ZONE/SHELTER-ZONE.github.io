@@ -16,7 +16,8 @@ const loginUrl = ref('')
 
 const login = async () => {
   if (!loginUrl.value) return
-  window.location = loginUrl.value
+  const win: Window = window
+  win.location = loginUrl.value
 }
 
 onBeforeMount(async () => {
