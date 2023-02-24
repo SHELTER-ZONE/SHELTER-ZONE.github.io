@@ -5,6 +5,8 @@
         <n-scrollbar x-scrollable>
           <NavList />
         </n-scrollbar>
+
+        <LanguageBtn />
         <UserOptions />
       </div>
     </SZBlockContainer>
@@ -13,9 +15,10 @@
 
 <script setup lang="ts">
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
-import { NButton, NScrollbar } from 'naive-ui'
+import { NScrollbar } from 'naive-ui'
 import NavList from './components/NavList.vue'
 import UserOptions from './components/UserOptions.vue'
+import LanguageBtn from './components/LanguageBtn.vue'
 </script>
 
 <style scoped lang="postcss">

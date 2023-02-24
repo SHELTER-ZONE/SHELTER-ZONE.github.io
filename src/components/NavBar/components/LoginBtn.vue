@@ -1,14 +1,17 @@
 <template>
-  <NButton type="primary" @click="login">Login</NButton>
+  <NButton type="primary" @click="login">
+    {{ translate('common.login') }}
+  </NButton>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { NButton } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
+import { useLocale } from '@/use/useLocale'
 
 const oauthStore = useOauthStore()
-const user = computed(() => oauthStore.user)
+const { translate } = useLocale()
 const loginUrl = ref('')
 
 const login = async () => {
