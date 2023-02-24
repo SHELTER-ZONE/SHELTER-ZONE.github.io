@@ -1,11 +1,15 @@
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { GetDCAccessToken, GetDCAuthorizeUrl, FindMe } from '@/api/oauth'
 import { FindSZUser } from '@/api/user'
 import { get } from 'lodash-es'
 
 export const useOauthStore = defineStore('oauth', () => {
-  const user = ref(null)
+  // const user = ref(null)
+  const user = reactive({
+    discord: null,
+    sz: null,
+  })
   const accessToken = ref(null)
 
   async function getDCAuthorizeUrl() {
@@ -31,21 +35,21 @@ export const useOauthStore = defineStore('oauth', () => {
     if (!accessToken.value) return
     const [res, err]: any = await FindMe(accessToken.value)
     if (err) return
-    user.value = res
+    user.discord = res
     return
   }
   async function findSZUser() {
-    if (!user.value) return
-    const userId = get(user.value, 'id')
+    if (!user.discord) return
+    const userId = get(user.discord, 'id')
     const [res, err]: any = await FindSZUser({ userId })
     if (err) return
     console.log(res)
   }
 
   const userAvatar = computed(() => {
-    if (!user.value) return ''
-    const userId = get(user.value, 'id')
-    const avatarId = get(user.value, 'avatar')
+    if (!user.discord) return ''
+    const userId = get(user.discord, 'id')
+    const avatarId = get(user.discord, 'avatar')
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
 

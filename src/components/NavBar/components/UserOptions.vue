@@ -25,7 +25,7 @@ import { ChevronDown } from '@vicons/carbon'
 import { get } from 'lodash-es'
 const oauthStore = useOauthStore()
 
-const dcUser = computed(() => oauthStore.user)
+const dcUser = computed(() => oauthStore.user.discord)
 const userAvatar = computed(() => oauthStore.userAvatar)
 const dcUserName = computed(() => get(dcUser.value, 'username'))
 </script>

@@ -19,20 +19,29 @@ onMounted(async () => {
   // if (code.includes('access_denied') || code.includes('error_description')) {
   //   return router.replace('/')
   // }
+
+  // callback
+  stage.value = 'Discord 驗證中 ...'
   const code = route.query.code
   if (!code) return
   await oauthStore.getDCAccessToken(code as string)
   if (!oauthStore.accessToken) return
-  stage.value = '取得使用者資訊...'
+
+  // dcUser
+  stage.value = '取得 Discord 使用者 ...'
   await oauthStore.findUserMe()
   if (!oauthStore.user) return
-  // router.replace('/important')
 
-  // TODO SZUser login
+  // SZUser login
+  stage.value = '取得 SZ 使用者 ...'
   await oauthStore.findSZUser()
 
-  // 無註冊 szUser -> 前往註冊頁
-  // 已註冊 szUser -> 未認證 -> 前往註冊頁
+  // 無註冊 szUser -> 前往註冊驗證頁
+  if (oauthStore.user.sz && oauthStore.user.sz.verified) {
+    router.replace({ name: 'home' })
+    return
+  }
+  router.replace({ name: 'verify' })
 })
 </script>
 
