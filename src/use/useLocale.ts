@@ -2,7 +2,13 @@ import { useI18n } from 'vue-i18n'
 import { get } from 'lodash-es'
 
 export type Locale = 'en' | 'tw'
-export type LocaleOptions = {}
+export type LocaleOptions = Record<
+  string,
+  {
+    label: string
+    value: string
+  }
+>
 export const useLocale = () => {
   const { messages, locale } = useI18n()
 
@@ -16,7 +22,7 @@ export const useLocale = () => {
     locale.value = newLocale
   }
 
-  const localeOptions = {
+  const localeOptions: LocaleOptions = {
     en: { label: 'English', value: 'en' },
     tw: { label: '繁體中文', value: 'tw' },
   }
