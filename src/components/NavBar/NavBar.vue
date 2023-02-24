@@ -3,12 +3,9 @@
     <SZBlockContainer>
       <div class="nav-wrapper">
         <n-scrollbar x-scrollable>
-          <div class="nav-items-list">
-            <!-- <p v-for="route in routes" :key="route.name">{{ route.name }}</p> -->
-            <p v-for="index in 40" :key="index">test</p>
-          </div>
+          <NavList />
         </n-scrollbar>
-        <n-button @click="login">登入</n-button>
+        <UserOptions />
       </div>
     </SZBlockContainer>
   </nav>
@@ -17,25 +14,8 @@
 <script setup lang="ts">
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { NButton, NScrollbar } from 'naive-ui'
-import { useRouter } from 'vue-router'
-import { computed, ref, onMounted } from 'vue'
-import { useOauthStore } from '@/stores/oauth'
-
-const router = useRouter()
-const oauthStore = useOauthStore()
-const routes = computed(() => router.options.routes)
-
-const loginUrl = ref('')
-
-const login = async () => {
-  if (!loginUrl.value) return
-  window.location = loginUrl.value
-}
-
-onMounted(async () => {
-  const url = await oauthStore.getDCAuthorizeUrl()
-  loginUrl.value = url
-})
+import NavList from './components/NavList.vue'
+import UserOptions from './components/UserOptions.vue'
 </script>
 
 <style scoped lang="postcss">

@@ -1,8 +1,5 @@
 <template>
-  <main class="signin">
-    {{ stage }}
-    {{ oauthStore.user }}
-  </main>
+  <main class="signin"></main>
 </template>
 
 <script setup lang="ts">
@@ -30,6 +27,8 @@ onMounted(async () => {
   await oauthStore.findUserMe()
   if (!oauthStore.user) return
   // router.replace('/important')
+
+  // TODO SZUser login
 })
 </script>
 

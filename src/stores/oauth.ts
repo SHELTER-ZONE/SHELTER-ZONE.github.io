@@ -1,6 +1,7 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { GetDCAccessToken, GetDCAuthorizeUrl, FindMe } from '@/api/oauth'
+import { get } from 'lodash-es'
 
 export const useOauthStore = defineStore('oauth', () => {
   const user = ref(null)
@@ -33,11 +34,19 @@ export const useOauthStore = defineStore('oauth', () => {
     return
   }
 
+  const userAvatar = computed(() => {
+    if (!user.value) return ''
+    const userId = get(user.value, 'id')
+    const avatarId = get(user.value, 'avatar')
+    return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
+  })
+
   return {
     getDCAuthorizeUrl,
     getDCAccessToken,
     findUserMe,
     accessToken,
     user,
+    userAvatar,
   }
 })
