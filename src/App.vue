@@ -6,22 +6,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useAppStore } from '@/stores/app'
-import Provider from './components/Provider.vue'
+import { computed, onBeforeMount } from 'vue'
+import Provider from '@/components/Provider.vue'
 import Default from '@/layouts/Default.vue'
+import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
+import { NSpin } from 'naive-ui'
 
 const route = useRoute()
-const { getApiEndPoint } = useAppStore()
+const appStore = useAppStore()
 const layout = computed(() => route.meta.layout || 'default')
 
 const layouts = {
   default: Default,
 }
 
-onMounted(async () => {
-  await getApiEndPoint()
+onBeforeMount(async () => {
+  await appStore.getApiEndPoint()
 })
 </script>
 

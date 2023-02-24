@@ -18,18 +18,24 @@
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { NButton, NScrollbar } from 'naive-ui'
 import { useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useOauthStore } from '@/stores/oauth'
 
 const router = useRouter()
-const { getDCAuthorizeUrl } = useOauthStore()
+const oauthStore = useOauthStore()
 const routes = computed(() => router.options.routes)
 
+const loginUrl = ref('')
+
 const login = async () => {
-  const url = await getDCAuthorizeUrl()
-  if (!url) return
-  window.location = url
+  if (!loginUrl.value) return
+  window.location = loginUrl.value
 }
+
+onMounted(async () => {
+  const url = await oauthStore.getDCAuthorizeUrl()
+  loginUrl.value = url
+})
 </script>
 
 <style scoped lang="postcss">

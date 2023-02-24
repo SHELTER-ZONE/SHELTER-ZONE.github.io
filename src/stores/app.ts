@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 export const useAppStore = defineStore('app', () => {
+  const appLoading = ref(true)
   const apiEndPoints = ref({})
 
   async function getApiEndPoint() {
@@ -19,11 +20,13 @@ export const useAppStore = defineStore('app', () => {
       const mode = import.meta.env.MODE
       if (mode === 'development') apiEndPoints.value = endpoints.dev
       if (mode === 'production') apiEndPoints.value = endpoints.prod
+      appLoading.value = false
     } catch (error) {
       alert(error)
     }
   }
   return {
+    appLoading,
     getApiEndPoint,
     apiEndPoints,
   }

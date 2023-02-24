@@ -1,5 +1,5 @@
 <template>
-  <NConfigProvider :theme="darkTheme">
+  <NConfigProvider :theme="darkTheme" id="n-config-provider">
     <slot />
   </NConfigProvider>
 </template>
