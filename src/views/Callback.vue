@@ -1,5 +1,7 @@
 <template>
-  <main class="signin"></main>
+  <main class="signin">
+    <p class="w-full h-full text-center">{{ stage }}</p>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -12,6 +14,15 @@ const route = useRoute()
 const oauthStore = useOauthStore()
 const stage = ref('認證中...')
 
+const emitError = (errorCode: string) => {
+  router.replace({
+    name: 'error',
+    query: {
+      code: errorCode,
+    },
+  })
+}
+
 onMounted(async () => {
   await router.isReady()
   // let code = location.href.split('/')[4].split('=')[1]
@@ -23,14 +34,23 @@ onMounted(async () => {
   // callback
   stage.value = 'Discord 驗證中 ...'
   const code = route.query.code
-  if (!code) return
+  if (!code) {
+    emitError('AUTH_ERROR_0')
+    return
+  }
   await oauthStore.getDCAccessToken(code as string)
-  if (!oauthStore.accessToken) return
+  if (!oauthStore.accessToken) {
+    emitError('AUTH_ERROR_1')
+    return
+  }
 
   // dcUser
   stage.value = '取得 Discord 使用者 ...'
   await oauthStore.findUserMe()
-  if (!oauthStore.user) return
+  if (!oauthStore.user) {
+    emitError('AUTH_ERROR_2')
+    return
+  }
 
   // SZUser login
   stage.value = '取得 SZ 使用者 ...'

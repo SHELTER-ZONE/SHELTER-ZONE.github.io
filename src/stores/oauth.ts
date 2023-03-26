@@ -4,6 +4,9 @@ import { GetDCAccessToken, GetDCAuthorizeUrl, FindMe } from '@/api/oauth'
 import { FindSZUser } from '@/api/user'
 import { get } from 'lodash-es'
 
+const discordAuthRedirectUrl = () =>
+  `${location.protocol}//${location.host}/discord/callback`
+
 export const useOauthStore = defineStore('oauth', () => {
   // const user = ref(null)
   const user = reactive({
@@ -14,7 +17,7 @@ export const useOauthStore = defineStore('oauth', () => {
 
   async function getDCAuthorizeUrl() {
     const [res, err]: any = await GetDCAuthorizeUrl({
-      redirectUri: `${location.protocol}//${location.host}/callback`,
+      redirectUri: discordAuthRedirectUrl(),
     })
     if (err) {
       console.log(err)
@@ -25,7 +28,7 @@ export const useOauthStore = defineStore('oauth', () => {
   async function getDCAccessToken(code: string) {
     const [res, err]: any = await GetDCAccessToken({
       code,
-      redirectUri: `${location.protocol}//${location.host}/callback`,
+      redirectUri: discordAuthRedirectUrl(),
     })
     if (err) return null
     console.log('res', res)

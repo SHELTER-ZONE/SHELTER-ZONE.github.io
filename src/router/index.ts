@@ -21,9 +21,14 @@ const router = createRouter({
       component: () => import('@/views/Home/Home.vue'),
     },
     {
-      path: '/callback',
-      name: 'callback',
+      path: '/discord/callback',
+      name: 'discord callback',
       component: () => import('@/views/Callback.vue'),
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: () => import('@/views/Error/Error.vue'),
     },
     {
       path: '/verify',
