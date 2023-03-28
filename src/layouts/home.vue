@@ -25,6 +25,5 @@ const appStore = useAppStore()
 <style scoped lang="postcss">
 .default {
   @apply relative bg-primary-bg;
-  @apply pt-[74px];
 }
 </style>

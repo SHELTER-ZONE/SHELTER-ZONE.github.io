@@ -9,6 +9,7 @@ const router = createRouter({
       name: 'home',
       meta: {
         title: '首頁',
+        layout: 'home',
       },
       component: Home,
     },
@@ -23,7 +24,7 @@ const router = createRouter({
     {
       path: '/discord/callback',
       name: 'discord callback',
-      component: () => import('@/views/Callback.vue'),
+      component: () => import('@/views/Callback/Callback.vue'),
     },
     {
       path: '/error',
