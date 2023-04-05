@@ -41,6 +41,16 @@ const router = createRouter({
       },
       component: () => import('@/views/Verify/Verify.vue'),
     },
+    {
+      path: '/profile',
+      name: 'profile',
+      meta: {
+        hidden: true,
+        title: '個人資料',
+        auth: true,
+      },
+      component: () => import('@/views/Profile/Profile.vue'),
+    },
   ],
 })
 

@@ -2,7 +2,7 @@
   <div class="user-options">
     <LoginBtn v-if="!dcUser" />
 
-    <NDropdown v-if="dcUser" trigger="click">
+    <NDropdown v-if="dcUser" trigger="hover" :options="options">
       <NButton class="user-btn" type="primary" ghost>
         <template #icon>
           <img class="user-avatar" :src="userAvatar" alt="" srcset="" />
@@ -18,16 +18,74 @@
 
 <script setup lang="ts">
 import LoginBtn from './LoginBtn.vue'
-import { computed } from 'vue'
+import { computed, h } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import { NButton, NDropdown, NIcon } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
 import { ChevronDown } from '@vicons/carbon'
 import { get } from 'lodash-es'
+
 const oauthStore = useOauthStore()
+const router = useRouter()
 
 const dcUser = computed(() => oauthStore.user.discord)
 const userAvatar = computed(() => oauthStore.userAvatar)
 const dcUserName = computed(() => get(dcUser.value, 'username'))
+
+const logout = () => {
+  oauthStore.user.discord = null
+  oauthStore.user.sz = null
+  oauthStore.user.guilds = []
+
+  router.replace({ name: 'home' })
+}
+
+const options = computed(() => {
+  const options = []
+
+  if (oauthStore.user.sz)
+    options.push({
+      key: 'profile',
+      type: 'render',
+      render: () =>
+        h(RouterLink, { to: { name: 'profile' } }, () =>
+          h(
+            NButton,
+            { quaternary: true, block: true },
+            { default: () => '個人資料' },
+          ),
+        ),
+    })
+
+  if (oauthStore.user.discord && !oauthStore.user.sz)
+    options.push({
+      key: 'profile',
+      type: 'render',
+      render: () =>
+        h(RouterLink, { to: { name: 'verify' } }, () =>
+          h(
+            NButton,
+            { quaternary: true, block: true, type: 'warning' },
+            { default: () => 'SZ 驗證' },
+          ),
+        ),
+    })
+
+  if (oauthStore.user.discord)
+    options.push({
+      label: '登出',
+      key: 'logout',
+      type: 'render',
+      render: () =>
+        h(
+          NButton,
+          { quaternary: true, block: true, onClick: logout },
+          { default: () => '登出' },
+        ),
+    })
+
+  return options
+})
 </script>
 
 <style scoped lang="postcss">
