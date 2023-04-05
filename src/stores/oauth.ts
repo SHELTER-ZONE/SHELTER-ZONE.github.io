@@ -8,6 +8,7 @@ import {
 } from '@/api/oauth'
 import { FindSZUser } from '@/api/user'
 import { get, find } from 'lodash-es'
+import { useStorage, StorageSerializers } from '@vueuse/core'
 
 const discordAuthRedirectUrl = () =>
   `${location.protocol}//${location.host}/discord/callback`
@@ -15,9 +16,13 @@ const discordAuthRedirectUrl = () =>
 export const useOauthStore = defineStore('oauth', () => {
   // const user = ref(null)
   const user = reactive({
-    discord: null,
-    sz: null,
-    guilds: [],
+    discord: useStorage('user-discord', null, undefined, {
+      serializer: StorageSerializers.object,
+    }),
+    sz: useStorage('user-sz', null, undefined, {
+      serializer: StorageSerializers.object,
+    }),
+    guilds: useStorage('user-guilds', []),
   })
   const accessToken = ref(null)
 
@@ -37,13 +42,14 @@ export const useOauthStore = defineStore('oauth', () => {
       redirectUri: discordAuthRedirectUrl(),
     })
     if (err) return null
-    console.log('res', res)
     accessToken.value = res.access_token
+    // TODO expires_in
   }
   async function findUserMe() {
     if (!accessToken.value) return
     const [res, err]: any = await FindMe(accessToken.value)
     if (err) return
+    console.log(res)
     user.discord = res
     return
   }
