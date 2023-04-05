@@ -10,6 +10,7 @@
           :is="fieldTypeComponent[field.type]"
           :disabled="field.disabled"
           v-model:value="formData[field.key]"
+          :options="field.options"
         />
       </n-form-item>
     </n-form>
@@ -23,6 +24,7 @@ import { NForm, NFormItem, NButton } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
 import { get } from 'lodash-es'
 import { useForm } from '@/use/useForm'
+import fromSources from '@/configs/fromSources'
 
 const oauthStore = useOauthStore()
 const { fieldTypeComponent } = useForm()
@@ -49,6 +51,7 @@ const fields = ref([
     label: '來源',
     key: 'from',
     type: 'select',
+    options: fromSources,
   },
 ])
 
