@@ -90,6 +90,16 @@ const findSZUser = async () => {
   if (get(oauthStore.user, 'sz')) changeStackInfo('find-sz-user', 'resolve')
   else changeStackInfo('find-sz-user', 'warning')
 }
+const getDCUserGuilds = async () => {
+  if (isError.value) return
+  pushStackInfo({
+    name: '取得使用者伺服器列表',
+    id: 'get-user-guilds',
+    state: 'processing',
+  })
+  await oauthStore.getDCUserGuilds()
+  changeStackInfo('get-user-guilds', 'resolve')
+}
 const checkingSZUser = () => {
   if (isError.value) return
   if (get(oauthStore.user, 'sz') && get(oauthStore.user, 'sz.verified')) {
@@ -112,7 +122,7 @@ const checkingSZUser = () => {
     state: 'processing',
   })
   // 無註冊 szUser -> 前往註冊驗證頁
-  // router.replace({ name: 'verify' })
+  router.replace({ name: 'verify' })
 }
 
 onMounted(async () => {
@@ -127,6 +137,7 @@ onMounted(async () => {
   verifyCode(code)
   await getDCAccessToken(code)
   await findDCUser()
+  await getDCUserGuilds()
   await findSZUser()
   checkingSZUser()
 })

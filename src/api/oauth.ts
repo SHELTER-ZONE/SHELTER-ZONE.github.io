@@ -43,3 +43,13 @@ export const FindMe = async (accessToken: string) => {
     },
   })
 }
+
+export const GetDCUserGuilds = async (accessToken: string) => {
+  return await api({
+    method: 'get',
+    url: 'https://discord.com/api/v10/users/@me/guilds',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+}

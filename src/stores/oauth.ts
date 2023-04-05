@@ -1,8 +1,13 @@
 import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { GetDCAccessToken, GetDCAuthorizeUrl, FindMe } from '@/api/oauth'
+import {
+  GetDCAccessToken,
+  GetDCAuthorizeUrl,
+  FindMe,
+  GetDCUserGuilds,
+} from '@/api/oauth'
 import { FindSZUser } from '@/api/user'
-import { get } from 'lodash-es'
+import { get, find } from 'lodash-es'
 
 const discordAuthRedirectUrl = () =>
   `${location.protocol}//${location.host}/discord/callback`
@@ -12,6 +17,7 @@ export const useOauthStore = defineStore('oauth', () => {
   const user = reactive({
     discord: null,
     sz: null,
+    guilds: [],
   })
   const accessToken = ref(null)
 
@@ -48,6 +54,13 @@ export const useOauthStore = defineStore('oauth', () => {
     if (err) return
     console.log(res)
   }
+  async function getDCUserGuilds() {
+    if (!accessToken.value) return
+    const [res, err]: any = await GetDCUserGuilds(accessToken.value)
+    if (err) return
+    user.guilds = res
+    return
+  }
 
   const userAvatar = computed(() => {
     if (!user.discord) return ''
@@ -56,13 +69,19 @@ export const useOauthStore = defineStore('oauth', () => {
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
 
+  const szJoined = computed(() => {
+    return Boolean(find(user.guilds, { id: '445157253385814016' }))
+  })
+
   return {
     getDCAuthorizeUrl,
     getDCAccessToken,
+    getDCUserGuilds,
     findUserMe,
     accessToken,
     user,
     userAvatar,
     findSZUser,
+    szJoined,
   }
 })
