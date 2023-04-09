@@ -20,8 +20,9 @@ const route = useRoute()
 
 const errorCode = computed(() => route.query.code)
 const errorMsg = computed(() => {
-  if (!errorCode.value) return ''
-  return get(errors, errorCode.value)
+  const code = errorCode.value as string
+  if (!code) return ''
+  return get(errors, code)
 })
 </script>
 

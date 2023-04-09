@@ -5,7 +5,7 @@
     <n-spin v-if="data.state === 'processing'" size="small" />
 
     <n-icon v-if="data.state !== 'processing'">
-      <Component :is="stateIcons[data.state]" />
+      <Component :is="get(stateIcons, data.state)" />
     </n-icon>
   </div>
 </template>
@@ -14,6 +14,7 @@
 import type { StackInfoItemData } from '../types'
 import { NSpin, NIcon } from 'naive-ui'
 import { useStackInfo } from '@/use/useStackInfo'
+import { get } from 'lodash-es'
 
 const { stateIcons } = useStackInfo()
 
