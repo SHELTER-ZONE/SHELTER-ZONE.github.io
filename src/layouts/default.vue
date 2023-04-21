@@ -8,14 +8,16 @@
     </div>
     <template v-if="!appStore.appLoading">
       <NavBar />
-      <RouterView />
+      <n-scrollbar>
+        <RouterView class="overflow-y-auto" />
+      </n-scrollbar>
     </template>
   </main>
 </template>
 
 <script setup lang="ts">
 import NavBar from '../components/NavBar/NavBar.vue'
-import { NSpin } from 'naive-ui'
+import { NSpin, NScrollbar } from 'naive-ui'
 import { RouterView } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 

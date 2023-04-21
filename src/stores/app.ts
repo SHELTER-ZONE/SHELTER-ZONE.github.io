@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { _DETA_GIST_URL } from '@/configs/urls'
+import { _SZ_MICROSERVICES_TABLE } from '@/configs/urls'
 
 export const useAppStore = defineStore('app', () => {
   const appLoading = ref(true)
@@ -11,7 +11,7 @@ export const useAppStore = defineStore('app', () => {
     try {
       const res = await axios({
         method: 'GET',
-        url: _DETA_GIST_URL,
+        url: _SZ_MICROSERVICES_TABLE,
       })
       if (!res || !res.data) {
         alert('❗ 錯誤: 取得 api 失敗 !!')

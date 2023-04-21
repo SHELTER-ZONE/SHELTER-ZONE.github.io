@@ -1,4 +1,5 @@
 import { NInput, NSelect } from 'naive-ui'
+import CheckBoxArea from '@/components/CheckBoxArea/CheckBoxArea.vue'
 
 import type { Ref } from 'vue'
 import type { FormInst, FormValidationError } from 'naive-ui'
@@ -11,6 +12,7 @@ export const useForm = () => {
   const fieldTypeComponent = {
     text: NInput,
     select: NSelect,
+    checkboxArea: CheckBoxArea,
   }
 
   const verifyForm = async (

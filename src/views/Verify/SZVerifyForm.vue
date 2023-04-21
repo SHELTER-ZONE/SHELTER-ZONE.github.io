@@ -2,31 +2,59 @@
   <div class="sz-verify-form">
     <div>
       <n-form
-        class="grid grid-cols-2 gap-[20px]"
         ref="formRef"
         :model="formData"
         :rules="formRules"
+        class="flex flex-col gap-[20px]"
       >
-        <n-form-item
-          v-for="field in fields"
-          :path="field.key"
-          :key="field.key"
-          :label="field.label"
-        >
-          <Component
-            :is="get(fieldTypeComponent, field.type)"
-            :disabled="field.disabled"
-            :placeholder="field.placeholder"
-            v-model:value="formData[field.key]"
-            :options="field.options"
-            :filterable="field.filterable"
-            :clearable="field.clearable || true"
-          />
-        </n-form-item>
+        <section>
+          <SZBlockContainer>
+            <n-form-item
+              v-for="field in fields"
+              :path="field.key"
+              :key="field.key"
+              :label="field.label"
+            >
+              <Component
+                :is="get(fieldTypeComponent, field.type)"
+                :disabled="field.disabled"
+                :placeholder="field.placeholder"
+                v-model:value="formData[field.key]"
+                :options="field.options"
+                :filterable="field.filterable"
+                :clearable="field.clearable || true"
+              />
+            </n-form-item>
+          </SZBlockContainer>
+        </section>
+
+        <section>
+          <n-form-item>
+            <CheckBoxArea
+              class="w-full"
+              v-model:value="formData.roles"
+              title="身份組"
+              titlePosition="center"
+              :options="szRoleOptions"
+            />
+          </n-form-item>
+        </section>
+
+        <!-- <section class="flex justify-center">
+          <HCaptcha />
+        </section> -->
+
+        <section>
+          <n-button
+            block
+            type="primary"
+            @click="onVerify"
+            :loading="isSubmitting"
+          >
+            Verify
+          </n-button>
+        </section>
       </n-form>
-      <n-button block type="primary" @click="onVerify" :loading="isSubmitting">
-        Verify
-      </n-button>
     </div>
   </div>
 </template>
@@ -34,21 +62,30 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref, computed } from 'vue'
 import { NForm, NFormItem, NButton, useMessage } from 'naive-ui'
-import { useOauthStore } from '@/stores/oauth'
 import { get } from 'lodash-es'
 import { useForm } from '@/use/useForm'
 import { createSZUser } from '@/api/szUser'
 import { createSZUserProfile } from '@/api/szUserProfile'
+// stores
+import { useSZGuild } from '@/stores/szGuild'
+import { useOauthStore } from '@/stores/oauth'
+// components
+import CheckBoxArea from '@/components/CheckBoxArea/CheckBoxArea.vue'
+import { SZBlockContainer } from '@shelter-zone/shelter-ui'
+// import HCaptcha from '@/components/HCaptcha/HCaptcha.vue'
 // config
 import countries from '@/configs/countries'
 import fromSources from '@/configs/fromSources'
 // types
 import type { FormInst } from 'naive-ui'
 import type { SZVerifyFormData, SZVerifyFormDataStruc } from './types'
+import type { CheckBoxOption } from '@/components/CheckBoxArea/types'
+// 3rd
 import { useAsyncState } from '@vueuse/core'
 
 // use
 const oauthStore = useOauthStore()
+const szGuildStore = useSZGuild()
 const { fieldTypeComponent, verifyForm } = useForm()
 const { success: successMsg, error: errorMsg } = useMessage()
 
@@ -83,13 +120,6 @@ const fields = ref([
     placeholder: '選擇來源',
     options: fromSources,
   },
-  {
-    label: '身份組',
-    key: 'roles',
-    type: 'select',
-    placeholder: '選擇SZ身份組',
-    options: fromSources,
-  },
 ])
 
 const formData = reactive<SZVerifyFormDataStruc>({
@@ -97,6 +127,7 @@ const formData = reactive<SZVerifyFormDataStruc>({
   name: null,
   country: null,
   from: null,
+  roles: [],
 })
 
 const formRules = computed(() => {
@@ -106,6 +137,11 @@ const formRules = computed(() => {
     country: { required: true, trigger: 'blur' },
     from: { required: true, trigger: 'blur' },
   }
+})
+
+const szRoleOptions = computed<CheckBoxOption[]>(() => {
+  const roles = szGuildStore.openRoles
+  return roles.map((role) => ({ label: role.name, value: role.id }))
 })
 
 // methods
@@ -159,13 +195,14 @@ const syncData = () => {
 }
 
 onMounted(() => {
+  szGuildStore.GetOpenRoles()
   syncData()
 })
 </script>
 
 <style scoped lang="postcss">
 .sz-verify-form {
-  @apply full;
+  @apply full py-[100px];
   @apply flex flex-col justify-center items-center;
 }
 </style>
