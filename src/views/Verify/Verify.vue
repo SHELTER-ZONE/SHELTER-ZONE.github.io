@@ -1,14 +1,17 @@
 <template>
   <div class="sz-verify">
-    <SZVerifyConfirm v-if="!szJoined && !confirm" @confirm="confirm = true" />
+    <SZVerifyConfirm
+      v-if="!szRegistered && !confirm"
+      @confirm="confirm = true"
+    />
     <SZVerifyForm v-if="confirm" @submit="onVerify" :verifying="isLoading" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import SZVerifyForm from './components/SZVerifyForm.vue'
-import SZVerifyConfirm from './components/SZVerifyConfirm.vue'
+import SZVerifyForm from './SZVerifyForm.vue'
+import SZVerifyConfirm from './SZVerifyConfirm.vue'
 
 import { useOauthStore } from '@/stores/oauth'
 import { createSZUser } from '@/api/szUser'
@@ -21,7 +24,7 @@ import { useMessage } from 'naive-ui'
 const { success: successMsg, error: errorMsg } = useMessage()
 const oauthStore = useOauthStore()
 const confirm = ref<boolean>(false)
-const szJoined = computed(() => oauthStore.szJoined)
+const szRegistered = computed(() => oauthStore.szRegistered)
 
 const handleRegisterError = (type: string, error: unknown) => {
   console.log(error)

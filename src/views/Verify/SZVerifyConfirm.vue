@@ -1,0 +1,47 @@
+<template>
+  <div class="sz-verify-confirm">
+    <header class="hint-title">
+      <n-icon><WarningFilled /></n-icon>
+      <p>SZ 認證</p>
+    </header>
+
+    <main class="hint-content">
+      <section>
+        <p>你尚未通過 SHELTER ZONE 驗證</p>
+        <p>通過驗證後才可看到所有SZ的頻道與使用SZ相關應用</p>
+        <p>是否進行驗證？</p>
+      </section>
+    </main>
+
+    <footer class="flex gap-[10px]">
+      <router-link :to="{ name: 'home' }">
+        <n-button ghost>下次再說</n-button>
+      </router-link>
+      <router-link :to="{ name: 'verify-form' }">
+        <n-button ghost type="primary"> 前往驗證 </n-button>
+      </router-link>
+    </footer>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { WarningFilled } from '@vicons/carbon'
+import { NButton, NIcon } from 'naive-ui'
+</script>
+
+<style scoped lang="postcss">
+.sz-verify-confirm {
+  @apply full;
+  @apply flex flex-col gap-[30px];
+  @apply justify-center items-center;
+}
+
+.hint-title {
+  @apply flex items-center justify-center gap-[5px];
+  @apply text-primary text-sectionTitle;
+}
+
+.hint-content {
+  @apply text-center;
+}
+</style>

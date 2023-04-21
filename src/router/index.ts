@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home/Home.vue'
+import verifyRoutes from './modules/verify'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,16 +32,7 @@ const router = createRouter({
       name: 'error',
       component: () => import('@/views/Error/Error.vue'),
     },
-    {
-      path: '/verify',
-      name: 'verify',
-      meta: {
-        hidden: true,
-        title: '驗證',
-        auth: true,
-      },
-      component: () => import('@/views/Verify/Verify.vue'),
-    },
+    ...verifyRoutes,
     {
       path: '/profile',
       name: 'profile',

@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { _DETA_GIST_URL } from '@/configs/urls'
 
 export const useAppStore = defineStore('app', () => {
   const appLoading = ref(true)
@@ -10,7 +11,7 @@ export const useAppStore = defineStore('app', () => {
     try {
       const res = await axios({
         method: 'GET',
-        url: 'https://raw.githubusercontent.com/SHELTER-ZONE/sz-microservices-endpoint/master/deta.json',
+        url: _DETA_GIST_URL,
       })
       if (!res || !res.data) {
         alert('❗ 錯誤: 取得 api 失敗 !!')

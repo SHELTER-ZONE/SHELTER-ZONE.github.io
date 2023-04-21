@@ -62,7 +62,7 @@ const options = computed(() => {
       key: 'profile',
       type: 'render',
       render: () =>
-        h(RouterLink, { to: { name: 'verify' } }, () =>
+        h(RouterLink, { to: { name: 'verify-confirm' } }, () =>
           h(
             NButton,
             { quaternary: true, block: true, type: 'warning' },

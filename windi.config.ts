@@ -6,6 +6,10 @@ export default defineConfig({
   },
   theme: {
     extend: {
+      fontSize: {
+        pageTitle: '24px',
+        sectionTitle: '20px',
+      },
       colors: {
         'primary-bg': 'var(--primary-bg)',
         primary: 'var(--primary)',

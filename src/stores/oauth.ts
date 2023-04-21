@@ -78,6 +78,9 @@ export const useOauthStore = defineStore('oauth', () => {
   const szJoined = computed(() => {
     return Boolean(find(user.guilds, { id: '445157253385814016' }))
   })
+  const szRegistered = computed(() => {
+    return Boolean(get(user, 'sz'))
+  })
 
   return {
     getDCAuthorizeUrl,
@@ -89,5 +92,6 @@ export const useOauthStore = defineStore('oauth', () => {
     userAvatar,
     findSZUser,
     szJoined,
+    szRegistered,
   }
 })
