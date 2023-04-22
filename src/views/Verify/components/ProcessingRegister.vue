@@ -69,3 +69,6 @@ onMounted(async() => {
 await processRegister(props.formData)
 })
 </script>
+
+<style lang="postcss">
+</style>

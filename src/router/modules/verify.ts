@@ -18,6 +18,7 @@ const verifyRoutes: RouteRecordRaw[] = [
       {
         path: 'form',
         name: 'verify-form',
+        meta: { nScrollbar: true },
         component: () => import('@/views/Verify/SZVerifyForm.vue'),
       },
     ],

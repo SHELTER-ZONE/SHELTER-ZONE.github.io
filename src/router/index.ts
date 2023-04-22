@@ -10,7 +10,7 @@ const router = createRouter({
       name: 'home',
       meta: {
         title: '首頁',
-        layout: 'home',
+        nScrollbar: true,
       },
       component: Home,
     },

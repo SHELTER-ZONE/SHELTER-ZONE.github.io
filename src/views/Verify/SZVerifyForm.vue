@@ -167,6 +167,6 @@ onMounted(() => {
 <style scoped lang="postcss">
 .sz-verify-form {
   @apply full py-[100px];
-  @apply flex flex-col justify-center items-center;
+  @apply w-[500px] m-auto;
 }
 </style>

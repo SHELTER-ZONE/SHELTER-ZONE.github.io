@@ -1,10 +1,12 @@
 <template>
   <header class="home-banner">
-    <img src="@/assets/home/banner.jpg" alt="SHELTER ZONE" />
+    <img :src="banner" alt="SHELTER ZONE" />
   </header>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import banner from '@/assets/home/banner.jpg'
+</script>
 
 <style scoped lang="postcss">
 .home-banner img {
