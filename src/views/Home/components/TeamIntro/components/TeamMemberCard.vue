@@ -1,33 +1,17 @@
 <template>
-  <SZHighLightContainer
-    class="team-member-card"
-    :color="data?.color"
-    glow="4.5"
-    lightWidth="7"
-  >
+  <SZHighLightContainer class="team-member-card" :color="data?.color" glow="4.5" lightWidth="7" lightPosition="right">
     <div class="content-wrapper">
-      <img class="team-member-avatar" :src="data?.avatar" alt="" />
+      <img class="team-member-avatar" :src="data?.avatar" :alt="`${data?.name}-avatar`" />
       <div class="info">
         <p class="team-member-name">{{ data?.name }}</p>
         <div class="team-member-links">
-          <a
-            v-for="link in data?.links || []"
-            :key="link.name"
-            :href="link.link"
-            target="_blank"
-            rel="noopener noreferrer"
-            :title="link.name"
-          >
+          <a v-for="link in data?.links || []" :key="link.name" :href="link.link" target="_blank"
+            rel="noopener noreferrer" :title="link.name">
             <NIcon :size="20" :component="link.icon" />
           </a>
         </div>
         <div class="team-member-tags">
-          <NTag
-            :bordered="false"
-            v-for="tag in data?.tags || []"
-            :key="tag"
-            :type="tagTypes[tag]?.type"
-          >
+          <NTag :bordered="false" v-for="tag in data?.tags || []" :key="tag" :type="tagTypes[tag]?.type">
             {{ tag }}
             <template #icon>
               <NIcon :size="14" :component="tagTypes[tag]?.icon" />

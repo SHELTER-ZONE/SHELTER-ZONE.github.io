@@ -1,7 +1,7 @@
 <template>
   <main class="home">
+    <Banner />
     <div class="page-wrapper">
-      <Banner />
       <TeamIntro />
     </div>
   </main>
@@ -13,9 +13,12 @@ import TeamIntro from './components/TeamIntro/TeamIntro.vue'
 </script>
 
 <style lang="postcss" scoped>
+.home {
+  @apply pb-[100px];
+}
 .page-wrapper {
-  @apply pt-[100px];
-  @apply max-w-[1200px] m-auto;
+  @apply pt-[100px] px-[30px];
   @apply flex flex-col gap-[100px];
+  @apply max-w-[1400px] m-auto;
 }
 </style>
