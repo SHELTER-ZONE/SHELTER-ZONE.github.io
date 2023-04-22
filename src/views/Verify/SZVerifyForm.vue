@@ -1,42 +1,21 @@
 <template>
   <div class="sz-verify-form">
     <div v-show="!registering">
-      <n-form
-        ref="formRef"
-        :model="formData"
-        :rules="formRules"
-        class="flex flex-col gap-[20px]"
-      >
+      <n-form ref="formRef" :model="formData" :rules="formRules" class="flex flex-col gap-[20px]">
         <section>
           <SZBlockContainer>
-            <n-form-item
-              v-for="field in fields"
-              :path="field.key"
-              :key="field.key"
-              :label="field.label"
-            >
-              <Component
-                :is="get(fieldTypeComponent, field.type)"
-                :disabled="field.disabled"
-                :placeholder="field.placeholder"
-                v-model:value="formData[field.key]"
-                :options="field.options"
-                :filterable="field.filterable"
-                :clearable="field.clearable || true"
-              />
+            <n-form-item v-for="field in fields" :path="field.key" :key="field.key" :label="field.label">
+              <Component :is="get(fieldTypeComponent, field.type)" :disabled="field.disabled"
+                :placeholder="field.placeholder" v-model:value="formData[field.key]" :options="field.options"
+                :filterable="field.filterable" :clearable="field.clearable || true" />
             </n-form-item>
           </SZBlockContainer>
         </section>
 
         <section>
           <n-form-item>
-            <CheckBoxArea
-              class="w-full"
-              v-model:value="formData.roles"
-              title="身份組"
-              titlePosition="center"
-              :options="szRoleOptions"
-            />
+            <CheckBoxArea class="w-full" v-model:value="formData.roles" title="身份組" titlePosition="center"
+              :options="szRoleOptions" />
           </n-form-item>
         </section>
 
@@ -45,19 +24,14 @@
         </section> -->
 
         <section>
-          <n-button
-            block
-            type="primary"
-            @click="onVerify"
-            :loading="isSubmitting"
-          >
+          <n-button block type="primary" @click="onVerify" :loading="isSubmitting">
             Verify
           </n-button>
         </section>
       </n-form>
     </div>
 
-    <ProcessingRegister v-if="registering" :formData="formData"  @error="registering = false" />
+    <ProcessingRegister v-if="registering" :formData="formData" @error="registering = false" />
   </div>
 </template>
 
@@ -167,6 +141,6 @@ onMounted(() => {
 <style scoped lang="postcss">
 .sz-verify-form {
   @apply full py-[100px];
-  @apply w-[500px] m-auto;
+  @apply max-w-[500px] m-auto;
 }
 </style>
