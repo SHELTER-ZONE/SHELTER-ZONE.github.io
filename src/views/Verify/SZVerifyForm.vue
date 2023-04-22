@@ -1,6 +1,6 @@
 <template>
   <div class="sz-verify-form">
-    <div>
+    <div v-show="!registering">
       <n-form
         ref="formRef"
         :model="formData"
@@ -56,21 +56,22 @@
         </section>
       </n-form>
     </div>
+
+    <ProcessingRegister v-if="registering" :formData="formData"  @error="registering = false" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref, computed } from 'vue'
-import { NForm, NFormItem, NButton, useMessage } from 'naive-ui'
+import { NForm, NFormItem, NButton } from 'naive-ui'
 import { get } from 'lodash-es'
 import { useForm } from '@/use/useForm'
-import { createSZUser } from '@/api/szUser'
-import { createSZUserProfile } from '@/api/szUserProfile'
 // stores
 import { useSZGuild } from '@/stores/szGuild'
 import { useOauthStore } from '@/stores/oauth'
 // components
 import CheckBoxArea from '@/components/CheckBoxArea/CheckBoxArea.vue'
+import ProcessingRegister from './components/ProcessingRegister.vue'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 // import HCaptcha from '@/components/HCaptcha/HCaptcha.vue'
 // config
@@ -78,18 +79,17 @@ import countries from '@/configs/countries'
 import fromSources from '@/configs/fromSources'
 // types
 import type { FormInst } from 'naive-ui'
-import type { SZVerifyFormData, SZVerifyFormDataStruc } from './types'
+import type { SZVerifyFormDataStruc } from './types'
 import type { CheckBoxOption } from '@/components/CheckBoxArea/types'
-// 3rd
-import { useAsyncState } from '@vueuse/core'
 
 // use
 const oauthStore = useOauthStore()
 const szGuildStore = useSZGuild()
 const { fieldTypeComponent, verifyForm } = useForm()
-const { success: successMsg, error: errorMsg } = useMessage()
+
 
 // data
+const registering = ref(false)
 const formRef = ref<FormInst | null>()
 
 const fields = ref([
@@ -145,46 +145,10 @@ const szRoleOptions = computed<CheckBoxOption[]>(() => {
 })
 
 // methods
-const handleRegisterError = (type: string, error: unknown) => {
-  console.log(error)
-  if (type === 'userError') {
-    throw new Error('User Error Occurred.')
-  } else if (type === 'userProfileError') {
-    throw new Error('User Profile Error Occurred.')
-  }
-  throw new Error('Unhandle Error Occurred.')
-}
-
-const registerSZUser = async (data: SZVerifyFormData) => {
-  const [, userError]: any = await createSZUser({
-    userId: data.id,
-    type: 'user',
-  })
-  if (userError) handleRegisterError('userError', userError)
-  const [, userProfileError]: any = await createSZUserProfile({
-    userId: data.id,
-    name: data.name,
-    country: data.country,
-    from: data.from,
-  })
-  if (userProfileError)
-    handleRegisterError('userProfileError', userProfileError)
-}
-
-const { isLoading: isSubmitting, execute: executeRegister } = useAsyncState(
-  registerSZUser,
-  null,
-)
-
 const onVerify = async () => {
   const [, formError] = await verifyForm(formRef)
   if (formError) return
-  try {
-    await executeRegister(0, formData)
-    successMsg('認證成功!')
-  } catch (error: any) {
-    errorMsg(error)
-  }
+  registering.value = true
 }
 
 const syncData = () => {

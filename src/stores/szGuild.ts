@@ -24,7 +24,7 @@ export const useSZGuild = defineStore('szGuild', () => {
     guildConfig.value = res.data
   }
 
-  const openRoles = computed(() => {
+  const openRoles = computed<SZOpenRole[]>(() => {
     return get(guildConfig.value, 'openRoles', [])
   })
 

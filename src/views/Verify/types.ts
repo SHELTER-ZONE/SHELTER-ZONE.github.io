@@ -8,6 +8,7 @@ export interface SZVerifyFormDataStruc {
   name: string | null
   country: string | null
   from: string | null
+  roles: string[]
 }
 
 export interface SZVerifyFormData {
@@ -15,4 +16,5 @@ export interface SZVerifyFormData {
   name: string
   country: string
   from: string
+  roles: string[]
 }
