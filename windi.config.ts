@@ -12,6 +12,9 @@ export default defineConfig({
 
         mPageTitle: '24px',
         mSectionTitle: '20px',
+
+        sub: '14px',
+        sm: '12px',
       },
       colors: {
         'primary-bg': 'var(--primary-bg)',

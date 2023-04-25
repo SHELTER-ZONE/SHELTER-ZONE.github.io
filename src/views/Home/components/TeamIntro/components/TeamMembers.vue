@@ -12,6 +12,10 @@
 import TeamMemberCard from './TeamMemberCard.vue'
 import { LogoGithub, LogoYoutube } from '@vicons/carbon'
 
+const avatarUrl = (userId: string, avatarId: string): string => {
+  return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.png?size=1024`
+}
+
 const members = [
   {
     name: 'Proladon#7525',
@@ -25,8 +29,7 @@ const members = [
         link: 'https://www.youtube.com/@Proladon',
       },
     ],
-    avatar:
-      'https://cdn.discordapp.com/avatars/149772971555160064/7ab2f70347204922ec90612abc432b0a.png?size=1024',
+    avatar: avatarUrl('149772971555160064', '7ab2f70347204922ec90612abc432b0a'),
   },
   {
     name: '星曌#4316',
@@ -39,8 +42,7 @@ const members = [
         link: 'https://github.com/Xzihnago',
       },
     ],
-    avatar:
-      'https://cdn.discordapp.com/avatars/470034188326797320/65a8f2c7d87c5ae5560f3f58babfdcbb.png?size=1024',
+    avatar: avatarUrl('470034188326797320', '65a8f2c7d87c5ae5560f3f58babfdcbb'),
   },
   {
     name: 'Irvine#8850',
@@ -53,12 +55,11 @@ const members = [
         link: 'https://github.com/irvine1231',
       },
     ],
-    avatar:
-      'https://cdn.discordapp.com/avatars/175464140825952256/a9cfcb8608c084ebeed2ccae18d284dd.png?size=1024',
+    avatar: avatarUrl('175464140825952256', 'a9cfcb8608c084ebeed2ccae18d284dd'),
   },
   {
     name: 'Ariz#0288',
-    tags: ['frontend', 'ops'],
+    tags: ['frontend'],
     color: '#F2E355',
     links: [
       {
@@ -67,8 +68,7 @@ const members = [
         link: 'https://github.com/Lunari8546',
       },
     ],
-    avatar:
-      'https://cdn.discordapp.com/avatars/443715689291841536/767defce25d4cd57734f623108519308.png?size=1024',
+    avatar: avatarUrl('443715689291841536', '60b8abb9612012a3760a66f8aa619699'),
   },
 ]
 </script>

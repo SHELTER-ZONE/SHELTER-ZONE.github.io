@@ -6,32 +6,35 @@
     </header>
 
     <main class="hint-content">
-      <section>
-        <p>你尚未通過 SHELTER ZONE 驗證</p>
-        <p>通過驗證後才可看到所有SZ的頻道與使用SZ相關應用</p>
-        <p>是否進行驗證？</p>
-      </section>
-    </main>
+      <SZBlockContainer>
+        <section>
+          <p>你尚未通過 SHELTER ZONE 驗證</p>
+          <p>通過驗證後才可看到所有SZ的頻道與使用SZ相關應用</p>
+          <p>是否進行驗證？</p>
+        </section>
 
-    <footer class="flex gap-[10px]">
-      <router-link :to="{ name: 'home' }">
-        <n-button ghost>下次再說</n-button>
-      </router-link>
-      <router-link :to="{ name: 'verify-form' }">
-        <n-button ghost type="primary"> 前往驗證 </n-button>
-      </router-link>
-    </footer>
+        <section class="flex gap-[10px] justify-center mt-[20px]">
+          <router-link :to="{ name: 'home' }">
+            <n-button ghost>下次再說</n-button>
+          </router-link>
+          <router-link :to="{ name: 'verify-form' }">
+            <n-button ghost type="primary"> 前往驗證 </n-button>
+          </router-link>
+        </section>
+      </SZBlockContainer>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { WarningFilled } from '@vicons/carbon'
 import { NButton, NIcon } from 'naive-ui'
 </script>
 
 <style scoped lang="postcss">
 .sz-verify-confirm {
-  @apply full;
+  @apply h-100vh;
   @apply flex flex-col gap-[30px];
   @apply justify-center items-center;
 }
