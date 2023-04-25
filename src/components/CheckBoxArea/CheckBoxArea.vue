@@ -35,13 +35,13 @@ import type { CheckBoxOption } from './types'
 const props = defineProps<{
   title?: string
   titlePosition?: 'start' | 'center' | 'end'
-  value: unknown[]
+  value: (string | number)[]
   options: CheckBoxOption[]
 }>()
 
 const emits = defineEmits(['update:value'])
 
-const syncModel = useVModel(props, 'value', emits)
+const syncModel: (string | number)[] = useVModel(props, 'value', emits)
 </script>
 
 <style scoped lang="postcss">

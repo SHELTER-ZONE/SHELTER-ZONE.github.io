@@ -44,7 +44,7 @@ const useScrollbar = computed(() => {
   return route.meta.nScrollbar
 })
 
-const pageEnter = (el, done) => {
+const pageEnter = (el: HTMLElement, done: CallableFunction) => {
   anime({
     targets: el,
     translateX: [400, 0],

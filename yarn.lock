@@ -265,6 +265,11 @@
   resolved "https://registry.yarnpkg.com/@shelter-zone/sz-api-types/-/sz-api-types-2.0.5.tgz#a33a9912b8cfa7e76185b3708529124f98478ceb"
   integrity sha512-oRM5HCKBs6TGL1GCgXZOfYus9y8gG/6UEf5Cl+1ZyC7aMK0WMpt3AWiY0SsPFIhn0ukIN9kdAYgdgnHis2EVSQ==
 
+"@types/animejs@^3.1.7":
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/@types/animejs/-/animejs-3.1.7.tgz#4d9b23fff04b52e755119625a6087e2bc024527a"
+  integrity sha512-kFSyjM+fLo3oE9noWEtUvF82ttN8fTrKohiEMIrSzEzEjnsCmtO0rBCUQBlSPEb2w8vfN+v4/Zo0tK21Bgmq4g==
+
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
