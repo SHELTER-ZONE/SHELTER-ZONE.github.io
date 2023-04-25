@@ -1,10 +1,13 @@
 <template>
-  <div class="section-title" :class="{
-    'text-left': position === 'left',
-    'text-center': position === 'center',
-    'text-right': position === 'right',
-  }">
-    <h2 v-if="title">
+  <div
+    class="section-title"
+    :class="{
+      'text-left': position === 'left',
+      'text-center': position === 'center',
+      'text-right': position === 'right',
+    }"
+  >
+    <h2 v-if="title" class="flex flex-col items-center">
       <n-icon :size="iconSize">
         <slot name="icon" />
       </n-icon>
@@ -15,7 +18,7 @@
     </h2>
   </div>
 </template>
-  
+
 <script setup lang="ts">
 import { withDefaults } from 'vue'
 import { NIcon } from 'naive-ui'
@@ -27,15 +30,15 @@ interface props {
 }
 
 withDefaults(defineProps<props>(), {
-  position: 'center'
+  position: 'center',
 })
 </script>
-  
+
 <style scoped lang="postcss">
 .section-title {
   @apply text-sectionTitle;
   @apply font-medium;
-  @apply mb-[30px];
+  @apply mb-[20px];
+  @apply tablet:(mb-[40px]);
 }
 </style>
-  

@@ -7,13 +7,20 @@ export default defineConfig({
   theme: {
     extend: {
       fontSize: {
-        pageTitle: '24px',
-        sectionTitle: '20px',
+        pageTitle: '48px',
+        sectionTitle: '30px',
+
+        mPageTitle: '24px',
+        mSectionTitle: '20px',
       },
       colors: {
         'primary-bg': 'var(--primary-bg)',
         primary: 'var(--primary)',
         base: 'var(--base)',
+      },
+      screens: {
+        tablet: '640px',
+        mb: '425px',
       },
     },
   },

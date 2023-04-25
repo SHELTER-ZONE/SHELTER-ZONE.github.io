@@ -1,6 +1,6 @@
 <template>
   <div class="tram-intro">
-    <SectionTitle title="Development Team" iconSize="24">
+    <SectionTitle title="Development Team" iconSize="30">
       <template #icon><Code /></template>
     </SectionTitle>
     <TeamMembers />

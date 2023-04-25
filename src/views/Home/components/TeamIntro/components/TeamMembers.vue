@@ -75,7 +75,10 @@ const members = [
 
 <style scoped lang="postcss">
 .team-members {
-  @apply grid gap-[40px];
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* @apply grid gap-[40px]; */
+  /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
+  @apply flex flex-wrap gap-[20px];
+  @apply justify-center;
+  @apply tablet:(gap-[40px]);
 }
 </style>
