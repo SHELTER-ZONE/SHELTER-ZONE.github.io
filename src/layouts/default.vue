@@ -9,19 +9,19 @@
 
     <template v-if="!appStore.appLoading">
       <NavBar />
-      <n-scrollbar>
-        <router-view v-slot="{ Component }">
-          <transition
-            @enter="pageEnter"
-            @leave="pageLeave"
-            :css="false"
-            mode="out-in"
-          >
-            <component :is="Component" />
-          </transition>
-        </router-view>
-        <SiteFooter />
-      </n-scrollbar>
+      <!-- <n-scrollbar> -->
+      <router-view v-slot="{ Component }" class="flex-1">
+        <transition
+          @enter="pageEnter"
+          @leave="pageLeave"
+          :css="false"
+          mode="out-in"
+        >
+          <component :is="Component" />
+        </transition>
+      </router-view>
+      <SiteFooter />
+      <!-- </n-scrollbar> -->
 
       <!-- <RouterView v-if="!useScrollbar" /> -->
     </template>
@@ -68,6 +68,8 @@ const pageLeave = (el, done) => {
 <style scoped lang="postcss">
 .default {
   @apply relative bg-primary-bg;
+  @apply flex flex-col;
+  @apply overflow-x-hidden overflow-y-auto;
 }
 
 .v-enter-active,

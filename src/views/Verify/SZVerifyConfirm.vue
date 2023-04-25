@@ -34,7 +34,8 @@ import { NButton, NIcon } from 'naive-ui'
 
 <style scoped lang="postcss">
 .sz-verify-confirm {
-  @apply h-100vh;
+  /* @apply h-100vh; */
+  @apply viewPx;
   @apply flex flex-col gap-[30px];
   @apply justify-center items-center;
 }

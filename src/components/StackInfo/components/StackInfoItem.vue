@@ -2,10 +2,10 @@
   <div class="stack-info-item">
     <span>{{ data.name }}</span>
 
-    <n-spin v-if="data.state === 'processing'" size="small" />
+    <n-spin v-if="data.state === 'processing'" :size="14" />
 
     <n-icon v-if="data.state !== 'processing'">
-      <Component :is="get(stateIcons, data.state)" />
+      <Component :is="get(stateIcons, data.state)" :size="14" />
     </n-icon>
   </div>
 </template>

@@ -24,6 +24,8 @@ import LanguageBtn from './components/LanguageBtn.vue'
 <style scoped lang="postcss">
 .navbar {
   @apply absolute top-0 left-0 right-0 z-10;
+  @apply backdrop-blur-[5px];
+  backdrop-filter: blur(5px);
 }
 
 .nav-wrapper {
