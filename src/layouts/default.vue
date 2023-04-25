@@ -11,7 +11,12 @@
       <NavBar />
       <n-scrollbar>
         <router-view v-slot="{ Component }">
-          <transition>
+          <transition
+            @enter="pageEnter"
+            @leave="pageLeave"
+            :css="false"
+            mode="out-in"
+          >
             <component :is="Component" />
           </transition>
         </router-view>
@@ -30,6 +35,7 @@ import { NSpin, NScrollbar } from 'naive-ui'
 import { RouterView, useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { computed } from 'vue'
+import anime from 'animejs'
 
 const appStore = useAppStore()
 const route = useRoute()
@@ -37,6 +43,26 @@ const route = useRoute()
 const useScrollbar = computed(() => {
   return route.meta.nScrollbar
 })
+
+const pageEnter = (el, done) => {
+  anime({
+    targets: el,
+    translateX: [400, 0],
+    opacity: [0, 1],
+    easing: 'easeInOutSine',
+    complete: done,
+  })
+}
+
+const pageLeave = (el, done) => {
+  anime({
+    targets: el,
+    translateX: [0, -400],
+    opacity: [1, 0],
+    easing: 'easeInOutSine',
+    complete: done,
+  })
+}
 </script>
 
 <style scoped lang="postcss">
