@@ -3,6 +3,17 @@ import type { FormInst } from 'naive-ui'
 
 export type FormRef = Ref<FormInst | null | undefined>
 
+export interface SZVerifyFormField {
+  label: string
+  key: string
+  type: string
+  placeholder?: string
+  filterable?: boolean
+  disabled?: boolean
+  clearable?: boolean
+  options?: Array<{ label: string; value: string | number }>
+}
+
 export interface SZVerifyFormDataStruc {
   id: string | null
   name: string | null

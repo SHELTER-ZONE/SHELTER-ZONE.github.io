@@ -35,27 +35,29 @@ import { RouterView } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { ref } from 'vue'
 import anime from 'animejs'
+import type { AnimeInstance } from 'animejs'
+
+type AnimeCallbackFunction = (anim: AnimeInstance) => void
 
 const appStore = useAppStore()
-const showModal = ref(false)
 
-const pageEnter = (el: HTMLElement, done: CallableFunction) => {
+const pageEnter = (el: HTMLElement, done: AnimeCallbackFunction) => {
   anime({
     targets: el,
     translateX: [400, 0],
     opacity: [0, 1],
     easing: 'easeInOutSine',
-    complete: done,
+    complete: (anim: AnimeInstance) => done && done(anim),
   })
 }
 
-const pageLeave = (el, done) => {
+const pageLeave = (el: HTMLElement, done: AnimeCallbackFunction) => {
   anime({
     targets: el,
     translateX: [0, -400],
     opacity: [1, 0],
     easing: 'easeInOutSine',
-    complete: done,
+    complete: (anim: AnimeInstance) => done && done(anim),
   })
 }
 </script>

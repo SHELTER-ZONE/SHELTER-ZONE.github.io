@@ -31,6 +31,7 @@ import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { useVModel } from '@vueuse/core'
 import { NCheckboxGroup, NCheckbox } from 'naive-ui'
 import type { CheckBoxOption } from './types'
+import type { Ref } from 'vue'
 
 const props = defineProps<{
   title?: string
@@ -41,7 +42,7 @@ const props = defineProps<{
 
 const emits = defineEmits(['update:value'])
 
-const syncModel: (string | number)[] = useVModel(props, 'value', emits)
+const syncModel: Ref<(string | number)[]> = useVModel(props, 'value', emits)
 </script>
 
 <style scoped lang="postcss">

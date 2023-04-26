@@ -20,12 +20,12 @@ import { NButton } from 'naive-ui'
 import { createSZUser } from '@/api/szUser'
 import { createSZUserProfile } from '@/api/szUserProfile'
 // types
-import type { SZVerifyFormData } from '../types'
+import type { SZVerifyFormData, SZVerifyFormDataStruc } from '../types'
 
 import { onMounted, ref } from 'vue'
 
 const props = defineProps<{
-  formData: SZVerifyFormData
+  formData: SZVerifyFormDataStruc
 }>()
 const emits = defineEmits(['close'])
 
@@ -81,7 +81,8 @@ const processRegister = async (data: SZVerifyFormData) => {
 }
 
 onMounted(async () => {
-  await processRegister(props.formData)
+  const formData = props.formData as SZVerifyFormData
+  await processRegister(formData)
 })
 </script>
 

@@ -19,7 +19,7 @@
                 :is="get(fieldTypeComponent, field.type)"
                 :disabled="field.disabled"
                 :placeholder="field.placeholder"
-                v-model:value="formData[field.key]"
+                v-model:value="formData[field.key as keyof SZVerifyFormDataStruc]"
                 :options="field.options"
                 :filterable="field.filterable"
                 :clearable="field.clearable || true"
@@ -45,14 +45,7 @@
         </section> -->
 
         <section>
-          <n-button
-            block
-            type="primary"
-            @click="onVerify"
-            :loading="isSubmitting"
-          >
-            Verify
-          </n-button>
+          <n-button block type="primary" @click="onVerify"> Verify </n-button>
         </section>
       </n-form>
     </div>
@@ -83,7 +76,7 @@ import countries from '@/configs/countries'
 import fromSources from '@/configs/fromSources'
 // types
 import type { FormInst } from 'naive-ui'
-import type { SZVerifyFormDataStruc } from './types'
+import type { SZVerifyFormDataStruc, SZVerifyFormField } from './types'
 import type { CheckBoxOption } from '@/components/CheckBoxArea/types'
 
 // use
@@ -95,7 +88,7 @@ const { fieldTypeComponent, verifyForm } = useForm()
 const registering = ref(false)
 const formRef = ref<FormInst | null>()
 
-const fields = ref([
+const fields = ref<SZVerifyFormField[]>([
   {
     label: 'Discord ID',
     key: 'id',
