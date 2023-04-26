@@ -1,4 +1,6 @@
 @import url('./style/scrollbar.css');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Quicksand:wght@400;500;600&display=swap');
+
 :root {
   --primary-bg: #272D38;
   --primary: #63E2B7;
@@ -8,6 +10,8 @@
 
 html, body, #app, .n-config-provider, .layout {
   @apply full text-base;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Quicksand', sans-serif;
 }
 
 
