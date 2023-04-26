@@ -130,12 +130,12 @@ const checkingSZUser = () => {
 
 onMounted(async () => {
   await router.isReady()
-  // let code = location.href.split('/')[4].split('=')[1]
-  // code = code.replace('#', '')
+  let code = location.href.split('/')[4].split('=')[1]
+  code = code.replace('#', '')
   // if (code.includes('access_denied') || code.includes('error_description')) {
   //   return router.replace('/')
   // }
-  const code = route.query.code as string
+  // const code = route.query.code as string
 
   verifyCode(code)
   await getDCAccessToken(code)
