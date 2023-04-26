@@ -25,20 +25,23 @@
 
       <!-- <RouterView v-if="!useScrollbar" /> -->
     </template>
+    <button @click="showModal = !showModal">toggole ({{ showModal }})</button>
   </main>
 </template>
 
 <script setup lang="ts">
 import NavBar from '@/components/NavBar/NavBar.vue'
 import SiteFooter from '@/components/Footer/SiteFooter.vue'
+import BaseModal from '@/components/Modal/BaseModal.vue'
 import { NSpin, NScrollbar } from 'naive-ui'
 import { RouterView, useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import anime from 'animejs'
 
 const appStore = useAppStore()
 const route = useRoute()
+const showModal = ref(false)
 
 const useScrollbar = computed(() => {
   return route.meta.nScrollbar

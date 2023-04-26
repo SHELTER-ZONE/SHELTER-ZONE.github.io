@@ -22,6 +22,10 @@ export default defineConfig({
         primary: 'var(--primary)',
         base: 'var(--base)',
       },
+      borderRadius: {
+        normal: '6px',
+        sub: '4px',
+      },
       screens: {
         tablet: '640px',
         mb: '425px',

@@ -75,6 +75,10 @@ export const useOauthStore = defineStore('oauth', () => {
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
 
+  // getters
+  const loggedIn = computed(() => {
+    return Boolean(get(user, 'discord'))
+  })
   const szJoined = computed(() => {
     return Boolean(find(user.guilds, { id: '445157253385814016' }))
   })
@@ -93,5 +97,6 @@ export const useOauthStore = defineStore('oauth', () => {
     findSZUser,
     szJoined,
     szRegistered,
+    loggedIn,
   }
 })

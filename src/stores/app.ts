@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { _SZ_MICROSERVICES_TABLE } from '@/configs/urls'
@@ -6,6 +6,9 @@ import { _SZ_MICROSERVICES_TABLE } from '@/configs/urls'
 export const useAppStore = defineStore('app', () => {
   const appLoading = ref(true)
   const apiEndPoints = ref({})
+  const signals = reactive({
+    requestSignin: false,
+  })
 
   async function getApiEndPoint() {
     try {
@@ -30,5 +33,6 @@ export const useAppStore = defineStore('app', () => {
     appLoading,
     getApiEndPoint,
     apiEndPoints,
+    signals,
   }
 })
