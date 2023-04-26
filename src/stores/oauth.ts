@@ -32,6 +32,7 @@ export const useOauthStore = defineStore('oauth', () => {
     })
     if (err) {
       console.log(err)
+      // TODO window.$message
       return null
     }
     return res
@@ -67,15 +68,20 @@ export const useOauthStore = defineStore('oauth', () => {
     user.guilds = res
     return
   }
+  async function signin() {
+    const loginUrl = await getDCAuthorizeUrl()
+    if (!loginUrl) return
+    const win: Window = window
+    win.location = loginUrl
+  }
 
+  // getters
   const userAvatar = computed(() => {
     if (!user.discord) return ''
     const userId = get(user.discord, 'id')
     const avatarId = get(user.discord, 'avatar')
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
-
-  // getters
   const loggedIn = computed(() => {
     return Boolean(get(user, 'discord'))
   })
@@ -98,5 +104,6 @@ export const useOauthStore = defineStore('oauth', () => {
     szJoined,
     szRegistered,
     loggedIn,
+    signin,
   }
 })

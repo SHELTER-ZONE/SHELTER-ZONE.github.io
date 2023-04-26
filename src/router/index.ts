@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home/Home.vue'
 import verifyRoutes from './modules/verify'
+import { registerRouterGuard } from './guard'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,7 @@ const router = createRouter({
       name: 'about',
       meta: {
         title: '關於',
+        auth: true,
       },
       component: () => import('@/views/Home/Home.vue'),
     },
@@ -44,5 +46,7 @@ const router = createRouter({
     },
   ],
 })
+
+registerRouterGuard(router)
 
 export default router

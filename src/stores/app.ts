@@ -2,11 +2,16 @@ import { reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { _SZ_MICROSERVICES_TABLE } from '@/configs/urls'
+import { has } from 'lodash-es'
+
+interface Signals {
+  requestSignin: boolean
+}
 
 export const useAppStore = defineStore('app', () => {
   const appLoading = ref(true)
   const apiEndPoints = ref({})
-  const signals = reactive({
+  const signals = reactive<Signals>({
     requestSignin: false,
   })
 
@@ -29,10 +34,17 @@ export const useAppStore = defineStore('app', () => {
       alert(error)
     }
   }
+
+  function setSignal(signal: keyof Signals, toggle: boolean) {
+    if (!has(signals, signal)) return
+    signals[signal] = toggle
+  }
+
   return {
     appLoading,
     getApiEndPoint,
     apiEndPoints,
     signals,
+    setSignal,
   }
 })

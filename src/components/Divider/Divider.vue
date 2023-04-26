@@ -6,9 +6,9 @@
 import { withDefaults, computed } from 'vue'
 
 interface DividerProps {
-  size: string | number
-  vertical: boolean
-  color: string
+  size?: string | number
+  vertical?: boolean
+  color?: string
 }
 
 const props = withDefaults(defineProps<DividerProps>(), {

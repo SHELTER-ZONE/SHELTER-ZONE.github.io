@@ -1,29 +1,27 @@
 <template>
-  <NButton type="primary" @click="login">
+  <NButton type="primary" @click="onSignin" :loading="loading">
     {{ translate('common.login') }}
   </NButton>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { ref } from 'vue'
 import { NButton } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
 import { useLocale } from '@/use/useLocale'
 
-const oauthStore = useOauthStore()
+const { signin } = useOauthStore()
 const { translate } = useLocale()
-const loginUrl = ref('')
+const loading = ref(false)
 
-const login = async () => {
-  if (!loginUrl.value) return
-  const win: Window = window
-  win.location = loginUrl.value
+const onSignin = async () => {
+  try {
+    loading.value = true
+    await signin()
+  } catch (error) {
+    loading.value = false
+  }
 }
-
-onBeforeMount(async () => {
-  const url = await oauthStore.getDCAuthorizeUrl()
-  loginUrl.value = url
-})
 </script>
 
 <style scoped lang="postcss"></style>
