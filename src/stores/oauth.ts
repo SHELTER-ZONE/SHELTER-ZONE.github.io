@@ -11,7 +11,7 @@ import { get, find } from 'lodash-es'
 import { useStorage, StorageSerializers } from '@vueuse/core'
 
 const discordAuthRedirectUrl = () =>
-  `${location.protocol}//${location.host}/discord/callback`
+  `${location.protocol}//${location.host}/#/discord/callback`
 
 export const useOauthStore = defineStore('oauth', () => {
   // const user = ref(null)
