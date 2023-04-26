@@ -59,7 +59,7 @@ export const useOauthStore = defineStore('oauth', () => {
     const userId = get(user.discord, 'id')
     const [res, err]: any = await FindSZUser({ userId })
     if (err) return
-    console.log(res)
+    user.sz = res
   }
   async function getDCUserGuilds() {
     if (!accessToken.value) return

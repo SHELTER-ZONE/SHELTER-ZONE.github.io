@@ -102,13 +102,16 @@ const getDCUserGuilds = async () => {
 }
 const checkingSZUser = () => {
   if (isError.value) return
-  if (get(oauthStore.user, 'sz') && get(oauthStore.user, 'sz.verified')) {
+  if (get(oauthStore.user, 'sz')) {
+    // && get(oauthStore.user, 'sz.verified')
     pushStackInfo({
-      name: `Welcome back - ${get(oauthStore.user, 'name')}`,
+      name: `Welcome back - ${get(oauthStore.user, 'discord.username')}`,
       id: 'sz-user-welcome',
       state: 'resolve',
     })
-    router.replace({ name: 'home' })
+    setTimeout(() => {
+      router.replace({ name: 'home' })
+    }, 1500)
     return
   }
   pushStackInfo({
@@ -122,7 +125,7 @@ const checkingSZUser = () => {
     state: 'processing',
   })
   // 無註冊 szUser -> 前往註冊驗證頁
-  router.replace({ name: 'verify' })
+  router.replace({ name: 'verify-confirm' })
 }
 
 onMounted(async () => {

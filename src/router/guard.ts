@@ -8,7 +8,6 @@ export const registerRouterGuard = (router: Router) => {
     const { loggedIn } = useOauthStore()
     const { setSignal } = useAppStore()
     if (!loggedIn) return setSignal('requestSignin', true)
-    console.log('here')
     next()
   })
 }

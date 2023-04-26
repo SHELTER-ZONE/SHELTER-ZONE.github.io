@@ -21,12 +21,15 @@
       </router-view>
       <SiteFooter />
     </template>
+
+    <RequestSigninModal />
   </main>
 </template>
 
 <script setup lang="ts">
 import NavBar from '@/components/NavBar/NavBar.vue'
 import SiteFooter from '@/components/Footer/SiteFooter.vue'
+import RequestSigninModal from '@/components/Modal/RequestSigninModal.vue'
 import { NSpin } from 'naive-ui'
 import { RouterView } from 'vue-router'
 import { useAppStore } from '@/stores/app'
