@@ -53,3 +53,15 @@ export const GetDCUserGuilds = async (accessToken: string) => {
     },
   })
 }
+
+export const LoginSZUser = async (accessToken: string, userId: string) => {
+  const host = getHost('szOauth')
+  return await api({
+    method: 'POST',
+    url: `${host}/login`,
+    data: {
+      accessToken,
+      userId,
+    },
+  })
+}

@@ -5,6 +5,7 @@ import {
   GetDCAuthorizeUrl,
   FindMe,
   GetDCUserGuilds,
+  LoginSZUser,
 } from '@/api/oauth'
 import { FindSZUser } from '@/api/user'
 import { get, find } from 'lodash-es'
@@ -25,6 +26,7 @@ export const useOauthStore = defineStore('oauth', () => {
     guilds: useStorage('user-guilds', []),
   })
   const accessToken = ref(null)
+  const szUserToken = ref(null)
 
   async function getDCAuthorizeUrl() {
     const [res, err]: any = await GetDCAuthorizeUrl({
@@ -74,6 +76,17 @@ export const useOauthStore = defineStore('oauth', () => {
     const win: Window = window
     win.location = loginUrl
   }
+  async function loginSZUser() {
+    if (!accessToken.value) return
+    const userId = get(user, 'discord.id')
+    const [res, err]: any = await LoginSZUser(accessToken.value, userId)
+    if (err) {
+      console.log(err)
+      return false
+    }
+    szUserToken.value = res
+    return true
+  }
 
   // getters
   const userAvatar = computed(() => {
@@ -105,5 +118,6 @@ export const useOauthStore = defineStore('oauth', () => {
     szRegistered,
     loggedIn,
     signin,
+    loginSZUser,
   }
 })

@@ -103,6 +103,8 @@ const getDCUserGuilds = async () => {
 const checkingSZUser = () => {
   if (isError.value) return
   if (get(oauthStore.user, 'sz')) {
+    // todo error handle
+    if (!(await oauthStore.loginSZUser())) return
     // && get(oauthStore.user, 'sz.verified')
     pushStackInfo({
       name: `Welcome back - ${get(oauthStore.user, 'discord.username')}`,
