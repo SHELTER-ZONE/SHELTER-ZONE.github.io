@@ -36,6 +36,7 @@ export const useOauthStore = defineStore('oauth', () => {
     user.guilds = []
     accessToken.value = ''
     szUserToken.value = ''
+    expiresIn.value = ''
   }
 
   async function getDCAuthorizeUrl() {
@@ -106,7 +107,7 @@ export const useOauthStore = defineStore('oauth', () => {
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
   const loggedIn = computed(() => {
-    return Boolean(get(user, 'discord')) && accessToken.value
+    return get(user, 'discord') && accessToken.value
   })
   const szJoined = computed(() => {
     return Boolean(find(user.guilds, { id: '445157253385814016' }))

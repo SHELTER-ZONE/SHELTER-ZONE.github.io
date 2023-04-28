@@ -18,9 +18,11 @@ import Default from '@/layouts/default.vue'
 import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
 import { useOauthStore } from './stores/oauth'
+import { checkExpiresIn, checkIsSZMember } from '@/router/guard'
 
 const route = useRoute()
 const appStore = useAppStore()
+const oauthStore = useOauthStore()
 const layout = computed(() => route.meta.layout || 'default')
 const activeLayout = computed(() => layouts[layout.value as string])
 
@@ -29,17 +31,19 @@ const layouts: Record<string, Component> = {
 }
 
 async function appInit() {
+  console.log('app init')
   const appStore = useAppStore()
   await appStore.getApiEndPoint()
 
-  const { loggedIn, clearUser, findSZUser } = useOauthStore()
-  if (!loggedIn) clearUser()
-  await findSZUser()
+  if (!oauthStore.loggedIn) oauthStore.clearUser()
+  await Promise.all([oauthStore.findUserMe(), oauthStore.findSZUser()])
   appStore.appLoading = false
 }
 
 onBeforeMount(async () => {
+  checkExpiresIn()
   appInit()
+  checkIsSZMember()
 })
 </script>
 

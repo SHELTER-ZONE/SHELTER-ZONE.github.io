@@ -17,7 +17,7 @@ import TeamIntro from './components/TeamIntro/TeamIntro.vue'
   @apply pb-[100px];
 }
 .page-wrapper {
-  @apply pt-[100px] px-[30px];
+  @apply px-[30px];
   @apply flex flex-col gap-[100px];
   @apply max-w-[1400px] m-auto;
 }
