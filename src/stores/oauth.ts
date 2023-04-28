@@ -10,6 +10,7 @@ import {
 import { FindSZUser } from '@/api/user'
 import { get, find } from 'lodash-es'
 import { useStorage, StorageSerializers } from '@vueuse/core'
+import dayjs from 'dayjs'
 
 const discordAuthRedirectUrl = () =>
   `${location.protocol}//${location.host}/#/discord/callback`
@@ -25,8 +26,9 @@ export const useOauthStore = defineStore('oauth', () => {
     }),
     guilds: useStorage('user-guilds', []),
   })
-  const accessToken = useStorage('dcUserAccessToken', '')
-  const szUserToken = useStorage('szUserToken', '')
+  const accessToken = useStorage<string>('dcUserAccessToken', '')
+  const szUserToken = useStorage<string>('szUserToken', '')
+  const expiresIn = useStorage<number | string>('expiresIn', '')
 
   function clearUser() {
     user.discord = null
@@ -53,8 +55,8 @@ export const useOauthStore = defineStore('oauth', () => {
       redirectUri: discordAuthRedirectUrl(),
     })
     if (err) return null
+    expiresIn.value = dayjs().add(res.expires_in, 's').valueOf()
     accessToken.value = res.access_token
-    // TODO expires_in
   }
   async function findUserMe() {
     if (!accessToken.value) return
@@ -101,7 +103,7 @@ export const useOauthStore = defineStore('oauth', () => {
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
   const loggedIn = computed(() => {
-    return Boolean(get(user, 'discord'))
+    return Boolean(get(user, 'discord')) && accessToken.value
   })
   const szJoined = computed(() => {
     return Boolean(find(user.guilds, { id: '445157253385814016' }))
@@ -126,5 +128,6 @@ export const useOauthStore = defineStore('oauth', () => {
     loginSZUser,
     szUserToken,
     clearUser,
+    expiresIn,
   }
 })

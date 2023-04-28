@@ -32,7 +32,6 @@ export const useAppStore = defineStore('app', () => {
       const mode = import.meta.env.MODE
       if (mode === 'development') apiEndPoints.value = endpoints.dev
       if (mode === 'production') apiEndPoints.value = endpoints.prod
-      appLoading.value = false
     } catch (error) {
       alert(error)
     }

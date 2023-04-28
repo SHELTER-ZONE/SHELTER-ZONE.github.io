@@ -1,26 +1,17 @@
 <template>
   <main class="layout default">
-    <div
-      v-if="appStore.appLoading"
-      class="full flex items-center justify-center"
-    >
-      <NSpin />
-    </div>
-
-    <template v-if="!appStore.appLoading">
-      <NavBar />
-      <router-view v-slot="{ Component }" class="flex-1">
-        <transition
-          @enter="pageEnter"
-          @leave="pageLeave"
-          :css="false"
-          mode="out-in"
-        >
-          <component :is="Component" />
-        </transition>
-      </router-view>
-      <SiteFooter />
-    </template>
+    <NavBar />
+    <router-view v-slot="{ Component }" class="flex-1">
+      <transition
+        @enter="pageEnter"
+        @leave="pageLeave"
+        :css="false"
+        mode="out-in"
+      >
+        <component :is="Component" />
+      </transition>
+    </router-view>
+    <SiteFooter />
 
     <RequestSigninModal />
     <SignoutModal />
@@ -32,15 +23,13 @@ import NavBar from '@/components/NavBar/NavBar.vue'
 import SiteFooter from '@/components/Footer/SiteFooter.vue'
 import RequestSigninModal from '@/components/Modal/RequestSigninModal.vue'
 import SignoutModal from '@/components/Modal/SignoutModal.vue'
-import { NSpin } from 'naive-ui'
 import { RouterView } from 'vue-router'
-import { useAppStore } from '@/stores/app'
 import anime from 'animejs'
 import type { AnimeInstance } from 'animejs'
+import { onMounted } from 'vue'
+import { useMessage } from 'naive-ui'
 
 type AnimeCallbackFunction = (anim: AnimeInstance) => void
-
-const appStore = useAppStore()
 
 const pageEnter = (el: HTMLElement, done: AnimeCallbackFunction) => {
   anime({
@@ -61,6 +50,16 @@ const pageLeave = (el: HTMLElement, done: AnimeCallbackFunction) => {
     complete: (anim: AnimeInstance) => done && done(anim),
   })
 }
+
+onMounted(() => {
+  window.$message = useMessage()
+  anime({
+    targets: '.layout',
+    opacity: [0, 1],
+    easing: 'easeInOutSine',
+    duration: 1500,
+  })
+})
 </script>
 
 <style scoped lang="postcss">

@@ -50,6 +50,7 @@ const onSignout = async () => {
   loading.value = true
   clearUser()
   router.replace({ name: 'home' })
+  setSignal('signoutConfirm', false)
 }
 </script>
 
