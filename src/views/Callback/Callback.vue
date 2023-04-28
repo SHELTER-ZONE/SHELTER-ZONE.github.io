@@ -8,24 +8,25 @@
 import StackInfo from '@/components/StackInfo/StackInfo.vue'
 import { useStackInfo } from '@/use/useStackInfo'
 import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useOauthStore } from '@/stores/oauth'
+import { useRouter } from 'vue-router'
 import { get } from 'lodash-es'
+import { useOauthStore } from '@/stores/oauth'
+import { useAppStore } from '@/stores/app'
 
 const router = useRouter()
-const route = useRoute()
 const oauthStore = useOauthStore()
+const appStore = useAppStore()
 const { stack, changeStackInfo, pushStackInfo } = useStackInfo()
 
 const isError = ref<boolean>(false)
+const needVerify = ref<boolean>(false)
+const redirectDelay: number = 3000
 
-const emitError = (errorCode: string) => {
+const emitError = (errorCode?: string | null, errorMsg?: unknown) => {
   isError.value = true
-  pushStackInfo({
-    name: '頁面跳轉中',
-    id: 'redirecting',
-    state: 'processing',
-  })
+  pushStackInfo({ name: '頁面跳轉中', id: 'redirecting' })
+
+  if (errorMsg) appStore.errorMsg = errorMsg
 
   setTimeout(() => {
     router.replace({
@@ -34,14 +35,10 @@ const emitError = (errorCode: string) => {
         code: errorCode,
       },
     })
-  }, 3000)
+  }, redirectDelay)
 }
 const verifyCode = (code: string) => {
-  pushStackInfo({
-    name: 'Discord auth code 驗證中',
-    id: 'discord-oauthing',
-    state: 'processing',
-  })
+  pushStackInfo({ name: 'Discord oauth code 驗證', id: 'discord-oauthing' })
   if (!code) {
     emitError('AUTH_ERROR_0')
     changeStackInfo('discord-oauthing', 'error')
@@ -54,9 +51,8 @@ const getDCAccessToken = async (code: string) => {
   pushStackInfo({
     name: '取得 Discord AccessToken',
     id: 'get-discord-accesstoken',
-    state: 'processing',
   })
-  await oauthStore.getDCAccessToken(code as string)
+  await oauthStore.getDCAccessToken(code)
   if (!oauthStore.accessToken) {
     emitError('AUTH_ERROR_1')
     changeStackInfo('get-discord-accesstoken', 'error')
@@ -66,78 +62,80 @@ const getDCAccessToken = async (code: string) => {
 }
 const findDCUser = async () => {
   if (isError.value) return
-  pushStackInfo({
-    name: '取得 Discord 使用者',
-    id: 'find-discord-user',
-    state: 'processing',
-  })
-  await oauthStore.findUserMe()
-  if (!oauthStore.user) {
-    emitError('AUTH_ERROR_2')
+  pushStackInfo({ name: '查詢 Discord 使用者', id: 'find-discord-user' })
+  try {
+    const user = await oauthStore.findUserMe()
+    if (user) changeStackInfo('find-discord-user', 'resolve')
+    if (!user) {
+      changeStackInfo('find-discord-user', 'warning')
+      emitError('AUTH_ERROR_2')
+    }
+  } catch (error) {
     changeStackInfo('find-discord-user', 'error')
-    return
+    emitError(null, error)
   }
-  changeStackInfo('find-discord-user', 'resolve')
 }
 const findSZUser = async () => {
   if (isError.value) return
-  pushStackInfo({
-    name: '取得 SZ 使用者',
-    id: 'find-sz-user',
-    state: 'processing',
-  })
-  await oauthStore.findSZUser()
-  if (get(oauthStore.user, 'sz')) changeStackInfo('find-sz-user', 'resolve')
-  else changeStackInfo('find-sz-user', 'warning')
+  pushStackInfo({ name: '查詢 SZ 使用者', id: 'find-sz-user' })
+  try {
+    const user = await oauthStore.findSZUser()
+    if (user) changeStackInfo('find-sz-user', 'resolve')
+    if (!user) {
+      changeStackInfo('find-sz-user', 'warning')
+    }
+  } catch (error) {
+    changeStackInfo('find-sz-user', 'error')
+    emitError(null, error)
+  }
 }
 const getDCUserGuilds = async () => {
   if (isError.value) return
-  pushStackInfo({
-    name: '取得使用者伺服器列表',
-    id: 'get-user-guilds',
-    state: 'processing',
-  })
+  pushStackInfo({ name: '取得使用者伺服器列表', id: 'get-user-guilds' })
   await oauthStore.getDCUserGuilds()
   changeStackInfo('get-user-guilds', 'resolve')
 }
+
 const checkingSZUser = () => {
   if (isError.value) return
-  if (get(oauthStore.user, 'sz')) {
-    // todo error handle
-    if (!(await oauthStore.loginSZUser())) return
-    // && get(oauthStore.user, 'sz.verified')
-    pushStackInfo({
-      name: `Welcome back - ${get(oauthStore.user, 'discord.username')}`,
-      id: 'sz-user-welcome',
-      state: 'resolve',
-    })
-    setTimeout(() => {
-      router.replace({ name: 'home' })
-    }, 1500)
-    return
-  }
+  const szUser = get(oauthStore.user, 'sz')
+  if (szUser) return
   pushStackInfo({
     name: '未驗證 SZ 使用者',
     id: 'notfound-sz-user',
-    state: '',
+    state: 'warning',
   })
-  pushStackInfo({
-    name: '前往認證確認頁面',
-    id: 'redirect-to-sz-verify',
-    state: 'processing',
-  })
-  // 無註冊 szUser -> 前往註冊驗證頁
-  router.replace({ name: 'verify-confirm' })
+  pushStackInfo({ name: '前往認證確認頁面', id: 'redirect-to-sz-verify' })
+  needVerify.value = true
+  setTimeout(() => {
+    router.replace({ name: 'verify-confirm' })
+  }, redirectDelay)
+}
+
+const szLogin = async () => {
+  if (isError.value || needVerify.value) return
+  pushStackInfo({ name: `SZ 使用者登入`, id: 'login-sz-user' })
+  try {
+    await oauthStore.loginSZUser()
+    changeStackInfo('login-sz-user', 'resolve')
+    const dcUser = get(oauthStore.user, 'discord')
+    pushStackInfo({
+      name: `Welcome back - ${get(dcUser, 'username')}`,
+      id: 'user-welcome',
+    })
+    setTimeout(() => {
+      router.replace({ name: 'home' })
+    }, redirectDelay)
+  } catch (error) {
+    changeStackInfo('login-sz-user', 'error')
+    emitError(null, error)
+  }
 }
 
 onMounted(async () => {
   await router.isReady()
   let code = location.href.split('/')[3].split('=')[1]
   code = code.replace('#', '')
-  // if (code.includes('access_denied') || code.includes('error_description')) {
-  //   return router.replace('/')
-  // }
-  // const code = route.query.code as string
 
   verifyCode(code)
   await getDCAccessToken(code)
@@ -145,6 +143,7 @@ onMounted(async () => {
   await getDCUserGuilds()
   await findSZUser()
   checkingSZUser()
+  await szLogin()
 })
 </script>
 

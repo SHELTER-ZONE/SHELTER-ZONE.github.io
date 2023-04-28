@@ -15,13 +15,18 @@ import { Warning } from '@vicons/carbon'
 import { useRoute } from 'vue-router'
 import errors from '@/configs/errors'
 import { get } from 'lodash-es'
+import { useAppStore } from '@/stores/app'
 
 const route = useRoute()
+const appStore = useAppStore()
 
 const errorCode = computed(() => route.query.code)
 const errorMsg = computed(() => {
   const code = errorCode.value as string
-  if (!code) return ''
+  if (!code) {
+    if (appStore.errorMsg) return appStore.errorMsg
+    return ''
+  }
   return get(errors, code)
 })
 </script>

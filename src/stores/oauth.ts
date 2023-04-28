@@ -26,7 +26,7 @@ export const useOauthStore = defineStore('oauth', () => {
     guilds: useStorage('user-guilds', []),
   })
   const accessToken = ref(null)
-  const szUserToken = ref(null)
+  const szUserToken = useStorage('szUserToken', '')
 
   async function getDCAuthorizeUrl() {
     const [res, err]: any = await GetDCAuthorizeUrl({
@@ -51,17 +51,17 @@ export const useOauthStore = defineStore('oauth', () => {
   async function findUserMe() {
     if (!accessToken.value) return
     const [res, err]: any = await FindMe(accessToken.value)
-    if (err) return
-    console.log(res)
+    if (err) throw err.message
     user.discord = res
-    return
+    return res
   }
   async function findSZUser() {
     if (!user.discord) return
     const userId = get(user.discord, 'id')
     const [res, err]: any = await FindSZUser({ userId })
-    if (err) return
+    if (err) throw err
     user.sz = res
+    return res
   }
   async function getDCUserGuilds() {
     if (!accessToken.value) return
@@ -80,12 +80,9 @@ export const useOauthStore = defineStore('oauth', () => {
     if (!accessToken.value) return
     const userId = get(user, 'discord.id')
     const [res, err]: any = await LoginSZUser(accessToken.value, userId)
-    if (err) {
-      console.log(err)
-      return false
-    }
+    if (err) return [null, err]
     szUserToken.value = res
-    return true
+    return [res, null]
   }
 
   // getters
@@ -119,5 +116,6 @@ export const useOauthStore = defineStore('oauth', () => {
     loggedIn,
     signin,
     loginSZUser,
+    szUserToken,
   }
 })
