@@ -12,6 +12,7 @@ export const useStackInfo = () => {
   }
 
   const pushStackInfo = (data: StackInfoItemData) => {
+    if (!data.state) data.state = 'processing'
     stack.value.push(data)
   }
 

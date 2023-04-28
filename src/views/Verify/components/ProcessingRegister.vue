@@ -83,6 +83,7 @@ const processRegister = async (data: SZVerifyFormData) => {
 onMounted(async () => {
   const formData = props.formData as SZVerifyFormData
   await processRegister(formData)
+  // give discord role
 })
 </script>
 

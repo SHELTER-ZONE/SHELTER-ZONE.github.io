@@ -4,8 +4,8 @@
 
     <n-spin v-if="data.state === 'processing'" :size="14" />
 
-    <n-icon v-if="data.state !== 'processing'">
-      <Component :is="get(stateIcons, data.state)" :size="14" />
+    <n-icon v-if="data.state !== 'processing' && dynamicCmp">
+      <Component :is="dynamicCmp" :size="14" />
     </n-icon>
   </div>
 </template>
@@ -15,12 +15,18 @@ import type { StackInfoItemData } from '../types'
 import { NSpin, NIcon } from 'naive-ui'
 import { useStackInfo } from '@/use/useStackInfo'
 import { get } from 'lodash-es'
+import { computed } from 'vue'
 
 const { stateIcons } = useStackInfo()
 
-defineProps<{
+const props = defineProps<{
   data: StackInfoItemData
 }>()
+const dynamicCmp = computed(() => {
+  const state = props.data.state
+  if (!state) return null
+  return get(stateIcons, state)
+})
 </script>
 
 <style scoped lang="postcss">
