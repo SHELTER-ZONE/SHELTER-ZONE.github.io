@@ -25,8 +25,16 @@ export const useOauthStore = defineStore('oauth', () => {
     }),
     guilds: useStorage('user-guilds', []),
   })
-  const accessToken = ref(null)
+  const accessToken = useStorage('dcUserAccessToken', '')
   const szUserToken = useStorage('szUserToken', '')
+
+  function clearUser() {
+    user.discord = null
+    user.sz = null
+    user.guilds = []
+    accessToken.value = ''
+    szUserToken.value = ''
+  }
 
   async function getDCAuthorizeUrl() {
     const [res, err]: any = await GetDCAuthorizeUrl({
@@ -117,5 +125,6 @@ export const useOauthStore = defineStore('oauth', () => {
     signin,
     loginSZUser,
     szUserToken,
+    clearUser,
   }
 })

@@ -6,6 +6,7 @@ import { has } from 'lodash-es'
 
 interface Signals {
   requestSignin: boolean
+  signoutConfirm: boolean
 }
 
 export const useAppStore = defineStore('app', () => {
@@ -14,6 +15,7 @@ export const useAppStore = defineStore('app', () => {
   const errorMsg = ref<unknown>(null)
   const signals = reactive<Signals>({
     requestSignin: false,
+    signoutConfirm: false,
   })
 
   async function getApiEndPoint() {

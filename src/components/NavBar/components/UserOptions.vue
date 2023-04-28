@@ -24,8 +24,10 @@ import { NButton, NDropdown, NIcon } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
 import { ChevronDown } from '@vicons/carbon'
 import { get } from 'lodash-es'
+import { useAppStore } from '@/stores/app'
 
 const oauthStore = useOauthStore()
+const { setSignal } = useAppStore()
 const router = useRouter()
 
 const dcUser = computed(() => oauthStore.user.discord)
@@ -33,11 +35,7 @@ const userAvatar = computed(() => oauthStore.userAvatar)
 const dcUserName = computed(() => get(dcUser.value, 'username'))
 
 const logout = () => {
-  oauthStore.user.discord = null
-  oauthStore.user.sz = null
-  oauthStore.user.guilds = []
-
-  router.replace({ name: 'home' })
+  setSignal('signoutConfirm', true)
 }
 
 const options = computed(() => {

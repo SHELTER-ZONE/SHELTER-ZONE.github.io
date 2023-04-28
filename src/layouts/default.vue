@@ -23,6 +23,7 @@
     </template>
 
     <RequestSigninModal />
+    <SignoutModal />
   </main>
 </template>
 
@@ -30,10 +31,10 @@
 import NavBar from '@/components/NavBar/NavBar.vue'
 import SiteFooter from '@/components/Footer/SiteFooter.vue'
 import RequestSigninModal from '@/components/Modal/RequestSigninModal.vue'
+import SignoutModal from '@/components/Modal/SignoutModal.vue'
 import { NSpin } from 'naive-ui'
 import { RouterView } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { ref } from 'vue'
 import anime from 'animejs'
 import type { AnimeInstance } from 'animejs'
 
