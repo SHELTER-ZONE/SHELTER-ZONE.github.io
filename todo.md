@@ -1,1 +1,3 @@
 - check sz user exist on app start
+- check user still in discord
+- block verify routes if verify
