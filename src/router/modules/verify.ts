@@ -16,9 +16,13 @@ const verifyRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/Verify/SZVerifyConfirm.vue'),
       },
       {
+        path: 'sz-join-confirm',
+        name: 'sz-join-confirm',
+        component: () => import('@/views/Verify/SZJoinConfirm.vue'),
+      },
+      {
         path: 'form',
         name: 'verify-form',
-        meta: { nScrollbar: true },
         component: () => import('@/views/Verify/SZVerifyForm.vue'),
       },
     ],

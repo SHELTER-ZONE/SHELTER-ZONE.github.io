@@ -17,7 +17,7 @@
           <router-link :to="{ name: 'home' }">
             <n-button ghost>下次再說</n-button>
           </router-link>
-          <router-link :to="{ name: 'verify-form' }">
+          <router-link :to="gotoPageLink">
             <n-button ghost type="primary"> 前往驗證 </n-button>
           </router-link>
         </section>
@@ -27,9 +27,18 @@
 </template>
 
 <script setup lang="ts">
+import { useOauthStore } from '@/stores/oauth'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { WarningFilled } from '@vicons/carbon'
 import { NButton, NIcon } from 'naive-ui'
+import { computed } from 'vue'
+
+const oauthStore = useOauthStore()
+
+const gotoPageLink = computed(() => {
+  if (!oauthStore.szJoined) return { name: 'sz-join-confirm' }
+  return { name: 'verify-form' }
+})
 </script>
 
 <style scoped lang="postcss">

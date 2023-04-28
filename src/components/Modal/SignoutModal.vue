@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import BaseModal from './BaseModal.vue'
-import { NButton, NIcon } from 'naive-ui'
+import { NButton, NIcon, useMessage } from 'naive-ui'
 import { Logout } from '@vicons/carbon'
 import { useAppStore } from '@/stores/app'
 import { useOauthStore } from '@/stores/oauth'
@@ -33,6 +33,7 @@ const { clearUser } = useOauthStore()
 const router = useRouter()
 
 const loading = ref(false)
+const message = useMessage()
 
 const showModal = computed({
   get() {
@@ -49,6 +50,7 @@ const onCancel = () => {
 const onSignout = async () => {
   loading.value = true
   clearUser()
+  message.info('已成功登出！')
   router.replace({ name: 'home' })
   setSignal('signoutConfirm', false)
 }

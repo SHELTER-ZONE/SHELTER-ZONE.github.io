@@ -1,0 +1,1 @@
+- check sz user exist on app start

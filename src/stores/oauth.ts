@@ -73,10 +73,13 @@ export const useOauthStore = defineStore('oauth', () => {
     user.sz = res
     return res
   }
-  async function getDCUserGuilds() {
+  async function getDCUserGuilds(options?: { showErrorMsg: boolean }) {
     if (!accessToken.value) return
     const [res, err]: any = await GetDCUserGuilds(accessToken.value)
-    if (err) return
+    if (err) {
+      if (options?.showErrorMsg) window.$message.error(err.message)
+      return
+    }
     user.guilds = res
     return
   }
