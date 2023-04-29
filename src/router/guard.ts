@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 export const registerRouterGuard = (router: Router) => {
   router.beforeEach(async (to, from, next) => {
     checkExpiresIn() // 檢查登入是否已過期
+    if (to.meta.registeredBlock) return next({ name: 'home' })
     if (!to.meta.auth) return next() // 無須登入頁，直接前往
     const { loggedIn } = useOauthStore()
     const { setSignal } = useAppStore()

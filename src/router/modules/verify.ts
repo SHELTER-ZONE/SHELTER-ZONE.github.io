@@ -8,6 +8,7 @@ const verifyRoutes: RouteRecordRaw[] = [
       hidden: true,
       title: '驗證',
       auth: true,
+      registeredBlock: true,
     },
     children: [
       {
