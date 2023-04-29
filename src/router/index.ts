@@ -41,6 +41,7 @@ const router = createRouter({
         hidden: true,
         title: '個人資料',
         auth: true,
+        szRegistered: true,
       },
       component: () => import('@/views/Profile/Profile.vue'),
     },

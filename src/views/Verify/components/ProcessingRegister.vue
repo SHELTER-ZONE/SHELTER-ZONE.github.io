@@ -38,10 +38,10 @@ import { CloseFilled } from '@vicons/carbon'
 // api
 import { createSZUser } from '@/api/szUser'
 import { createSZUserProfile } from '@/api/szUserProfile'
-import { updateMember } from '@/api/bot'
+import { updateMember, findMember } from '@/api/bot'
 // types
 import type { SZVerifyFormData, SZVerifyFormDataStruc } from '../types'
-import { get } from 'lodash-es'
+import { get, uniq } from 'lodash-es'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useOauthStore } from '@/stores/oauth'
@@ -102,12 +102,21 @@ const registerSZUserProfile = async (data: SZVerifyFormData) => {
   changeStackInfo('creating-sz-user-profile', 'resolve')
 }
 
+const getServerMemberRoles = async (userId: string) => {
+  const [member, err]: any = await findMember(userId)
+  if (err) throw err
+  return member.roles
+}
+
 const giveMemberRoles = async (roles: string[]) => {
   pushStackInfo({
     name: '設定使用者 Discord Server Roles',
     id: 'setting-user-dc-roles',
   })
   const userId = get(oauthStore.user, 'discord.id')
+  const memberRoles = await getServerMemberRoles(userId)
+  roles.push(...memberRoles)
+  roles = uniq(roles)
   const [, err]: any = await updateMember({
     userId,
     payload: { roles },
