@@ -10,6 +10,11 @@ export const useStackInfo = () => {
     resolve: CheckmarkFilled,
     error: CloseFilled,
   }
+  const stateColors = {
+    warning: '',
+    resolve: 'var(--primary)',
+    error: 'var(--danger)',
+  }
 
   const pushStackInfo = (data: StackInfoItemData) => {
     if (!data.state) data.state = 'processing'
@@ -27,5 +32,6 @@ export const useStackInfo = () => {
     pushStackInfo,
     changeStackInfo,
     stateIcons,
+    stateColors,
   }
 }

@@ -2,9 +2,14 @@
   <div class="stack-info-item">
     <span>{{ data.name }}</span>
 
-    <n-spin v-if="data.state === 'processing'" :size="14" />
+    <Divider :size="1" class="flex-1 !self-center" />
 
-    <n-icon v-if="data.state !== 'processing' && dynamicCmp">
+    <n-spin v-if="state === 'processing'" :size="14" />
+
+    <n-icon
+      :color="get(stateColors, state)"
+      v-if="state !== 'processing' && dynamicCmp"
+    >
       <Component :is="dynamicCmp" :size="14" />
     </n-icon>
   </div>
@@ -13,15 +18,19 @@
 <script setup lang="ts">
 import type { StackInfoItemData } from '../types'
 import { NSpin, NIcon } from 'naive-ui'
+import Divider from '@/components/Divider/Divider.vue'
 import { useStackInfo } from '@/use/useStackInfo'
 import { get } from 'lodash-es'
 import { computed } from 'vue'
 
-const { stateIcons } = useStackInfo()
+const { stateIcons, stateColors } = useStackInfo()
 
 const props = defineProps<{
   data: StackInfoItemData
 }>()
+
+const state = computed(() => get(props.data, 'state', ''))
+
 const dynamicCmp = computed(() => {
   const state = props.data.state
   if (!state) return null

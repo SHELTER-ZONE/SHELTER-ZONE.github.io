@@ -55,7 +55,7 @@ const options = computed(() => {
         ),
     })
 
-  if (oauthStore.user.discord && !oauthStore.user.sz)
+  if (!oauthStore.szRegistered)
     options.push({
       key: 'profile',
       type: 'render',

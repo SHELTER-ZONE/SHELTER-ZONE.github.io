@@ -1,105 +1,148 @@
 <template>
   <div class="processing-register">
-    <SZBlockContainer class="process-info-wrapper">
-      <StackInfo v-model:value="stack" class="flex-1" />
-      <section class="flex justify-center mt-[30px]" v-if="showCloseBtn">
-        <n-button @click="emits('close')">返回表單</n-button>
-      </section>
-    </SZBlockContainer>
+    <n-collapse-transition appear :show="true">
+      <SZBlockContainer class="process-info-wrapper">
+        <StackInfo v-model:value="stack" class="flex-1" />
+      </SZBlockContainer>
+    </n-collapse-transition>
 
-    <SZBlockContainer v-if="showCloseBtn">
-      <!-- <Divider :size="1" /> -->
-      <p class="text-center">Error</p>
-      <section
-        class="my-[30px] flex gap-[10px] items-center justify-center text-danger"
-      >
-        <n-icon color="var(--danger)"><CloseFilled /></n-icon>
-        <p>{{ errorMsg }}</p>
-      </section>
+    <n-collapse-transition appear :show="true" v-if="showCloseBtn">
+      <SZBlockContainer>
+        <p class="text-center">Error</p>
+        <section
+          class="my-[30px] flex gap-[10px] items-center justify-center text-danger"
+        >
+          <n-icon color="var(--danger)"><CloseFilled /></n-icon>
+          <p>{{ errorMsg }}</p>
+        </section>
 
-      <section class="flex justify-center">
-        <n-button @click="emits('close')">回報錯誤</n-button>
-      </section>
-    </SZBlockContainer>
+        <section class="flex justify-center gap-[10px]">
+          <n-button @click="emits('close')" ghost type="error">
+            回報錯誤
+          </n-button>
+          <n-button @click="emits('close')" ghost type="primary">
+            返回表單
+          </n-button>
+        </section>
+      </SZBlockContainer>
+    </n-collapse-transition>
   </div>
 </template>
 
 <script setup lang="ts">
 import StackInfo from '@/components/StackInfo/StackInfo.vue'
-import Divider from '@/components/Divider/Divider.vue'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { useStackInfo } from '@/use/useStackInfo'
-import { NButton, NIcon } from 'naive-ui'
+import { NButton, NIcon, NCollapseTransition } from 'naive-ui'
 import { CloseFilled } from '@vicons/carbon'
 // api
 import { createSZUser } from '@/api/szUser'
 import { createSZUserProfile } from '@/api/szUserProfile'
+import { updateMember } from '@/api/bot'
 // types
 import type { SZVerifyFormData, SZVerifyFormDataStruc } from '../types'
-
+import { get } from 'lodash-es'
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useOauthStore } from '@/stores/oauth'
 
 const props = defineProps<{
   formData: SZVerifyFormDataStruc
 }>()
 const emits = defineEmits(['close'])
 
+const router = useRouter()
+const { stack, changeStackInfo, pushStackInfo } = useStackInfo()
+const oauthStore = useOauthStore()
+
 const showCloseBtn = ref(false)
 const errorMsg = ref<string>('')
 
-const { stack, changeStackInfo, pushStackInfo } = useStackInfo()
-
-const handleRegisterError = (type: string, error: unknown, stackId: string) => {
-  console.log(error)
+const emitError = (stackId: string, msg: string) => {
   changeStackInfo(stackId, 'error')
-  errorMsg.value = error.message
+  errorMsg.value = msg
   setTimeout(() => {
     showCloseBtn.value = true
-  }, 1000)
-  if (type === 'userError') {
-    throw new Error('User Error Occurred.')
-  }
-  if (type === 'userProfileError') {
-    throw new Error('User Profile Error Occurred.')
-  }
+  }, 500)
+  throw msg
 }
 
 const registerSZUser = async (data: SZVerifyFormData) => {
   pushStackInfo({ name: '建立 SZ 使用者', id: 'creating-sz-user' })
-  const [, userError]: any = await createSZUser({
+  const [, err]: any = await createSZUser({
     userId: data.id,
     type: 'user',
   })
-  if (userError) handleRegisterError('userError', userError, 'creating-sz-user')
+  if (err) {
+    if (err.code === 'USER_EXIST') {
+      changeStackInfo('creating-sz-user', 'resolve')
+      return
+    } else emitError('creating-sz-user', err.message)
+  }
   changeStackInfo('creating-sz-user', 'resolve')
 }
 
-const processRegister = async (data: SZVerifyFormData) => {
-  await registerSZUser(data)
-
+const registerSZUserProfile = async (data: SZVerifyFormData) => {
   pushStackInfo({
     name: '建立 SZ User Profile',
     id: 'creating-sz-user-profile',
   })
-  const [, userProfileError]: any = await createSZUserProfile({
+  const [, err]: any = await createSZUserProfile({
     userId: data.id,
     name: data.name,
     country: data.country,
     from: data.from,
   })
-  if (userProfileError)
-    handleRegisterError(
-      'userProfileError',
-      userProfileError,
-      'creating-sz-user-profile',
-    )
+  if (err) {
+    if (err.code === 'PROFILE_EXIST') {
+      changeStackInfo('creating-sz-user-profile', 'resolve')
+      return
+    } else emitError('creating-sz-user-profile', err.message)
+  }
   changeStackInfo('creating-sz-user-profile', 'resolve')
+}
+
+const giveMemberRoles = async (roles: string[]) => {
+  pushStackInfo({
+    name: '設定使用者 Discord Server Roles',
+    id: 'setting-user-dc-roles',
+  })
+  const userId = get(oauthStore.user, 'discord.id')
+  const [, err]: any = await updateMember({
+    userId,
+    payload: { roles },
+  })
+  if (err) emitError('setting-user-dc-roles', err.message)
+  changeStackInfo('setting-user-dc-roles', 'resolve')
+}
+
+const processRegister = async (data: SZVerifyFormData) => {
+  await registerSZUser(data)
+  await registerSZUserProfile(data)
+  await oauthStore.findSZUser()
+  await giveMemberRoles(data.roles)
+
+  pushStackInfo({
+    name: 'SZ 認證完成',
+    id: 'sz-verify-success',
+    state: 'resolve',
+  })
+
+  pushStackInfo({
+    name: '頁面跳轉中',
+    id: 'page-redirecting',
+  })
+
+  setTimeout(() => {
+    router.push({ name: 'profile' })
+  }, 1500)
 }
 
 onMounted(async () => {
   const formData = props.formData as SZVerifyFormData
-  await processRegister(formData)
-  // give discord role
+  setTimeout(() => {
+    processRegister(formData)
+  }, 300)
 })
 </script>
 
