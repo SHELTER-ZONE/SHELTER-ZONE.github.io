@@ -114,15 +114,19 @@ const giveMemberRoles = async (roles: string[]) => {
     id: 'setting-user-dc-roles',
   })
   const userId = get(oauthStore.user, 'discord.id')
-  const memberRoles = await getServerMemberRoles(userId)
-  roles.push(...memberRoles)
-  roles = uniq(roles)
-  const [, err]: any = await updateMember({
-    userId,
-    payload: { roles },
-  })
-  if (err) emitError('setting-user-dc-roles', err.message)
-  changeStackInfo('setting-user-dc-roles', 'resolve')
+  try {
+    const memberRoles = await getServerMemberRoles(userId)
+    roles.push(...memberRoles)
+    roles = uniq(roles)
+    const [, err]: any = await updateMember({
+      userId,
+      payload: { roles },
+    })
+    if (err) emitError('setting-user-dc-roles', err.message)
+    changeStackInfo('setting-user-dc-roles', 'resolve')
+  } catch (error: any) {
+    emitError('setting-user-dc-roles', error.message)
+  }
 }
 
 const processRegister = async (data: SZVerifyFormData) => {
