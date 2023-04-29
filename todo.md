@@ -1,1 +1,1 @@
-- check sz user exist on app start
+- block verify routes if verify

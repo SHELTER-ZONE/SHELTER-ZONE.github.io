@@ -1,10 +1,13 @@
 <template>
   <main class="callback full">
-    <StackInfo v-model:value="stack" />
+    <SZBlockContainer class="process-info-wrapper">
+      <StackInfo v-model:value="stack" />
+    </SZBlockContainer>
   </main>
 </template>
 
 <script setup lang="ts">
+import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import StackInfo from '@/components/StackInfo/StackInfo.vue'
 import { useStackInfo } from '@/use/useStackInfo'
 import { onMounted, ref } from 'vue'
@@ -149,6 +152,13 @@ onMounted(async () => {
 
 <style scoped lang="postcss">
 .callback {
-  @apply grid place-content-center;
+  @apply viewPx full;
+  @apply flex items-center justify-center;
+  @apply max-w-[400px] m-auto;
+}
+
+.process-info-wrapper {
+  @apply min-h-[300px];
+  @apply w-full;
 }
 </style>
