@@ -3,6 +3,7 @@
     <Banner />
     <div class="page-wrapper">
       <TeamIntro />
+      <History />
     </div>
   </main>
 </template>
@@ -10,6 +11,7 @@
 <script setup lang="ts">
 import Banner from './components/Banner.vue'
 import TeamIntro from './components/TeamIntro/TeamIntro.vue'
+import History from './components/History.vue'
 </script>
 
 <style lang="postcss" scoped>
