@@ -21,7 +21,7 @@ const router = createRouter({
         title: '關於',
         auth: true,
       },
-      component: () => import('@/views/Home/Home.vue'),
+      component: () => import('@/views/About/About.vue'),
     },
     {
       path: '/discord/callback',
