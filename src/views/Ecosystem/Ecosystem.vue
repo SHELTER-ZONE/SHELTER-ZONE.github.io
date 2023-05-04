@@ -1,29 +1,54 @@
 <template>
-  <main class="applications">
-    <div class="container">
-      <ResourceCard v-for="item in applications" :key="item.name" :data="item">
-        <h3>{{ item.name }}</h3>
-      </ResourceCard>
-    </div>
-    <div class="container">
-      <ResourceCard v-for="item in docs" :key="item.name" :data="item">
-        <h3>{{ item.name }}</h3>
-      </ResourceCard>
-    </div>
+  <main class="ecosystem">
+    <section class="resource-section">
+      <h3 class="resource-section-title">
+        <n-icon><ApplicationWeb /></n-icon>
+        <p>Applications</p>
+      </h3>
+      <div class="resource-list">
+        <ResourceCard
+          v-for="item in applications"
+          :key="item.name"
+          :data="item"
+        />
+      </div>
+    </section>
+
+    <section class="resource-section">
+      <h3 class="resource-section-title">
+        <n-icon><Bookmark /></n-icon>
+        <p>Document</p>
+      </h3>
+      <div class="resource-list">
+        <ResourceCard v-for="item in docs" :key="item.name" :data="item" />
+      </div>
+    </section>
   </main>
 </template>
 
 <script setup>
 import ResourceCard from './components/ResourceCard.vue'
+import { NIcon } from 'naive-ui'
+import {
+  LicenseDraft,
+  Template,
+  Book,
+  Help,
+  ApplicationWeb,
+  Bookmark,
+} from '@vicons/carbon'
+
 const applications = [
   {
     name: 'SZ-Form',
-    description: '',
+    description: 'SZ 表單系統',
+    icon: LicenseDraft,
     link: 'https://shelter-zone.github.io/sz-form-frontend/',
   },
   {
     name: 'SZ Question Template Generator',
-    description: '',
+    description: 'SZ 提問模板生成器',
+    icon: Template,
     link: 'https://shelter-zone.github.io/Question-Template/',
   },
 ]
@@ -31,25 +56,32 @@ const applications = [
 const docs = [
   {
     name: 'Technological Exchange Guide',
-    description: '',
+    description: 'SZ 技術交流指南',
+    icon: Book,
     link: 'https://shelter-zone.github.io/Technological-Exchange-Guide/',
   },
   {
     name: 'Discord Bot FAQ',
-    description: '',
+    description: 'Discord Bot 開發常見 FAQ',
+    icon: Help,
     link: 'https://shelter-zone.github.io/Discord_Bot_FAQ/',
   },
 ]
 </script>
 
 <style scoped lang="postcss">
-.applications {
-  @apply pt-[100px];
-  @apply flex flex-col items-center gap-[60px];
+.ecosystem {
+  @apply viewPx pt-[150px];
+  @apply max-w-[800px] m-auto;
+  @apply flex flex-col gap-[40px];
 }
 
-.container {
-  @apply w-full;
-  @apply flex gap-[30px];
+.resource-section-title {
+  @apply flex items-center gap-[10px];
+  @apply text-[20px] text-primary mb-[15px];
+}
+
+.resource-list {
+  @apply flex flex-col gap-[20px];
 }
 </style>
