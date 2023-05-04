@@ -26,7 +26,14 @@ const router = createRouter({
     {
       path: '/discord/callback',
       name: 'discord callback',
+      meta: { hidden: true },
       component: () => import('@/views/Callback/Callback.vue'),
+    },
+    {
+      path: '/ecosystem',
+      name: 'ecosystem',
+      meta: { title: '生態與資源' },
+      component: () => import('@/views/Ecosystem/Ecosystem.vue'),
     },
     {
       path: '/error',

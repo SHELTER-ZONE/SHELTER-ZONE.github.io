@@ -14,6 +14,8 @@ export default defineConfig({
         mPageTitle: '24px',
         mSectionTitle: '20px',
 
+        md: '18px',
+        normal: '16px',
         sub: '14px',
         sm: '12px',
       },
