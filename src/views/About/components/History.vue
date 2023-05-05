@@ -1,8 +1,6 @@
 <template>
   <section class="history">
-    <SectionTitle title="History" iconSize="30">
-      <template #icon><Code /></template>
-    </SectionTitle>
+    <SectionTitle title="History" />
 
     <n-timeline class="w-[fit-content]">
       <n-timeline-item
