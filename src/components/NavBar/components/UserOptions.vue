@@ -3,7 +3,7 @@
     <LoginBtn v-if="!dcUser" />
 
     <NDropdown v-if="dcUser" trigger="hover" :options="options">
-      <NButton class="user-btn" type="primary" ghost>
+      <NButton class="user-btn" type="primary" quaternary>
         <template #icon>
           <img class="user-avatar" :src="userAvatar" alt="" srcset="" />
         </template>
