@@ -45,7 +45,9 @@
         </section> -->
 
         <section>
-          <n-button block type="primary" @click="onVerify"> Verify </n-button>
+          <n-button block secondary type="primary" @click="onVerify">
+            Verify
+          </n-button>
         </section>
       </n-form>
     </div>

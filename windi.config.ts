@@ -24,6 +24,7 @@ export default defineConfig({
         primary: 'var(--primary)',
         base: 'var(--base)',
         danger: 'var(--danger)',
+        warning: 'var(--warning)',
       },
       borderRadius: {
         normal: '6px',

@@ -1,5 +1,5 @@
 <template>
-  <NButton type="primary" @click="onSignin" :loading="loading">
+  <NButton secondary type="primary" @click="onSignin" :loading="loading">
     {{ translate('common.login') }}
   </NButton>
 </template>

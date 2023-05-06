@@ -12,6 +12,7 @@ import History from './components/History.vue'
 
 <style scoped lang="postcss">
 .about {
-  @apply pt-[150px];
+  @apply viewPx pt-[150px];
+  @apply flex flex-col items-center;
 }
 </style>
