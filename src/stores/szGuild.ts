@@ -1,6 +1,7 @@
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { _SZ_GUILD_CONFIG_URL } from '@/configs/urls'
+import { getAllMembersCount, getSZGuildInfo } from '@/api/bot'
 import axios from 'axios'
 import { get } from 'lodash-es'
 
@@ -11,6 +12,10 @@ export type SZOpenRole = {
 
 export const useSZGuild = defineStore('szGuild', () => {
   const guildConfig = ref({})
+  const szInfo = ref({})
+  const statistic = reactive({
+    members: 0,
+  })
 
   const GetOpenRoles = async () => {
     const res = await axios({
@@ -28,8 +33,23 @@ export const useSZGuild = defineStore('szGuild', () => {
     return get(guildConfig.value, 'openRoles', [])
   })
 
+  const GetAllMembersCount = async () => {
+    const [res, err]: any = await getAllMembersCount()
+    if (err) window.$message.error(err)
+    if (res) statistic.members = res
+  }
+
+  const GetSZInfo = async () => {
+    const [res, err]: any = await getSZGuildInfo()
+    if (err) window.$message.error(err)
+    if (res) szInfo.value = res
+  }
+
   return {
+    statistic,
     openRoles,
+    GetSZInfo,
     GetOpenRoles,
+    GetAllMembersCount,
   }
 })

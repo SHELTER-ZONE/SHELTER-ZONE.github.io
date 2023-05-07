@@ -2,6 +2,7 @@
   <main class="home">
     <Banner />
     <div class="page-wrapper">
+      <Statistic />
       <TeamIntro />
     </div>
   </main>
@@ -10,6 +11,7 @@
 <script setup lang="ts">
 import Banner from './components/Banner.vue'
 import TeamIntro from './components/TeamIntro/TeamIntro.vue'
+import Statistic from './components/Statistic/Statistic.vue'
 </script>
 
 <style lang="postcss" scoped>

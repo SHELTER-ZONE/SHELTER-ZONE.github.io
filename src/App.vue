@@ -19,6 +19,7 @@ import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
 import { useOauthStore } from './stores/oauth'
 import { checkExpiresIn, checkIsSZMember } from '@/router/guard'
+import { useSZGuild } from './stores/szGuild'
 
 const route = useRoute()
 const appStore = useAppStore()
@@ -33,10 +34,15 @@ const layouts: Record<string, Component> = {
 async function appInit() {
   console.log('app init')
   const appStore = useAppStore()
+  const szGuildStore = useSZGuild()
   await appStore.getApiEndPoint()
 
   if (!oauthStore.loggedIn) oauthStore.clearUser()
-  await Promise.all([oauthStore.findUserMe(), oauthStore.findSZUser()])
+  await Promise.all([
+    oauthStore.findUserMe(),
+    oauthStore.findSZUser(),
+    szGuildStore.GetSZInfo(),
+  ])
   appStore.appLoading = false
 }
 

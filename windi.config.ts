@@ -4,6 +4,7 @@ export default defineConfig({
   shortcuts: {
     full: 'w-full h-full',
     viewPx: 'px-[30px]',
+    'w-fit': 'w-[fit-content]',
   },
   theme: {
     extend: {
@@ -14,10 +15,12 @@ export default defineConfig({
         mPageTitle: '24px',
         mSectionTitle: '20px',
 
-        md: '18px',
-        normal: '16px',
-        sub: '14px',
         sm: '12px',
+        sub: '14px',
+        normal: '16px',
+        md: '18px',
+        lg: '20px',
+        xl: '24px',
       },
       colors: {
         'primary-bg': 'var(--primary-bg)',
