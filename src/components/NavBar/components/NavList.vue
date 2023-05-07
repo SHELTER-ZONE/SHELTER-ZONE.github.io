@@ -1,6 +1,10 @@
 <template>
   <div class="nav-list">
-    <NavItem v-for="route in displayRoutes" :key="route.name" :route="route" />
+    <NavItem
+      v-for="route in displayRoutes"
+      :key="route.name"
+      :routeData="route"
+    />
   </div>
 </template>
 
@@ -12,6 +16,6 @@ const { displayRoutes } = useRoutes()
 
 <style scoped lang="postcss">
 .nav-list {
-  @apply flex gap-[10px];
+  @apply flex gap-[25px];
 }
 </style>
