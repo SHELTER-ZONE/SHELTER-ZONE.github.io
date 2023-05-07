@@ -23,7 +23,8 @@ export function checkExpiresIn() {
   const now = dayjs()
   const expireDate = dayjs(Number(expiresIn))
   if (expireDate.isBefore(now)) {
-    window.$message.warning('token expired, please login again !')
+    if (window.$message)
+      window.$message.warning('token expired, please login again !')
     clearUser()
   }
 }
@@ -33,9 +34,10 @@ export async function checkIsSZMember() {
   if (!oauthStore.loggedIn) return
   await oauthStore.getDCUserGuilds()
   if (oauthStore.szJoined) return
-  window.$message.warning('偵測使用者已離開 Discord Server，已自動登出', {
-    closable: true,
-    duration: 10000,
-  })
+  if (window.$message)
+    window.$message.warning('偵測使用者已離開 Discord Server，已自動登出', {
+      closable: true,
+      duration: 10000,
+    })
   oauthStore.clearUser()
 }
