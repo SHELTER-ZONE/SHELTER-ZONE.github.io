@@ -31,6 +31,8 @@ import { ChevronDown, WarningFilled } from '@vicons/carbon'
 import { get } from 'lodash-es'
 import { useAppStore } from '@/stores/app'
 
+const emits = defineEmits(['close'])
+
 const oauthStore = useOauthStore()
 const { setSignal } = useAppStore()
 
@@ -54,7 +56,7 @@ const options = computed(() => {
         h(RouterLink, { to: { name: 'profile' } }, () =>
           h(
             NButton,
-            { quaternary: true, block: true },
+            { quaternary: true, block: true, onClick: () => emits('close') },
             { default: () => '個人資料' },
           ),
         ),
@@ -68,7 +70,12 @@ const options = computed(() => {
         h(RouterLink, { to: { name: 'verify-confirm' } }, () =>
           h(
             NButton,
-            { quaternary: true, block: true, type: 'warning' },
+            {
+              quaternary: true,
+              block: true,
+              type: 'warning',
+              onClick: () => emits('close'),
+            },
             { default: () => 'SZ 驗證' },
           ),
         ),
@@ -82,7 +89,14 @@ const options = computed(() => {
       render: () =>
         h(
           NButton,
-          { quaternary: true, block: true, onClick: logout },
+          {
+            quaternary: true,
+            block: true,
+            onClick: () => {
+              emits('close')
+              logout()
+            },
+          },
           { default: () => '登出' },
         ),
     })

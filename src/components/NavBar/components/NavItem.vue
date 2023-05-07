@@ -1,5 +1,9 @@
 <template>
-  <RouterLink class="nav-item" :to="{ name: routeData.name }">
+  <RouterLink
+    class="nav-item"
+    :to="{ name: routeData.name }"
+    @click="emits('change')"
+  >
     <n-button
       text
       style="font-size: 18px"
@@ -23,6 +27,8 @@ import { computed } from 'vue'
 const props = defineProps<{
   routeData: RouteRecordRaw
 }>()
+
+const emits = defineEmits(['change'])
 
 const route = useRoute()
 const isCurRoute = computed(() => {
