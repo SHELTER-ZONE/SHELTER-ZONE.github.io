@@ -8,7 +8,7 @@ export const getHost = (hostName: string) => {
 }
 
 export const dateFormat = (
-  dateTime: string,
+  dateTime: string | Date,
   dateFormat: string = 'YYYY/MM/DD HH:mm',
 ): string => {
   return dayjs(dateTime).format(dateFormat)

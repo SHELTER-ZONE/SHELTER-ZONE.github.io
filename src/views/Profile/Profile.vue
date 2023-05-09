@@ -38,11 +38,12 @@ import { getSZUserProfile } from '@/api/szUserProfile'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { dateFormat } from '@/utils/helper'
 import { get } from 'lodash-es'
+import type { SZUserProfile } from '@shelter-zone/sz-api-types/v2/SZUserProfile'
 
 const oauthStore = useOauthStore()
 const userAvatar = computed(() => oauthStore.userAvatar)
 const szUser = computed(() => oauthStore.user.sz)
-const userProfile = ref({})
+const userProfile = ref<any>({})
 const loading = ref(true)
 
 onMounted(async () => {
