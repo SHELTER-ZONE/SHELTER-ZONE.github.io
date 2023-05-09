@@ -10,3 +10,11 @@ export const createSZUserProfile = async (payload: APISZUserProfileCreate) => {
     data: payload,
   })
 }
+
+export const getSZUserProfile = async (profileId: string) => {
+  const host = getHost('szUserProfile')
+  return await api({
+    url: `${host}/userProfile/${profileId}`,
+    method: 'GET',
+  })
+}

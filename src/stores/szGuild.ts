@@ -32,6 +32,9 @@ export const useSZGuild = defineStore('szGuild', () => {
   const openRoles = computed<SZOpenRole[]>(() => {
     return get(guildConfig.value, 'openRoles', [])
   })
+  const unverifyRole = computed<string>(() => {
+    return get(guildConfig.value, 'unverifyRole', '')
+  })
 
   const GetAllMembersCount = async () => {
     const [res, err]: any = await getAllMembersCount()
@@ -50,6 +53,7 @@ export const useSZGuild = defineStore('szGuild', () => {
     openRoles,
     GetSZInfo,
     GetOpenRoles,
+    unverifyRole,
     GetAllMembersCount,
   }
 })
