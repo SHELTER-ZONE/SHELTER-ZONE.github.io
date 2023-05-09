@@ -118,9 +118,9 @@ const giveMemberRoles = async (roles: string[]) => {
   const userId = get(oauthStore.user, 'discord.id')
   try {
     const memberRoles = await getServerMemberRoles(userId)
-    roles = roles.filter((r) => r !== szGuildStore.unverifyRole) // 移除未認證身分
     roles.push(...memberRoles)
     roles = uniq(roles)
+    roles = roles.filter((r) => r !== szGuildStore.unverifyRole) // 移除未認證身分
     const [, err]: any = await updateMember({
       userId,
       payload: { roles },
