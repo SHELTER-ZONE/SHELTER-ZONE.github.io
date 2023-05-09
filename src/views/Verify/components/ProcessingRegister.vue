@@ -45,6 +45,7 @@ import { get, uniq } from 'lodash-es'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useOauthStore } from '@/stores/oauth'
+import { useSZGuild } from '@/stores/szGuild'
 
 const props = defineProps<{
   formData: SZVerifyFormDataStruc
@@ -54,6 +55,7 @@ const emits = defineEmits(['close'])
 const router = useRouter()
 const { stack, changeStackInfo, pushStackInfo } = useStackInfo()
 const oauthStore = useOauthStore()
+const szGuildStore = useSZGuild()
 
 const showCloseBtn = ref(false)
 const errorMsg = ref<string>('')
@@ -116,6 +118,7 @@ const giveMemberRoles = async (roles: string[]) => {
   const userId = get(oauthStore.user, 'discord.id')
   try {
     const memberRoles = await getServerMemberRoles(userId)
+    roles = roles.filter((r) => r !== szGuildStore.unverifyRole) // 移除未認證身分
     roles.push(...memberRoles)
     roles = uniq(roles)
     const [, err]: any = await updateMember({
