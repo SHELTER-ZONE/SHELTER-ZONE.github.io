@@ -1,6 +1,6 @@
 <template>
   <div class="sz-verify-form">
-    <div v-show="!registering">
+    <section v-show="!registering">
       <n-form
         ref="formRef"
         :model="formData"
@@ -29,7 +29,7 @@
         </section>
 
         <section>
-          <n-form-item>
+          <n-form-item path="roles">
             <CheckBoxArea
               class="w-full"
               v-model:value="formData.roles"
@@ -40,17 +40,24 @@
           </n-form-item>
         </section>
 
-        <!-- <section class="flex justify-center">
-          <HCaptcha />
-        </section> -->
+        <section>
+          <SZTerm @agree="onAgreeTermChange" />
+        </section>
 
         <section>
-          <n-button block secondary type="primary" @click="onVerify">
-            Verify
+          <n-button
+            block
+            secondary
+            type="primary"
+            :disabled="!agreeTerm"
+            @click="onVerify"
+            size="large"
+          >
+            <p class="font-bold tracking-[1px]">Verify</p>
           </n-button>
         </section>
       </n-form>
-    </div>
+    </section>
 
     <ProcessingRegister
       v-if="registering"
@@ -71,6 +78,7 @@ import { useOauthStore } from '@/stores/oauth'
 // components
 import CheckBoxArea from '@/components/CheckBoxArea/CheckBoxArea.vue'
 import ProcessingRegister from './components/ProcessingRegister.vue'
+import SZTerm from './SZTerm.vue'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 // import HCaptcha from '@/components/HCaptcha/HCaptcha.vue'
 // config
@@ -87,6 +95,7 @@ const szGuildStore = useSZGuild()
 const { fieldTypeComponent, verifyForm } = useForm()
 
 // data
+const agreeTerm = ref(false)
 const registering = ref(false)
 const formRef = ref<FormInst | null>()
 
@@ -134,6 +143,7 @@ const formRules = computed(() => {
     name: { required: true },
     country: { required: true, trigger: 'blur' },
     from: { required: true, trigger: 'blur' },
+    roles: { required: true },
   }
 })
 
@@ -143,6 +153,9 @@ const szRoleOptions = computed<CheckBoxOption[]>(() => {
 })
 
 // methods
+const onAgreeTermChange = (agree) => {
+  agreeTerm.value = agree
+}
 const onVerify = async () => {
   const [, formError] = await verifyForm(formRef)
   if (formError) return

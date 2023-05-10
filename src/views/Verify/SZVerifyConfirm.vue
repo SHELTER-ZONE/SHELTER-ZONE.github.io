@@ -44,7 +44,7 @@ const gotoPageLink = computed(() => {
 <style scoped lang="postcss">
 .sz-verify-confirm {
   /* @apply h-100vh; */
-  @apply viewPx;
+  @apply viewPx pt-[150px];
   @apply flex flex-col gap-[30px];
   @apply justify-center items-center;
 }

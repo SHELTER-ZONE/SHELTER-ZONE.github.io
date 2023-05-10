@@ -1,18 +1,18 @@
 <template>
   <SZBlockContainer class="checkbox-area">
-    <p
-      v-if="title"
-      class="checkbox-area-title"
-      :class="{
-        'text-left': titlePosition === 'start',
-        'text-center': titlePosition === 'center',
-        'text-right': titlePosition === 'end',
-      }"
-    >
-      {{ title }}
-      <slot name="titleHint" />
-    </p>
-    <slot name="title" />
+    <slot name="title">
+      <p
+        class="checkbox-area-title"
+        :class="{
+          'text-left': titlePosition === 'start',
+          'text-center': titlePosition === 'center',
+          'text-right': titlePosition === 'end',
+        }"
+      >
+        {{ title }}
+        <slot name="titleHint" />
+      </p>
+    </slot>
     <n-checkbox-group v-model:value="syncModel">
       <div class="check-options-wrapper">
         <n-checkbox

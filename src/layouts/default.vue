@@ -1,16 +1,20 @@
 <template>
   <main class="layout default">
     <NavBar />
-    <router-view v-slot="{ Component }" class="flex-1">
-      <transition
-        @enter="pageEnter"
-        @leave="pageLeave"
-        :css="false"
-        mode="out-in"
-      >
-        <component :is="Component" />
-      </transition>
-    </router-view>
+
+    <div class="flex-1">
+      <router-view v-slot="{ Component }">
+        <transition
+          @enter="pageEnter"
+          @leave="pageLeave"
+          :css="false"
+          mode="out-in"
+        >
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
+
     <SiteFooter />
 
     <RequestSigninModal />
