@@ -23,9 +23,9 @@
 <script setup lang="ts">
 import { NAlert, NCheckbox } from 'naive-ui'
 
-const emits = defineEmits(['aggree'])
+const emits = defineEmits(['agree'])
 
-const onAgreeChange = (toggle) => {
+const onAgreeChange = (toggle: boolean) => {
   emits('agree', toggle)
 }
 </script>

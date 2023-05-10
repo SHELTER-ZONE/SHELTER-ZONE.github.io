@@ -95,8 +95,8 @@ const szGuildStore = useSZGuild()
 const { fieldTypeComponent, verifyForm } = useForm()
 
 // data
-const agreeTerm = ref(false)
-const registering = ref(false)
+const agreeTerm = ref<boolean>(false)
+const registering = ref<boolean>(false)
 const formRef = ref<FormInst | null>()
 
 const fields = ref<SZVerifyFormField[]>([
@@ -153,7 +153,7 @@ const szRoleOptions = computed<CheckBoxOption[]>(() => {
 })
 
 // methods
-const onAgreeTermChange = (agree) => {
+const onAgreeTermChange = (agree: boolean) => {
   agreeTerm.value = agree
 }
 const onVerify = async () => {
