@@ -119,8 +119,8 @@ const giveMemberRoles = async (roles: string[]) => {
   try {
     const memberRoles = await getServerMemberRoles(userId)
     roles.push(...memberRoles)
+    roles.push(szGuildStore.registeredRole) // 加上已註冊身份
     roles = uniq(roles)
-    roles = roles.filter((r) => r !== szGuildStore.unverifyRole) // 移除未認證身分
     const [, err]: any = await updateMember({
       userId,
       payload: { roles },
