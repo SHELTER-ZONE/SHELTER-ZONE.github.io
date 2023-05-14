@@ -1,27 +1,34 @@
 <template>
-  <div class="topic">
-    <SectionTitle title="Topic" />
-
-    <header class="flex justify-center gap-[20px]">
-      <div v-for="topic in topics" :key="topic.name">
-        {{ topic.name }}
-      </div>
+  <article class="topic">
+    <header>
+      <SectionTitle title="Topic" />
     </header>
 
-    <main>cwqacasc</main>
-  </div>
+    <main>
+      <TopicTabs :tabs="topics" />
+      <TopicIntro />
+    </main>
+  </article>
 </template>
 
 <script setup lang="ts">
 import SectionTitle from '@/components/Title/SectionTitle.vue'
-import { NIcon } from 'naive-ui'
-import {} from '@vicons/carbon'
+import TopicTabs from './components/TopicTabs.vue'
+import TopicIntro from './components/TopicIntro.vue'
 
 const topics = [
-  { name: 'Coding', icon: null },
-  { name: '3D', icon: null },
-  { name: '2D', icon: null },
+  { label: 'Coding', value: 'Coding', icon: null },
+  { label: '3D技術', value: '3D', icon: null },
+  { label: '2D技術', value: '2D', icon: null },
 ]
 </script>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+.topic {
+  @apply max-w-[700px] m-auto;
+}
+.topic main {
+  @apply flex flex-col gap-[30px];
+  @apply items-center;
+}
+</style>
