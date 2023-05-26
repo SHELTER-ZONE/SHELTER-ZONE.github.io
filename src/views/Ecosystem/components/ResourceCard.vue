@@ -5,7 +5,7 @@
     target="_blank"
     rel="noopener noreferrer"
   >
-    <SZBlockContainer class="full">
+    <SZBlockContainer class="full !hover:text-primary">
       <div class="flex items-center gap-[20px]">
         <n-icon :size="24"><component :is="data.icon" /></n-icon>
         <div>
