@@ -9,7 +9,7 @@
     />
     <section class="navbar-mobile-header">
       <router-link :to="{ name: 'home' }">
-        <h2 class="navbar-icon">SHELTER ZONE</h2>
+        <h2 class="navbar-icon">SZ</h2>
       </router-link>
       <n-icon v-if="!toggle" size="30" @click="toggle = true"><Menu /></n-icon>
       <n-icon v-if="toggle" size="30" @click="toggle = false"><Close /></n-icon>
