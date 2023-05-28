@@ -20,30 +20,31 @@ import banner from '@/assets/home/banner.jpg'
 }
 
 .home-banner img {
-  @apply w-full opacity-50;
+  @apply w-full h-screen;
+  @apply object-cover opacity-50;
 }
 
 .sz-main-title {
   @apply absolute top-0 left-0 right-0 bottom-0;
   @apply m-auto;
   @apply z-1;
-  @apply flex flex-col justify-center items-center gap-[15px];
-  @apply text-center text-primary text-[50px] text-shadow-lg;
+  @apply flex flex-col justify-center items-center gap-[20px];
+  @apply text-center text-primary text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-shadow-lg;
   @apply font-bold;
-  @apply tracking-[20px];
-  backdrop-filter: blur(5px);
+
+  backdrop-filter: blur(8px);
 }
 
 .sub-title {
-  @apply text-[20px];
-  @apply tracking-[10px];
-  box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.35);
-  -webkit-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.35);
-  -moz-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.35);
+  @apply text-md md:text-xl;
+}
+
+.sz-main-title, sub-title {
+  @apply tracking-widest sm:tracking-[10px] md:tracking-[20px];
 }
 
 .banner-gradient {
-  @apply w-full h-[150px];
+  @apply w-full h-[200px];
   @apply absolute left-0 right-0 bottom-0;
   background: linear-gradient(
     0deg,
