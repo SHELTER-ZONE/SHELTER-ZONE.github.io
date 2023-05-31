@@ -5,6 +5,7 @@ export default defineConfig({
     full: 'w-full h-full',
     viewPx: 'px-[30px]',
     'w-fit': 'w-[fit-content]',
+    'h-fit': 'h-[fit-content]',
   },
   theme: {
     extend: {

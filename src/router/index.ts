@@ -23,6 +23,14 @@ const router = createRouter({
       component: () => import('@/views/About/About.vue'),
     },
     {
+      path: '/sz-team',
+      name: 'szteam',
+      meta: {
+        title: '開發團隊',
+      },
+      component: () => import('@/views/SZTeam/SZTeam.vue'),
+    },
+    {
       path: '/discord/callback',
       name: 'discord callback',
       meta: { hidden: true },

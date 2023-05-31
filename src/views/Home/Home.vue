@@ -4,6 +4,7 @@
     <div class="page-wrapper">
       <Statistic />
       <TeamIntro />
+      <Topic />
     </div>
   </main>
 </template>
@@ -12,6 +13,7 @@
 import Banner from './components/Banner.vue'
 import TeamIntro from './components/TeamIntro/TeamIntro.vue'
 import Statistic from './components/Statistic/Statistic.vue'
+import Topic from './components/Topic/Topic.vue'
 </script>
 
 <style lang="postcss" scoped>
