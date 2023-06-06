@@ -269,10 +269,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.3.0.tgz#f5635b36fc0dad96ef1e542a302cd914230188c0"
   integrity sha512-IthPJsJR85GhOkp3Hvp8zFOPK5ynKn6STyHa/WZpioK7E1aYDiBzpqQPrngc14DszIUkIrdd3k9Iu0XSzlP/1w==
 
-"@shelter-zone/shelter-ui@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@shelter-zone/shelter-ui/-/shelter-ui-0.0.16.tgz#dc58a2d10972cdf5188fd46969f448e828c7962c"
-  integrity sha512-iECAXtD2dhJr6QVHDSyWOofa1Sz2WwRw6mR65T134wbp3eA2r0x55aObdEsAySAvWkSL0Ij5Yx6s8kUPJt015Q==
+"@shelter-zone/shelter-ui@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@shelter-zone/shelter-ui/-/shelter-ui-0.0.17.tgz#e44a2dd51eec52f118c4228e38bc66f39ba736d2"
+  integrity sha512-U0UDkVBxKRPoMmEcoC40jU53zceFkNqS096kYphchF7JSbnzZtiMlHW9BC0t4I8NqqDNDw0gFtghTnzTiFmt9Q==
   dependencies:
     color "^4.2.3"
     vue "^3.3.4"

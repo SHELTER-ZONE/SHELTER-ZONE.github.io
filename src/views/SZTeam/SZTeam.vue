@@ -10,6 +10,7 @@
     <div class="teams-list">
       <TeamBlock
         v-for="team in teams"
+        :data="team"
         :key="team.name"
         :team="team.name"
         :techs="team.techs"
@@ -22,11 +23,13 @@
 <script setup lang="ts">
 import TeamBlock from './components/TeamBlock.vue'
 import PageTitle from '@/components/Title/PageTitle.vue'
+import { TeamData } from './types'
 
-const teams = [
+const teams: TeamData[] = [
   {
     name: '後端開發團隊',
     type: 'backend',
+    description: '開發核心 API 服務',
     techs: [
       'vscode',
       'docker',
@@ -42,6 +45,7 @@ const teams = [
   {
     name: '前端開發團隊',
     type: 'frontend',
+    description: '官網維護、網頁應用開發',
     techs: [
       'vscode',
       'figma',
@@ -59,6 +63,7 @@ const teams = [
   {
     name: 'Discord Bot 開發團隊',
     type: 'bot',
+    description: 'SZ 專用 Discord Bot 開發',
     techs: [
       'discord',
       'vscode',

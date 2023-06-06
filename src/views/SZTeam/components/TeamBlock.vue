@@ -1,16 +1,19 @@
 <template>
   <!-- <div class="border border-light-100 h-full"> -->
   <SZBlockContainer class="team-block">
-    <article class="flex flex-col full gap-[12px]">
-      <header class="flex flex-col items-center gap-[12px]">
-        <n-icon :color="teamTypeColorConfig[type]" size="30">
-          <component :is="get(teamTypeIconConfig, type)" />
+    <article class="team-block-wrapper">
+      <header>
+        <n-icon :color="teamTypeColorConfig[data.type]" size="30">
+          <component :is="get(teamTypeIconConfig, data.type)" />
         </n-icon>
         <h2 class="team-name">
-          <span>{{ team }}</span>
+          <span>{{ data.name }}</span>
         </h2>
       </header>
-      <main class="flex-1">
+      <main>
+        <section class="team-descript">
+          <p>{{ data.description }}</p>
+        </section>
         <section>
           <p class="section-label">Tech Stack</p>
           <div class="flex flex-col gap-[20px] items-center">
@@ -38,17 +41,12 @@ import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { chunk, get } from 'lodash-es'
 import { NButton, NIcon } from 'naive-ui'
 import { teamTypeIconConfig, teamTypeColorConfig } from '@/configs/team'
-
-interface TeamBlockProps {
-  team: string
-  techs: string[]
-  type: string
-}
+import type { TeamBlockProps } from '../types'
 
 const props = defineProps<TeamBlockProps>()
 
 const techStack = computed(() => {
-  const techs = props.techs
+  const techs = get(props, 'data.techs', [])
   return chunk(techs, 4)
 })
 
@@ -68,5 +66,21 @@ const techStackImage = computed(() => {
 
 .section-label {
   @apply text-center mb-[12px];
+}
+
+.team-block-wrapper {
+  @apply flex flex-col full;
+}
+
+.team-descript {
+  @apply my-[20px] text-center;
+}
+
+.team-block-wrapper header {
+  @apply flex flex-col items-center gap-[12px];
+}
+
+.team-block-wrapper main {
+  @apply flex-1 mb-[50px];
 }
 </style>
