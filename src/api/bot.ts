@@ -41,3 +41,12 @@ export const getSZGuildInfo = async () => {
     url: `${host}/find/${SZ_SERVER_ID}`,
   })
 }
+
+// channel
+export const getAllSZChannel = async () => {
+  const host = getHost('szBot')
+  return await api({
+    method: 'GET',
+    url: `${host}/channel/${SZ_SERVER_ID}`,
+  })
+}

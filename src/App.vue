@@ -42,6 +42,7 @@ async function appInit() {
     oauthStore.findUserMe(),
     oauthStore.findSZUser(),
     szGuildStore.GetSZInfo(),
+    szGuildStore.GetAllSZChannel(),
   ])
   appStore.appLoading = false
 }

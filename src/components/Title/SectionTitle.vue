@@ -23,7 +23,7 @@
 import { withDefaults } from 'vue'
 import { NIcon } from 'naive-ui'
 
-interface props {
+export interface props {
   title: string
   position?: 'left' | 'center' | 'right'
   iconSize?: number | string
@@ -37,7 +37,7 @@ withDefaults(defineProps<props>(), {
 <style scoped lang="postcss">
 .section-title {
   @apply text-sectionTitle;
-  @apply font-medium;
+  @apply font-bold;
   @apply mb-[20px];
   @apply tablet:(mb-[40px]);
 }
