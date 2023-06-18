@@ -1,25 +1,61 @@
 <template>
   <article class="topic">
     <header>
-      <SectionTitle title="Topic" />
+      <SectionTitle title="Topic Zone" />
     </header>
 
     <main>
-      <TopicTabs :tabs="topics" />
-      <TopicIntro />
+      <TopicIntro
+        v-for="topic in topics"
+        :key="topic.name"
+        :topic="topic.topic"
+        :id="topic.id"
+        :trends="topic.trends"
+        :description="topic.description"
+        :channels="topic.channels"
+      />
     </main>
   </article>
 </template>
 
 <script setup lang="ts">
 import SectionTitle from '@/components/Title/SectionTitle.vue'
-import TopicTabs from './components/TopicTabs.vue'
 import TopicIntro from './components/TopicIntro.vue'
+import { computed } from 'vue'
+import { filter } from 'lodash-es'
+import { useSZGuild } from '@/stores/szGuild'
+
+const szGuildStore = useSZGuild()
+
+const filterCategoryChannels = (categoryId: string) => {
+  return filter(szGuildStore.channels, (ch: any) => ch.parent_id === categoryId)
+}
 
 const topics = [
-  { label: 'Coding', value: 'Coding', icon: null },
-  { label: '3D技術', value: '3D', icon: null },
-  { label: '2D技術', value: '2D', icon: null },
+  {
+    topic: '💻 程式技術 ZONE',
+    name: 'Coding',
+    id: '799927437877837824',
+    trends: 80,
+    description: 'csacascasc',
+    channels: computed(() => filterCategoryChannels('799927437877837824')),
+  },
+  {
+    topic: '📦 3D技術 ZONE',
+    name: '3D',
+    id: '799927730572623882',
+    trends: 20,
+    description: 'csacascasc',
+    channels: computed(() => filterCategoryChannels('799927730572623882')),
+  },
+  {
+    topic: '🎮 ACG ZONE',
+    name: 'ACG',
+    id: '799927616429359134',
+    trends: 10,
+    description: 'csacascasc',
+    channels: computed(() => filterCategoryChannels('799927616429359134')),
+  },
 ]
 </script>
 
@@ -28,7 +64,12 @@ const topics = [
   @apply max-w-[700px] m-auto;
 }
 .topic main {
-  @apply flex flex-col gap-[30px];
-  @apply items-center;
+  @apply flex flex-col gap-[30px] items-center;
+}
+
+@media screen and (min-width: 765px) {
+  .topic main {
+    @apply flex-row justify-center items-stretch;
+  }
 }
 </style>

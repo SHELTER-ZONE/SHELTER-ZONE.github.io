@@ -1,7 +1,7 @@
 import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { _SZ_GUILD_CONFIG_URL } from '@/configs/urls'
-import { getAllMembersCount, getSZGuildInfo } from '@/api/bot'
+import { getAllMembersCount, getSZGuildInfo, getAllSZChannel } from '@/api/bot'
 import axios from 'axios'
 import { get } from 'lodash-es'
 
@@ -13,6 +13,7 @@ export type SZOpenRole = {
 export const useSZGuild = defineStore('szGuild', () => {
   const guildConfig = ref({})
   const szInfo = ref({})
+  const channels = ref([])
   const statistic = reactive({
     members: 0,
   })
@@ -48,12 +49,20 @@ export const useSZGuild = defineStore('szGuild', () => {
     if (res) szInfo.value = res
   }
 
+  const GetAllSZChannel = async () => {
+    const [res, err]: any = await getAllSZChannel()
+    if (err) window.$message.error(err)
+    if (res) channels.value = res
+  }
+
   return {
+    channels,
     statistic,
     openRoles,
     GetSZInfo,
     GetOpenRoles,
     registeredRole,
     GetAllMembersCount,
+    GetAllSZChannel,
   }
 })
