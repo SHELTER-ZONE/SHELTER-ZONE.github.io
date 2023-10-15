@@ -1,5 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
 import { get } from 'lodash'
+import { RouteBases } from 'discord-api-types/v10'
 
 //= > api-auth
 export const api = axios.create({
@@ -13,11 +14,20 @@ export const apiAuth = axios.create({
   },
 })
 
+export const discord = axios.create({
+  baseURL: RouteBases.api,
+})
+
 api.interceptors.request.use(async (config) => {
   return config
 })
 
 apiAuth.interceptors.request.use(async (config) => {
+  config.headers.Authorization = localStorage.getItem('szUserToken')
+  return config
+})
+discord.interceptors.request.use(async (config) => {
+  config.headers.Authorization = `Bearer ${localStorage.getItem('dcUserToken')}`
   return config
 })
 
@@ -44,3 +54,4 @@ const handleErrorRes = (error: any) => {
 //= > use
 api.interceptors.response.use(handleSuccessRes, handleErrorRes)
 apiAuth.interceptors.response.use(handleSuccessRes, handleErrorRes)
+discord.interceptors.response.use(handleSuccessRes, handleErrorRes)

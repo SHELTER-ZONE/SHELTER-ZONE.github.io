@@ -6,7 +6,7 @@ import { get, find } from 'lodash-es'
 import { useStorage, StorageSerializers } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { useFetch } from '@/use/useFetch'
-import { FindMeDCUser } from '@/api/discord'
+import { FindMeDCGuilds, FindMeDCUser } from '@/api/discord'
 
 const discordAuthRedirectUrl = () =>
   `${location.protocol}//${location.host}/#/discord/callback`
@@ -58,22 +58,26 @@ export const useOauthStore = defineStore('oauth', () => {
     )
   }
 
+  async function findMeGuilds() {
+    await fetchDataToValue(FindMeDCGuilds, null, { ref: user, path: 'guilds' })
+  }
+
   async function findMeUser() {
     if (!szUserToken.value || !dcUserToken.value) return
-    await fetchDataToValue(
-      FindMeDCUser,
-      { accessToken: dcUserToken.value },
-      { ref: user, path: 'discord' },
-    )
+    await fetchDataToValue(FindMeDCUser, null, { ref: user, path: 'discord' })
     if (!get(user.discord, 'id')) {
       user.discord = null
       return
     }
-    await fetchDataToValue(
-      FindSZUser,
-      { discordId: get(user.discord, 'id') },
-      { ref: user, path: 'sz' },
-    )
+
+    await Promise.all([
+      fetchDataToValue(FindMeDCGuilds, null, { ref: user, path: 'guilds' }),
+      fetchDataToValue(
+        FindSZUser,
+        { discordId: get(user.discord, 'id') },
+        { ref: user, path: 'sz' },
+      ),
+    ])
   }
 
   async function signin() {
@@ -113,5 +117,6 @@ export const useOauthStore = defineStore('oauth', () => {
     clearUser,
     expiresIn,
     findMeUser,
+    findMeGuilds,
   }
 })

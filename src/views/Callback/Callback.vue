@@ -41,7 +41,6 @@ const emitError = (errorCode?: string | null, errorMsg?: unknown) => {
   }, redirectDelay)
 }
 const verifyCode = (code: string) => {
-  console.log(code)
   pushStackInfo({ name: 'Discord oauth code 驗證', id: 'discord-oauthing' })
   if (!code) {
     emitError('AUTH_ERROR_0')
@@ -54,8 +53,8 @@ const verifyCode = (code: string) => {
 const getDCUserGuilds = async () => {
   if (isError.value) return
   pushStackInfo({ name: '取得使用者伺服器列表', id: 'get-user-guilds' })
-  // await oauthStore.getDCUserGuilds()
-  changeStackInfo('get-user-guilds', 'resolve')
+  await oauthStore.findMeGuilds()
+  if (oauthStore.szJoined) changeStackInfo('get-user-guilds', 'resolve')
 }
 
 const checkingSZUser = async (code: string) => {
@@ -63,17 +62,7 @@ const checkingSZUser = async (code: string) => {
   if (isError.value) return
   await oauthStore.LoginSZUserByDiscord(code)
   const szUser = get(oauthStore.user, 'sz')
-  if (szUser) {
-    changeStackInfo('login-sz-user', 'resolve')
-    pushStackInfo({
-      name: `Welcome back - username`,
-      id: 'user-welcome',
-    })
-
-    setTimeout(() => {
-      router.push({ name: 'home' })
-    }, 2000)
-  }
+  if (szUser) changeStackInfo('login-sz-user', 'resolve')
   if (!szUser) {
     changeStackInfo('login-sz-user', 'error')
     emitError('AUTH_ERROR_3')
@@ -86,9 +75,9 @@ onMounted(async () => {
   code = code.replace('#', '')
 
   verifyCode(code)
-  await getDCUserGuilds()
   await checkingSZUser(code)
-  // await szLogin()
+  await getDCUserGuilds()
+  // 取得使用者 Profile
 })
 </script>
 

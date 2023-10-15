@@ -1,17 +1,15 @@
-import { api } from './instance'
-import { RouteBases } from 'discord-api-types/v10'
+import { discord } from './instance'
 
-export const FindMeDCUser = async ({
-  accessToken,
-}: {
-  accessToken: string
-}) => {
-  console.log('accessToken', accessToken)
-  return await api({
+export const FindMeDCUser = async () => {
+  return await discord({
     method: 'GET',
-    url: `${RouteBases.api}/users/@me`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    url: `/users/@me`,
+  })
+}
+
+export const FindMeDCGuilds = async () => {
+  return await discord({
+    method: 'GET',
+    url: `/users/@me/guilds`,
   })
 }
