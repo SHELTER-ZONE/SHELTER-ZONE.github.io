@@ -59,6 +59,15 @@ const router = createRouter({
       },
       component: () => import('@/views/Profile/Profile.vue'),
     },
+    {
+      path: '/test',
+      name: 'test',
+      meta: {
+        hidden: true,
+        title: '測試',
+      },
+      component: () => import('@/views/Profile/Profile.vue'),
+    },
   ],
 })
 

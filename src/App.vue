@@ -39,7 +39,6 @@ async function appInit() {
 
   if (!oauthStore.loggedIn) oauthStore.clearUser()
   await Promise.all([
-    oauthStore.findUserMe(),
     oauthStore.findSZUser(),
     szGuildStore.GetSZInfo(),
     szGuildStore.GetAllSZChannel(),

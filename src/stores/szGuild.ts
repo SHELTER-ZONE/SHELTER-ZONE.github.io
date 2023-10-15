@@ -45,6 +45,7 @@ export const useSZGuild = defineStore('szGuild', () => {
 
   const GetSZInfo = async () => {
     const [res, err]: any = await getSZGuildInfo()
+    console.log(res, err)
     if (err) window.$message.error(err)
     if (res) szInfo.value = res
   }

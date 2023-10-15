@@ -2,66 +2,32 @@ import { api } from '@/api/instance'
 import { getHost } from '@/utils/helper'
 
 export const GetDCAuthorizeUrl = async ({
-  redirectUri,
+  redirectUrl,
 }: {
-  redirectUri: string
+  redirectUrl: string
 }) => {
-  const host = getHost('szOauth')
   return await api({
     method: 'POST',
-    url: `${host}/discord/getLoginUrl`,
+    url: `/oauth/discord`,
     data: {
-      redirectUri,
+      redirectUrl,
     },
   })
 }
 
-export const GetDCAccessToken = async ({
+export const DiscordOauthLogin = async ({
   code,
-  redirectUri,
+  redirectUrl,
 }: {
   code: string
-  redirectUri: string
+  redirectUrl: string
 }) => {
-  const host = getHost('szOauth')
   return await api({
     method: 'POST',
-    url: `${host}/discord/getAccessToken`,
+    url: `/oauth/discord/login`,
     data: {
       code,
-      redirectUri,
-    },
-  })
-}
-
-export const FindMe = async (accessToken: string) => {
-  return await api({
-    method: 'get',
-    url: 'https://discord.com/api/v10/users/@me',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-}
-
-export const GetDCUserGuilds = async (accessToken: string) => {
-  return await api({
-    method: 'get',
-    url: 'https://discord.com/api/v10/users/@me/guilds',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-}
-
-export const LoginSZUser = async (accessToken: string, userId: string) => {
-  const host = getHost('szOauth')
-  return await api({
-    method: 'POST',
-    url: `${host}/login`,
-    data: {
-      accessToken,
-      userId,
+      redirectUrl,
     },
   })
 }
