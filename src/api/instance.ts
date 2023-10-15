@@ -6,7 +6,18 @@ export const api = axios.create({
   baseURL: 'https://service.shelterzone.net',
 })
 
+export const apiAuth = axios.create({
+  baseURL: 'https://service.shelterzone.net',
+  headers: {
+    Authorization: localStorage.getItem('szUserToken'),
+  },
+})
+
 api.interceptors.request.use(async (config) => {
+  return config
+})
+
+apiAuth.interceptors.request.use(async (config) => {
   return config
 })
 
@@ -32,3 +43,4 @@ const handleErrorRes = (error: any) => {
 
 //= > use
 api.interceptors.response.use(handleSuccessRes, handleErrorRes)
+apiAuth.interceptors.response.use(handleSuccessRes, handleErrorRes)

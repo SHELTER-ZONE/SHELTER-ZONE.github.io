@@ -1,7 +1,8 @@
-import { api } from './instance'
+import { api, apiAuth } from './instance'
 
-export const GetSZUser = async (discordId: string) => {
-  return await api({
+export const FindSZUser = async ({ discordId }: { discordId: string }) => {
+  console.log('discordId', discordId)
+  return await apiAuth({
     method: 'GET',
     url: `/user/${discordId}`,
   })

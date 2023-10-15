@@ -135,7 +135,7 @@ const giveMemberRoles = async (roles: string[]) => {
 const processRegister = async (data: SZVerifyFormData) => {
   await registerSZUser(data)
   await registerSZUserProfile(data)
-  await oauthStore.findSZUser()
+  // await oauthStore.findSZUser()
   await giveMemberRoles(data.roles)
 
   pushStackInfo({

@@ -39,7 +39,7 @@ async function appInit() {
 
   if (!oauthStore.loggedIn) oauthStore.clearUser()
   await Promise.all([
-    oauthStore.findSZUser(),
+    oauthStore.findMeUser(),
     szGuildStore.getSZInfo(),
     szGuildStore.getAllSZChannel(),
   ])
@@ -47,9 +47,9 @@ async function appInit() {
 }
 
 onBeforeMount(async () => {
-  checkExpiresIn()
+  // checkExpiresIn()
   appInit()
-  checkIsSZMember()
+  // checkIsSZMember()
 })
 </script>
 

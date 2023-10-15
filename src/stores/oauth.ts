@@ -1,68 +1,79 @@
 import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { DiscordOauthLogin, GetDCAuthorizeUrl } from '@/api/oauth'
-import { FindSZUser } from '@/api/user'
+import { FindSZUser } from '@/api/szUser'
 import { get, find } from 'lodash-es'
 import { useStorage, StorageSerializers } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { useFetch } from '@/use/useFetch'
+import { FindMeDCUser } from '@/api/discord'
 
 const discordAuthRedirectUrl = () =>
   `${location.protocol}//${location.host}/#/discord/callback`
 
 export const useOauthStore = defineStore('oauth', () => {
-  const { fetchDataToValue, fetchDataReturn } = useFetch()
+  const { fetchDataToValue, fetchDataReturn, fetchData } = useFetch()
 
   const user = reactive({
-    discord: useStorage('user-discord', null, undefined, {
-      serializer: StorageSerializers.object,
-    }),
-    sz: useStorage('user-sz', null, undefined, {
-      serializer: StorageSerializers.object,
-    }),
+    discord: null,
+    sz: null,
     guilds: useStorage('user-guilds', []),
   })
   const szUserToken = useStorage<string>('szUserToken', '')
+  const dcUserToken = useStorage<string>('dcUserToken', '')
   const expiresIn = useStorage<number | string>('expiresIn', '')
 
   function clearUser() {
     user.discord = null
     user.sz = null
     user.guilds = []
-    szUserToken.value = ''
-    expiresIn.value = ''
+    szUserToken.value = null
+    dcUserToken.value = null
+    expiresIn.value = null
   }
 
   async function getDCAuthorizeUrl() {
-    return await fetchDataReturn(
+    const res = await fetchDataReturn(
       GetDCAuthorizeUrl,
       { redirectUrl: discordAuthRedirectUrl() },
       null,
     )
+
+    return res
   }
 
-  async function loginSZUserByDiscord(code: string) {
-    console.log('login', code)
-    const [res, err]: any = await DiscordOauthLogin({
-      code,
-      redirectUrl: discordAuthRedirectUrl(),
-    })
-    if (err) {
-      console.log(err)
-      // TODO window.$message
-      return null
+  async function LoginSZUserByDiscord(code: string) {
+    console.log('LoginSZUserByDiscord', code)
+    await fetchData(
+      DiscordOauthLogin,
+      { code, redirectUrl: discordAuthRedirectUrl() },
+      (res: any) => {
+        const data = res.data
+        user.discord = get(data, 'dcUser')
+        dcUserToken.value = get(data, 'dcToken')
+
+        user.sz = get(data, 'user')
+        szUserToken.value = get(data, 'szToken')
+      },
+    )
+  }
+
+  async function findMeUser() {
+    if (!szUserToken.value || !dcUserToken.value) return
+    await fetchDataToValue(
+      FindMeDCUser,
+      { accessToken: dcUserToken.value },
+      { ref: user, path: 'discord' },
+    )
+    if (!get(user.discord, 'id')) {
+      user.discord = null
+      return
     }
-    user.sz = res
-    return res
-  }
-
-  async function findSZUser() {
-    if (!user.discord) return
-    const userId = get(user.discord, 'id')
-    const [res, err]: any = await FindSZUser({ userId })
-    if (err) throw err
-    user.sz = res
-    return res
+    await fetchDataToValue(
+      FindSZUser,
+      { discordId: get(user.discord, 'id') },
+      { ref: user, path: 'sz' },
+    )
   }
 
   async function signin() {
@@ -80,7 +91,7 @@ export const useOauthStore = defineStore('oauth', () => {
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
   const loggedIn = computed(() => {
-    return get(user, 'discord')
+    return szUserToken.value
   })
   const szJoined = computed(() => {
     return Boolean(find(user.guilds, { id: '445157253385814016' }))
@@ -91,10 +102,9 @@ export const useOauthStore = defineStore('oauth', () => {
 
   return {
     getDCAuthorizeUrl,
-    loginSZUserByDiscord,
+    LoginSZUserByDiscord,
     user,
     userAvatar,
-    findSZUser,
     szJoined,
     szRegistered,
     loggedIn,
@@ -102,5 +112,6 @@ export const useOauthStore = defineStore('oauth', () => {
     szUserToken,
     clearUser,
     expiresIn,
+    findMeUser,
   }
 })
