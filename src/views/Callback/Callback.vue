@@ -49,89 +49,23 @@ const verifyCode = (code: string) => {
   }
   changeStackInfo('discord-oauthing', 'resolve')
 }
-const getDCAccessToken = async (code: string) => {
-  if (isError.value) return
-  pushStackInfo({
-    name: '取得 Discord AccessToken',
-    id: 'get-discord-accesstoken',
-  })
-  await oauthStore.getDCAccessToken(code)
-  if (!oauthStore.accessToken) {
-    emitError('AUTH_ERROR_1')
-    changeStackInfo('get-discord-accesstoken', 'error')
-    return
-  }
-  changeStackInfo('get-discord-accesstoken', 'resolve')
-}
-const findDCUser = async () => {
-  if (isError.value) return
-  pushStackInfo({ name: '查詢 Discord 使用者', id: 'find-discord-user' })
-  try {
-    const user = await oauthStore.findUserMe()
-    if (user) changeStackInfo('find-discord-user', 'resolve')
-    if (!user) {
-      changeStackInfo('find-discord-user', 'warning')
-      emitError('AUTH_ERROR_2')
-    }
-  } catch (error) {
-    changeStackInfo('find-discord-user', 'error')
-    emitError(null, error)
-  }
-}
-const findSZUser = async () => {
-  if (isError.value) return
-  pushStackInfo({ name: '查詢 SZ 使用者', id: 'find-sz-user' })
-  try {
-    const user = await oauthStore.findSZUser()
-    if (user) changeStackInfo('find-sz-user', 'resolve')
-    if (!user) {
-      changeStackInfo('find-sz-user', 'warning')
-    }
-  } catch (error) {
-    changeStackInfo('find-sz-user', 'error')
-    emitError(null, error)
-  }
-}
+
 const getDCUserGuilds = async () => {
   if (isError.value) return
   pushStackInfo({ name: '取得使用者伺服器列表', id: 'get-user-guilds' })
-  await oauthStore.getDCUserGuilds()
-  changeStackInfo('get-user-guilds', 'resolve')
+  await oauthStore.findMeGuilds()
+  if (oauthStore.szJoined) changeStackInfo('get-user-guilds', 'resolve')
 }
 
-const checkingSZUser = () => {
-  if (isError.value) return
-  const szUser = get(oauthStore.user, 'sz')
-  if (szUser) return
-  pushStackInfo({
-    name: '未驗證 SZ 使用者',
-    id: 'notfound-sz-user',
-    state: 'warning',
-  })
-  pushStackInfo({ name: '前往認證確認頁面', id: 'redirect-to-sz-verify' })
-  needVerify.value = true
-  setTimeout(() => {
-    router.replace({ name: 'verify-confirm' })
-  }, redirectDelay)
-}
-
-const szLogin = async () => {
-  if (isError.value || needVerify.value) return
+const checkingSZUser = async (code: string) => {
   pushStackInfo({ name: `SZ 使用者登入`, id: 'login-sz-user' })
-  try {
-    await oauthStore.loginSZUser()
-    changeStackInfo('login-sz-user', 'resolve')
-    const dcUser = get(oauthStore.user, 'discord')
-    pushStackInfo({
-      name: `Welcome back - ${get(dcUser, 'username')}`,
-      id: 'user-welcome',
-    })
-    setTimeout(() => {
-      router.replace({ name: 'home' })
-    }, redirectDelay)
-  } catch (error) {
+  if (isError.value) return
+  await oauthStore.LoginSZUserByDiscord(code)
+  const szUser = get(oauthStore.user, 'sz')
+  if (szUser) changeStackInfo('login-sz-user', 'resolve')
+  if (!szUser) {
     changeStackInfo('login-sz-user', 'error')
-    emitError(null, error)
+    emitError('AUTH_ERROR_3')
   }
 }
 
@@ -141,12 +75,9 @@ onMounted(async () => {
   code = code.replace('#', '')
 
   verifyCode(code)
-  await getDCAccessToken(code)
-  await findDCUser()
+  await checkingSZUser(code)
   await getDCUserGuilds()
-  await findSZUser()
-  checkingSZUser()
-  await szLogin()
+  // 取得使用者 Profile
 })
 </script>
 

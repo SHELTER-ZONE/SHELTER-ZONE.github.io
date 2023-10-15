@@ -1,12 +1,9 @@
-import { api } from './instance'
-import { getHost } from '@/utils/helper'
-import type { APISZUserCreate } from '@shelter-zone/sz-api-types/v2'
+import { api, apiAuth } from './instance'
 
-export const createSZUser = async (payload: APISZUserCreate) => {
-  const host = getHost('szUser')
-  return await api({
-    url: `${host}/user`,
-    method: 'POST',
-    data: payload,
+export const FindSZUser = async ({ discordId }: { discordId: string }) => {
+  console.log('discordId', discordId)
+  return await apiAuth({
+    method: 'GET',
+    url: `/user/${discordId}`,
   })
 }
