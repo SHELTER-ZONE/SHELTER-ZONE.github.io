@@ -26,7 +26,7 @@ export const updateMember = async ({
   })
 }
 
-export const getAllMembersCount = async () => {
+export const GetAllMembersCount = async () => {
   const host = getHost('szBot')
   return await api({
     method: 'GET',
@@ -34,7 +34,7 @@ export const getAllMembersCount = async () => {
   })
 }
 
-export const getSZGuildInfo = async () => {
+export const GetSZGuildInfo = async () => {
   const host = getHost('szBot')
   return await api({
     method: 'GET',
@@ -43,7 +43,7 @@ export const getSZGuildInfo = async () => {
 }
 
 // channel
-export const getAllSZChannel = async () => {
+export const GetAllSZChannel = async () => {
   const host = getHost('szBot')
   return await api({
     method: 'GET',

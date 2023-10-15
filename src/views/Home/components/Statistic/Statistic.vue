@@ -52,7 +52,7 @@ const szDuration = computed(() => {
 })
 
 onMounted(async () => {
-  szGuildStore.GetAllMembersCount()
+  szGuildStore.getAllMembersCount()
 })
 </script>
 

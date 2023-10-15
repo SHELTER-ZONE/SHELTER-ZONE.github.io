@@ -1,9 +1,10 @@
 import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { _SZ_GUILD_CONFIG_URL } from '@/configs/urls'
-import { getAllMembersCount, getSZGuildInfo, getAllSZChannel } from '@/api/bot'
+import { GetAllMembersCount, GetSZGuildInfo, GetAllSZChannel } from '@/api/bot'
 import axios from 'axios'
 import { get } from 'lodash-es'
+import { useFetch } from '@/use/useFetch'
 
 export type SZOpenRole = {
   name: string
@@ -11,6 +12,7 @@ export type SZOpenRole = {
 }
 
 export const useSZGuild = defineStore('szGuild', () => {
+  const { fetchDataToValue } = useFetch()
   const guildConfig = ref({})
   const szInfo = ref({})
   const channels = ref([])
@@ -37,33 +39,36 @@ export const useSZGuild = defineStore('szGuild', () => {
     return get(guildConfig.value, 'registeredRole', '')
   })
 
-  const GetAllMembersCount = async () => {
-    const [res, err]: any = await getAllMembersCount()
-    if (err) window.$message.error(err)
-    if (res) statistic.members = res
+  const getAllMembersCount = async () => {
+    await fetchDataToValue(
+      GetAllMembersCount,
+      null,
+      { ref: statistic, path: 'members' },
+      null,
+      { toastError: true },
+    )
   }
 
-  const GetSZInfo = async () => {
-    const [res, err]: any = await getSZGuildInfo()
-    console.log(res, err)
-    if (err) window.$message.error(err)
-    if (res) szInfo.value = res
+  const getSZInfo = async () => {
+    await fetchDataToValue(GetSZGuildInfo, null, { ref: szInfo }, null, {
+      toastError: true,
+    })
   }
 
-  const GetAllSZChannel = async () => {
-    const [res, err]: any = await getAllSZChannel()
-    if (err) window.$message.error(err)
-    if (res) channels.value = res
+  const getAllSZChannel = async () => {
+    await fetchDataToValue(GetAllSZChannel, null, { ref: channels }, null, {
+      toastError: true,
+    })
   }
 
   return {
     channels,
     statistic,
     openRoles,
-    GetSZInfo,
+    getSZInfo,
     GetOpenRoles,
     registeredRole,
-    GetAllMembersCount,
-    GetAllSZChannel,
+    getAllMembersCount,
+    getAllSZChannel,
   }
 })
