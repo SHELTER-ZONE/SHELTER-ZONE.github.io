@@ -34,22 +34,25 @@
 import { useOauthStore } from '@/stores/oauth'
 import { computed, onMounted, ref } from 'vue'
 import { NSpin, NForm, NFormItem } from 'naive-ui'
-import { getSZUserProfile } from '@/api/szUserProfile'
+import { GetSZUserProfile } from '@/api/szUserProfile'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { dateFormat } from '@/utils/helper'
 import { get } from 'lodash-es'
-import type { SZUserProfile } from '@shelter-zone/sz-api-types/v2/SZUserProfile'
+import { useFetch } from '@/use/useFetch'
 
 const oauthStore = useOauthStore()
+const { fetchDataToValue } = useFetch()
 const userAvatar = computed(() => oauthStore.userAvatar)
 const szUser = computed(() => oauthStore.user.sz)
 const userProfile = ref<any>({})
 const loading = ref(true)
 
 onMounted(async () => {
-  const userProfileId = get(szUser.value, 'profiles.userProfile')
-  const [res, err]: any = await getSZUserProfile(userProfileId)
-  userProfile.value = res
+  fetchDataToValue(
+    GetSZUserProfile,
+    { id: oauthStore.user.sz.id },
+    { ref: userProfile },
+  )
   loading.value = false
 })
 </script>

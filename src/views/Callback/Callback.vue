@@ -54,7 +54,7 @@ const getDCUserGuilds = async () => {
   if (isError.value) return
   pushStackInfo({ name: '取得使用者伺服器列表', id: 'get-user-guilds' })
   await oauthStore.findMeGuilds()
-  if (oauthStore.szJoined) changeStackInfo('get-user-guilds', 'resolve')
+  changeStackInfo('get-user-guilds', 'resolve')
 }
 
 const checkingSZUser = async (code: string) => {
