@@ -3,25 +3,32 @@ import { get, set } from 'lodash-es'
 
 interface FetchDataOptions {
   toastError?: boolean
-  console?: boolean
+  consoleRes?: boolean
 }
+
+const defaultOptions = (options?: FetchDataOptions): FetchDataOptions => ({
+  toastError: true,
+  consoleRes: true,
+  ...options,
+})
 
 export const useFetch = () => {
   const fetchData = async <P>(
     apiMethod: Function,
     payload: P | null,
     onSuccess: Function,
-    onError: Function,
+    onError?: Function,
     options?: FetchDataOptions,
   ) => {
+    options = defaultOptions(options)
     const [res, err]: any = await apiMethod(payload)
-    if (options?.console) console.log(res, err)
+    if (options?.consoleRes) console.log(res, err)
     if (res) {
       await onSuccess(res)
     }
     if (err) {
       if (options?.toastError) window.$message.error(err)
-      await onError(err)
+      if (onError) await onError(err)
     }
   }
 
@@ -35,13 +42,12 @@ export const useFetch = () => {
     dataPath?: string | null,
     options?: FetchDataOptions,
   ) => {
+    options = defaultOptions(options)
     const [res, err]: any = await apiMethod(payload)
-    if (options?.console) console.log(res, err)
+    if (options?.consoleRes) console.log(res, err)
     if (res) {
       let data = res.data
       if (dataPath) data = get(res.data, dataPath)
-      console.log(valueRef)
-      console.log(isReactive(valueRef))
       if (isRef(valueRef.ref)) valueRef.ref.value = data
       if (isReactive(valueRef.ref))
         set(valueRef.ref, valueRef.path as string, data)
@@ -51,5 +57,24 @@ export const useFetch = () => {
     }
   }
 
-  return { fetchData, fetchDataToValue }
+  const fetchDataReturn = async <P>(
+    apiMethod: Function,
+    payload: P | null,
+    returnDataPath: string | null,
+    options?: FetchDataOptions,
+  ) => {
+    options = defaultOptions(options)
+    const [res, err]: any = await apiMethod(payload)
+    if (options?.consoleRes) console.log(res, err)
+    if (res) {
+      if (returnDataPath) return get(res.data, returnDataPath)
+      return res.data
+    }
+    if (err) {
+      if (options?.toastError) window.$message.error(err)
+      return null
+    }
+  }
+
+  return { fetchData, fetchDataToValue, fetchDataReturn }
 }

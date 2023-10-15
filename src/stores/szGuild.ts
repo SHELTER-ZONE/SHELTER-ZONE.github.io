@@ -45,20 +45,15 @@ export const useSZGuild = defineStore('szGuild', () => {
       null,
       { ref: statistic, path: 'members' },
       null,
-      { toastError: true },
     )
   }
 
   const getSZInfo = async () => {
-    await fetchDataToValue(GetSZGuildInfo, null, { ref: szInfo }, null, {
-      toastError: true,
-    })
+    await fetchDataToValue(GetSZGuildInfo, null, { ref: szInfo }, null)
   }
 
   const getAllSZChannel = async () => {
-    await fetchDataToValue(GetAllSZChannel, null, { ref: channels }, null, {
-      toastError: true,
-    })
+    await fetchDataToValue(GetAllSZChannel, null, { ref: channels }, null)
   }
 
   return {

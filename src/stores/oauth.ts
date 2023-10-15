@@ -5,12 +5,14 @@ import { FindSZUser } from '@/api/user'
 import { get, find } from 'lodash-es'
 import { useStorage, StorageSerializers } from '@vueuse/core'
 import dayjs from 'dayjs'
+import { useFetch } from '@/use/useFetch'
 
 const discordAuthRedirectUrl = () =>
   `${location.protocol}//${location.host}/#/discord/callback`
 
 export const useOauthStore = defineStore('oauth', () => {
-  // const user = ref(null)
+  const { fetchDataToValue, fetchDataReturn } = useFetch()
+
   const user = reactive({
     discord: useStorage('user-discord', null, undefined, {
       serializer: StorageSerializers.object,
@@ -32,15 +34,11 @@ export const useOauthStore = defineStore('oauth', () => {
   }
 
   async function getDCAuthorizeUrl() {
-    const [res, err]: any = await GetDCAuthorizeUrl({
-      redirectUrl: discordAuthRedirectUrl(),
-    })
-    if (err) {
-      console.log(err)
-      // TODO window.$message
-      return null
-    }
-    return res
+    return await fetchDataReturn(
+      GetDCAuthorizeUrl,
+      { redirectUrl: discordAuthRedirectUrl() },
+      null,
+    )
   }
 
   async function loginSZUserByDiscord(code: string) {
