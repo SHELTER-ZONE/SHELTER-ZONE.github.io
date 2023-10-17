@@ -1,20 +1,39 @@
 <template>
   <main class="callback full">
-    <SZBlockContainer class="process-info-wrapper">
+    <!-- <SZBlockContainer class="process-info-wrapper">
       <StackInfo v-model:value="stack" />
-    </SZBlockContainer>
+      <Loading />
+    </SZBlockContainer> -->
+    <div class="flex flex-col">
+      <img
+        class="rounded-[7px]"
+        src="https://i.pinimg.com/originals/0b/5c/c0/0b5cc024841accd9a31a7b2daeb0e57b.gif"
+      />
+      <!-- <img
+        class="rounded-[7px]"
+        src="https://i.pinimg.com/originals/49/1e/cf/491ecfcebd2192e29b758ca798717ec6.gif"
+      /> -->
+      <div class="flex items-center justify-center gap-[5px]">
+        <p class="text-center py-[30px]">
+          驗證 SZ 避難者信息中，請稍後片刻 uwu
+        </p>
+      </div>
+      <n-spin :size="20" />
+    </div>
   </main>
 </template>
 
 <script setup lang="ts">
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import StackInfo from '@/components/StackInfo/StackInfo.vue'
+import Loading from '@/components/Loading.vue'
 import { useStackInfo } from '@/use/useStackInfo'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { get } from 'lodash-es'
 import { useOauthStore } from '@/stores/oauth'
 import { useAppStore } from '@/stores/app'
+import { NSpin } from 'naive-ui'
 
 const router = useRouter()
 const oauthStore = useOauthStore()
@@ -41,30 +60,22 @@ const emitError = (errorCode?: string | null, errorMsg?: unknown) => {
   }, redirectDelay)
 }
 const verifyCode = (code: string) => {
-  pushStackInfo({ name: 'Discord oauth code 驗證', id: 'discord-oauthing' })
   if (!code) {
     emitError('AUTH_ERROR_0')
-    changeStackInfo('discord-oauthing', 'error')
     return
   }
-  changeStackInfo('discord-oauthing', 'resolve')
 }
 
 const getDCUserGuilds = async () => {
   if (isError.value) return
-  pushStackInfo({ name: '取得使用者伺服器列表', id: 'get-user-guilds' })
   await oauthStore.findMeGuilds()
-  changeStackInfo('get-user-guilds', 'resolve')
 }
 
 const checkingSZUser = async (code: string) => {
-  pushStackInfo({ name: `SZ 使用者登入`, id: 'login-sz-user' })
   if (isError.value) return
   await oauthStore.LoginSZUserByDiscord(code)
   const szUser = get(oauthStore.user, 'sz')
-  if (szUser) changeStackInfo('login-sz-user', 'resolve')
   if (!szUser) {
-    changeStackInfo('login-sz-user', 'error')
     emitError('AUTH_ERROR_3')
   }
 }
