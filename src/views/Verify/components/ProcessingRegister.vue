@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="processing-register">
     <n-collapse-transition appear :show="true">
       <SZBlockContainer class="process-info-wrapper">
@@ -36,7 +36,7 @@ import { useStackInfo } from '@/use/useStackInfo'
 import { NButton, NIcon, NCollapseTransition } from 'naive-ui'
 import { CloseFilled } from '@vicons/carbon'
 // api
-import { createSZUserProfile } from '@/api/szUserProfile'
+// import { createSZUserProfile } from '@/api/szUserProfile'
 import { updateMember, findMember } from '@/api/bot'
 // types
 import type { SZVerifyFormData, SZVerifyFormDataStruc } from '../types'
@@ -153,4 +153,4 @@ onMounted(async () => {
   @apply min-h-[200px];
   @apply flex flex-col;
 }
-</style>
+</style> -->

@@ -5,10 +5,7 @@
       <Loading />
     </SZBlockContainer> -->
     <div class="flex flex-col">
-      <img
-        class="rounded-[7px]"
-        src="https://i.pinimg.com/originals/0b/5c/c0/0b5cc024841accd9a31a7b2daeb0e57b.gif"
-      />
+      <img class="rounded-[7px]" src="https://i.pinimg.com/originals/0b/5c/c0/0b5cc024841accd9a31a7b2daeb0e57b.gif" />
       <!-- <img
         class="rounded-[7px]"
         src="https://i.pinimg.com/originals/49/1e/cf/491ecfcebd2192e29b758ca798717ec6.gif"
@@ -34,6 +31,7 @@ import { get } from 'lodash-es'
 import { useOauthStore } from '@/stores/oauth'
 import { useAppStore } from '@/stores/app'
 import { NSpin } from 'naive-ui'
+import notifyMessage from '@/configs/notifyMessage'
 
 const router = useRouter()
 const oauthStore = useOauthStore()
@@ -88,7 +86,12 @@ onMounted(async () => {
   verifyCode(code)
   await checkingSZUser(code)
   await getDCUserGuilds()
-  // 取得使用者 Profile
+
+  // getUserProfile
+  // no profile -> 尚未驗證
+
+  window.$message.success(notifyMessage.loginSuccess)
+  router.push({ name: 'home' })
 })
 </script>
 
