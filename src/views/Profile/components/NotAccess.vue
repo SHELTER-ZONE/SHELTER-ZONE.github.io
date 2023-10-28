@@ -1,16 +1,11 @@
 <template>
-  <SZBlockContainer class="w-full">
+  <SZBlockContainer>
     <div class="flex flex-col justify-center items-center gap-[20px] py-[40px]">
       <n-icon :size="48"><Campsite /></n-icon>
       <div class="flex flex-col items-center">
         <n-icon :size="20" color="var(--danger)"><Locked /></n-icon>
         <p class="text-danger">cacascascsacsa</p>
       </div>
-
-      <!-- <div>
-        <n-button>cascsac</n-button>
-        <n-button>cascsac</n-button>
-      </div> -->
     </div>
   </SZBlockContainer>
 </template>

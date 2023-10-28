@@ -3,6 +3,8 @@
     <!-- <n-spin :show="loading"> -->
     <NotAccess v-if="!szUserProfile" />
 
+    <JoinServer />
+
     <SZBlockContainer v-if="szUserProfile">
       <header class="profile-header">
         <img
@@ -39,6 +41,7 @@ import { NSpin, NForm, NFormItem } from 'naive-ui'
 import { GetSZUserProfile } from '@/api/szUserProfile'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import NotAccess from './components/NotAccess.vue'
+import JoinServer from './components/JoinServer.vue'
 import { dateFormat } from '@/utils/helper'
 import { get } from 'lodash-es'
 import { useFetch } from '@/use/useFetch'
