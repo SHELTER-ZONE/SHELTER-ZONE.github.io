@@ -1,32 +1,34 @@
 <template>
   <main class="profile">
-    <n-spin :show="loading">
-      <SZBlockContainer>
-        <header class="profile-header">
-          <img
-            class="user-avatar"
-            :src="`${userAvatar}?size=1024`"
-            alt="discord user avatar"
-          />
+    <!-- <n-spin :show="loading"> -->
+    <NotAccess v-if="!szUserProfile" />
 
-          <div class="header-info">
-            <div>
-              <p class="user-name">{{ userProfile.name }}</p>
-              <p>{{ dateFormat(userProfile.createdAt) }}</p>
-            </div>
+    <SZBlockContainer v-if="szUserProfile">
+      <header class="profile-header">
+        <img
+          class="user-avatar"
+          :src="`${userAvatar}?size=1024`"
+          alt="discord user avatar"
+        />
 
-            <div>
-              <p>{{ userProfile.from }}</p>
-              <p>{{ userProfile.country }}</p>
-            </div>
-
-            <div>
-              <p>🌟Rep: {{ userProfile.rep }}</p>
-            </div>
+        <div class="header-info">
+          <div>
+            <p class="user-name">{{ userProfile.name }}</p>
+            <p>{{ dateFormat(userProfile.createdAt) }}</p>
           </div>
-        </header>
-      </SZBlockContainer>
-    </n-spin>
+
+          <div>
+            <p>{{ userProfile.from }}</p>
+            <p>{{ userProfile.country }}</p>
+          </div>
+
+          <div>
+            <p>🌟Rep: {{ userProfile.rep }}</p>
+          </div>
+        </div>
+      </header>
+    </SZBlockContainer>
+    <!-- </n-spin> -->
   </main>
 </template>
 
@@ -36,6 +38,7 @@ import { computed, onMounted, ref } from 'vue'
 import { NSpin, NForm, NFormItem } from 'naive-ui'
 import { GetSZUserProfile } from '@/api/szUserProfile'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
+import NotAccess from './components/NotAccess.vue'
 import { dateFormat } from '@/utils/helper'
 import { get } from 'lodash-es'
 import { useFetch } from '@/use/useFetch'
@@ -44,17 +47,10 @@ const oauthStore = useOauthStore()
 const { fetchDataToValue } = useFetch()
 const userAvatar = computed(() => oauthStore.userAvatar)
 const szUser = computed(() => oauthStore.user.sz)
-const userProfile = ref<any>({})
-const loading = ref(true)
+const userProfile = computed(() => get(oauthStore.user, 'sz.UserProfile') || {})
+// const loading = ref(true)
 
-onMounted(async () => {
-  fetchDataToValue(
-    GetSZUserProfile,
-    { id: oauthStore.user.sz.id },
-    { ref: userProfile },
-  )
-  loading.value = false
-})
+onMounted(async () => {})
 </script>
 
 <style scoped lang="postcss">

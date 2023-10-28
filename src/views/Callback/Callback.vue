@@ -77,6 +77,7 @@ const checkingSZUser = async (code: string) => {
   const szUser = get(oauthStore.user, 'sz')
   if (!szUser) {
     emitError('AUTH_ERROR_3')
+    return
   }
 }
 
@@ -87,8 +88,8 @@ onMounted(async () => {
 
   verifyCode(code)
   await checkingSZUser(code)
-  await getDCUserGuilds()
-  // 取得使用者 Profile
+  getDCUserGuilds()
+  if (!isError.value) router.push({ name: 'home' })
 })
 </script>
 

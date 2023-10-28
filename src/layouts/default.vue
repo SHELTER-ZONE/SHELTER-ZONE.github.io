@@ -4,14 +4,14 @@
 
     <div class="flex-1">
       <router-view v-slot="{ Component }">
-        <transition
+        <!-- <transition
           @enter="pageEnter"
           @leave="pageLeave"
           :css="false"
           mode="out-in"
-        >
-          <component :is="Component" />
-        </transition>
+        > -->
+        <component :is="Component" />
+        <!-- </transition> -->
       </router-view>
     </div>
 
@@ -57,12 +57,12 @@ const pageLeave = (el: HTMLElement, done: AnimeCallbackFunction) => {
 
 onMounted(() => {
   window.$message = useMessage()
-  anime({
-    targets: '.layout',
-    opacity: [0, 1],
-    easing: 'easeInOutSine',
-    duration: 1500,
-  })
+  // anime({
+  //   targets: '.layout',
+  //   opacity: [0, 1],
+  //   easing: 'easeInOutSine',
+  //   duration: 1500,
+  // })
 })
 </script>
 

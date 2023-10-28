@@ -22,11 +22,11 @@ api.interceptors.request.use(async (config) => {
   return config
 })
 
-apiAuth.interceptors.request.use(async (config) => {
+apiAuth.interceptors.request.use((config) => {
   config.headers.Authorization = localStorage.getItem('szUserToken')
   return config
 })
-discord.interceptors.request.use(async (config) => {
+discord.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem('dcUserToken')}`
   return config
 })

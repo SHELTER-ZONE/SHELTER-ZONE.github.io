@@ -2,18 +2,20 @@
   <div class="user-options">
     <LoginBtn v-if="!dcUser" />
 
-    <NDropdown v-if="dcUser" trigger="hover" :options="options">
+    <NDropdown
+      v-if="dcUser"
+      trigger="click"
+      :options="options"
+      @select="onOptionSelect"
+    >
       <n-button class="user-btn" quaternary>
-        <template #icon v-if="!szRegistered">
-          <n-icon :size="18" color="var(--warning)"><WarningFilled /></n-icon>
+        <template #icon v-if="!szUserProfile">
+          <n-icon :size="24" color="var(--warning)"><WarningFilled /></n-icon>
         </template>
         <n-button type="primary" text>
-          <template #icon>
-            <img class="user-avatar" :src="userAvatar" alt="" srcset="" />
-          </template>
-          <div class="flex gap-[10px] text-md">
-            <p>{{ dcUserName }}</p>
-            <NIcon><ChevronDown /></NIcon>
+          <div class="flex items-center gap-[10px]">
+            <n-avatar :src="userAvatar" />
+            <n-icon :size="18"><ChevronDown /></n-icon>
           </div>
         </n-button>
       </n-button>
@@ -25,11 +27,12 @@
 import LoginBtn from './LoginBtn.vue'
 import { computed, h } from 'vue'
 import { RouterLink } from 'vue-router'
-import { NButton, NDropdown, NIcon } from 'naive-ui'
+import { NButton, NDropdown, NIcon, NAvatar } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
 import { ChevronDown, WarningFilled } from '@vicons/carbon'
 import { get } from 'lodash-es'
 import { useAppStore } from '@/stores/app'
+import router from '@/router'
 
 const emits = defineEmits(['close'])
 
@@ -39,74 +42,44 @@ const { setSignal } = useAppStore()
 const dcUser = computed(() => oauthStore.user.discord)
 const userAvatar = computed(() => oauthStore.userAvatar)
 const dcUserName = computed(() => get(dcUser.value, 'username'))
-const szRegistered = computed(() => oauthStore.szRegistered)
+const szUserProfile = computed(() => get(oauthStore.user, 'sz.userProfile'))
 
 const logout = () => {
   setSignal('signoutConfirm', true)
 }
 
 const options = computed(() => {
-  const options = []
-
-  if (oauthStore.user.sz)
-    options.push({
-      key: 'profile',
-      type: 'render',
-      render: () =>
-        h(RouterLink, { to: { name: 'profile' } }, () =>
-          h(
-            NButton,
-            { quaternary: true, block: true, onClick: () => emits('close') },
-            { default: () => '個人資料' },
-          ),
-        ),
-    })
-
-  if (!oauthStore.szRegistered)
-    options.push({
-      key: 'profile',
-      type: 'render',
-      render: () =>
-        h(RouterLink, { to: { name: 'verify-confirm' } }, () =>
-          h(
-            NButton,
-            {
-              quaternary: true,
-              block: true,
-              type: 'warning',
-              onClick: () => emits('close'),
-            },
-            { default: () => 'SZ 驗證' },
-          ),
-        ),
-    })
-
-  if (oauthStore.user.discord)
-    options.push({
+  const options = [
+    {
+      label: '使用者避難所',
+      key: 'user-profile',
+    },
+    {
       label: '登出',
       key: 'logout',
-      type: 'render',
-      render: () =>
-        h(
-          NButton,
-          {
-            quaternary: true,
-            block: true,
-            onClick: () => {
-              emits('close')
-              logout()
-            },
-          },
-          { default: () => '登出' },
-        ),
-    })
-
+    },
+  ]
   return options
 })
+
+const onOptionSelect = (key: string) => {
+  switch (key) {
+    case 'user-profile':
+      router.push({ name: 'profile' })
+      break
+    case 'logout':
+      logout()
+      break
+  }
+}
 </script>
 
 <style scoped lang="postcss">
 .user-btn {
-  @apply flex items-center gap-[5px];
+  @apply flex items-center gap-[10px];
+}
+
+.user-avatar {
+  @apply h-[34px] rounded-md;
 }
 </style>
