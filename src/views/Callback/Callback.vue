@@ -34,6 +34,7 @@ import { get } from 'lodash-es'
 import { useOauthStore } from '@/stores/oauth'
 import { useAppStore } from '@/stores/app'
 import { NSpin } from 'naive-ui'
+import notifyMessage from '@/configs/notifyMessage'
 
 const router = useRouter()
 const oauthStore = useOauthStore()
@@ -89,7 +90,10 @@ onMounted(async () => {
   verifyCode(code)
   await checkingSZUser(code)
   getDCUserGuilds()
-  if (!isError.value) router.push({ name: 'home' })
+  if (!isError.value) {
+    window.$message.success(notifyMessage.loginSuccess)
+    router.push({ name: 'home' })
+  }
 })
 </script>
 
