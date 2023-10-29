@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="processing-register">
     <n-collapse-transition appear :show="true">
       <SZBlockContainer class="process-info-wrapper">
@@ -36,8 +36,7 @@ import { useStackInfo } from '@/use/useStackInfo'
 import { NButton, NIcon, NCollapseTransition } from 'naive-ui'
 import { CloseFilled } from '@vicons/carbon'
 // api
-import { createSZUser } from '@/api/szUser'
-import { createSZUserProfile } from '@/api/szUserProfile'
+// import { createSZUserProfile } from '@/api/szUserProfile'
 import { updateMember, findMember } from '@/api/bot'
 // types
 import type { SZVerifyFormData, SZVerifyFormDataStruc } from '../types'
@@ -67,21 +66,6 @@ const emitError = (stackId: string, msg: string) => {
     showCloseBtn.value = true
   }, 500)
   throw msg
-}
-
-const registerSZUser = async (data: SZVerifyFormData) => {
-  pushStackInfo({ name: '建立 SZ 使用者', id: 'creating-sz-user' })
-  const [, err]: any = await createSZUser({
-    userId: data.id,
-    type: 'user',
-  })
-  if (err) {
-    if (err.code === 'USER_EXIST') {
-      changeStackInfo('creating-sz-user', 'resolve')
-      return
-    } else emitError('creating-sz-user', err.message)
-  }
-  changeStackInfo('creating-sz-user', 'resolve')
 }
 
 const registerSZUserProfile = async (data: SZVerifyFormData) => {
@@ -133,7 +117,6 @@ const giveMemberRoles = async (roles: string[]) => {
 }
 
 const processRegister = async (data: SZVerifyFormData) => {
-  await registerSZUser(data)
   await registerSZUserProfile(data)
   // await oauthStore.findSZUser()
   await giveMemberRoles(data.roles)
@@ -170,4 +153,4 @@ onMounted(async () => {
   @apply min-h-[200px];
   @apply flex flex-col;
 }
-</style>
+</style> -->

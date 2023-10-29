@@ -25,6 +25,7 @@ export default defineConfig({
       },
       colors: {
         'primary-bg': 'var(--primary-bg)',
+        'secondary-bg': 'var(--secondary-bg)',
         primary: 'var(--primary)',
         base: 'var(--base)',
         danger: 'var(--danger)',

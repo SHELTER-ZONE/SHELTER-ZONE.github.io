@@ -1,0 +1,3 @@
+.topic-title {
+    @apply text-[30px] tracking-[2.5px] font-medium;
+}
