@@ -8,6 +8,7 @@ import messages from './locale'
 
 import 'virtual:windi.css'
 import './assets/base.css'
+import '@/styles/index.css'
 import '@shelter-zone/shelter-ui/style'
 
 const i18n = createI18n({

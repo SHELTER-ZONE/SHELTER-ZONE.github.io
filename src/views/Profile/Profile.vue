@@ -1,10 +1,5 @@
 <template>
   <main class="profile">
-    <!-- <n-spin :show="loading"> -->
-    <div>
-      <JoinServer />
-      <RegisterProfileWarn />
-    </div>
     <NotAccess v-if="!szUserProfile" />
 
     <SZBlockContainer v-if="szUserProfile">
@@ -43,8 +38,6 @@ import { NSpin, NForm, NFormItem } from 'naive-ui'
 import { GetSZUserProfile } from '@/api/szUserProfile'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import NotAccess from './components/NotAccess.vue'
-import RegisterProfileWarn from './components/RegisterProfileWarn.vue'
-import JoinServer from './components/JoinServer.vue'
 import { dateFormat } from '@/utils/helper'
 import { get } from 'lodash-es'
 import { useFetch } from '@/use/useFetch'
@@ -62,7 +55,7 @@ onMounted(async () => {})
 <style scoped lang="postcss">
 .profile {
   @apply pt-[100px] px-[50px];
-  @apply flex flex-col;
+  @apply flex flex-col gap-[30px];
   @apply justify-center items-center;
 }
 
