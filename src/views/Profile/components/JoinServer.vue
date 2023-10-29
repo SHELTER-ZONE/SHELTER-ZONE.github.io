@@ -1,5 +1,5 @@
 <template>
-  <SZBlockContainer>
+  <SZBlockContainer class="w-full">
     <div class="flex flex-col gap-[30px] text-center">
       <div class="text-warning">
         <p>你尚未加入 SHELTER ZONE</p>
