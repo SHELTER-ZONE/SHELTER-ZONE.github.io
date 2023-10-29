@@ -1,9 +1,28 @@
 <template>
-  <ActionBlock title="尚未加入 SHELTER ZONE" actionName="Join Discord">
-    <template #icon><Warning /></template>
-    sacasccascsacscscsac
+  <ActionBlock
+    title="加入 SHELTER ZONE Discord 伺服器"
+    actionName="Join Discord"
+    @action="joinDiscord"
+  >
+    <template #icon><LogoDiscord /></template>
+    <div>
+      <p class="pb-[10px]">
+        請先加入 SHELTER ZONE Discord 伺服器，SZ 所有的服務都以 Discord
+        為中心，所以請務必加入
+      </p>
+
+      <n-alert type="error"
+        >請牢記，如果退出 Discord 伺服器，系統將會自動抹除你的所有資料
+        !</n-alert
+      >
+    </div>
     <template #hint>
-      <n-button text class="text-sm underline">
+      <n-button
+        text
+        class="text-sm underline"
+        :loading="loading"
+        @click="checkJoin"
+      >
         我已經加入，點擊此處驗證
       </n-button>
     </template>
@@ -13,7 +32,7 @@
 <script setup>
 import { ref } from 'vue'
 import { NButton, NAlert } from 'naive-ui'
-import { Warning } from '@vicons/carbon'
+import { LogoDiscord } from '@vicons/carbon'
 import { SZInviteLink } from '@/configs/links'
 import { useOauthStore } from '@/stores/oauth'
 import AreaBlock from '@/components/AreaBlock.vue'
@@ -26,7 +45,7 @@ const joinDiscord = () => {
   window.open(SZInviteLink, '_blank')
 }
 
-const reCheck = async () => {
+const checkJoin = async () => {
   loading.value = true
   await findMeGuilds()
   loading.value = false

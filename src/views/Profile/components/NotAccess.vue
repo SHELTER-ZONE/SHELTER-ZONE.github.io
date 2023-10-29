@@ -7,21 +7,24 @@
 
       <div class="flex flex-col items-center gap-[10px]">
         <n-icon :size="30" color="var(--danger)"><Locked /></n-icon>
-        <p class="text-danger text-md">Access Denied</p>
+        <p class="text-danger text-lg font-bold">Access Denied</p>
       </div>
 
-      <section class="max-w-[500px] w-full">
+      <section class="max-w-[600px] w-full flex flex-col gap-[30px]">
         <JoinServerWarning />
+        <n-divider></n-divider>
+        <RegisterProfileWarn />
       </section>
     </div>
   </SZBlockContainer>
 </template>
 
 <script setup>
-import { Campsite, Locked, WarningFilled } from '@vicons/carbon'
+import { Campsite, Locked } from '@vicons/carbon'
 import { NIcon, NButton, NDivider } from 'naive-ui'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import JoinServerWarning from './JoinServerWarning.vue'
+import RegisterProfileWarn from './RegisterProfileWarn.vue'
 </script>
 
 <style scoped lang="postcss"></style>

@@ -52,14 +52,14 @@ const emits = defineEmits(['action'])
 
 <style scoped lang="postcss">
 .action-block {
-  @apply flex flex-col gap-[10px];
+  @apply flex flex-col gap-[15px];
 }
 .action-block .upper {
-  @apply flex items-center gap-[20px];
+  @apply flex items-start gap-[20px];
 }
 
 .action-block .title {
-  @apply text-md font-bold;
+  @apply text-md font-bold pb-[3px];
 }
 
 .action-block .footer {
