@@ -13,5 +13,8 @@
   "Button": {},
   "Input": {
     "border": "1px solid #6B7280"
+  },
+  "Form": {
+    "labelFontWeight": "600"
   }
 }

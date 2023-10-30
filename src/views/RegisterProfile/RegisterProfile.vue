@@ -7,7 +7,10 @@
         <n-icon size="50"><AirlineRapidBoard /></n-icon>
         <p class="topic-title">Shelter Verify</p>
       </div>
-      <n-divider />
+    </SZBlockContainer>
+    <n-divider />
+
+    <SZBlockContainer class="w-fit m-auto">
       <VerifyForm />
     </SZBlockContainer>
   </main>
@@ -18,6 +21,7 @@ import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { AirlineRapidBoard } from '@vicons/carbon'
 import { NIcon, NDivider } from 'naive-ui'
 import VerifyForm from './components/VerifyForm.vue'
+import AreaBlock from '@/components/AreaBlock.vue'
 </script>
 
 <style scoped lang="postcss">
