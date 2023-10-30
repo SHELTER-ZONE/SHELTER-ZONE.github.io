@@ -6,7 +6,8 @@
     "textColorBase": "#fff",
     "textColor1": "rgba(255, 255, 255, 0.9)",
     "textColor3": "rgba(255, 255, 255, 0.52)",
-    "textColor2": "#6B7280FF"
+    "textColor2": "#6B7280FF",
+    "popoverColor": "#272D38FF"
   },
   "Button": {}
 }
