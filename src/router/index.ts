@@ -55,9 +55,17 @@ const router = createRouter({
         hidden: true,
         title: '個人資料',
         auth: true,
-        szRegistered: true,
       },
       component: () => import('@/views/Profile/Profile.vue'),
+    },
+    {
+      path: '/register/profile',
+      name: 'RegisterProfile',
+      meta: {
+        hidden: true,
+        title: '避難者驗證',
+      },
+      component: () => import('@/views/RegisterProfile/RegisterProfile.vue'),
     },
     {
       path: '/test',

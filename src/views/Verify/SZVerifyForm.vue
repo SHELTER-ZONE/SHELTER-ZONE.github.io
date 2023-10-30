@@ -182,3 +182,4 @@ onMounted(() => {
   @apply max-w-[500px] m-auto;
 }
 </style>
+@/configs/verifyForm

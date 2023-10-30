@@ -24,7 +24,7 @@ const { findMeGuilds, szJoined } = useOauthStore()
 const router = useRouter()
 
 const goVerify = () => {
-  router.push({ name: 'home' })
+  router.push({ name: 'RegisterProfile' })
 }
 </script>
 

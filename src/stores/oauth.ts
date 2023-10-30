@@ -103,6 +103,9 @@ export const useOauthStore = defineStore('oauth', () => {
   const szRegistered = computed(() => {
     return Boolean(get(user, 'sz'))
   })
+  const szUserProfile = computed(() => {
+    return get(user, 'sz.UserProfile')
+  })
 
   return {
     getDCAuthorizeUrl,
@@ -111,6 +114,7 @@ export const useOauthStore = defineStore('oauth', () => {
     userAvatar,
     szJoined,
     szRegistered,
+    szUserProfile,
     loggedIn,
     signin,
     szUserToken,

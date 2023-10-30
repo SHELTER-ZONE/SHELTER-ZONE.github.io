@@ -11,20 +11,24 @@
       </div>
 
       <section class="max-w-[600px] w-full flex flex-col gap-[30px]">
-        <JoinServerWarning />
-        <n-divider></n-divider>
-        <RegisterProfileWarn />
+        <JoinServerWarning v-if="!szJoined" />
+        <n-divider v-if="!szJoined && !szUserProfile" />
+        <RegisterProfileWarn v-if="!szUserProfile" />
       </section>
     </div>
   </SZBlockContainer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Campsite, Locked } from '@vicons/carbon'
 import { NIcon, NButton, NDivider } from 'naive-ui'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import JoinServerWarning from './JoinServerWarning.vue'
 import RegisterProfileWarn from './RegisterProfileWarn.vue'
+import { useOauthStore } from '@/stores/oauth'
+import { get } from 'lodash-es'
+
+const { szJoined, szUserProfile } = useOauthStore()
 </script>
 
 <style scoped lang="postcss"></style>

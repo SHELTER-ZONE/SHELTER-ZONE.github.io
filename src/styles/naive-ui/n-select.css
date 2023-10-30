@@ -1,0 +1,7 @@
+.n-select {
+    @apply  border-1 border-base rounded-[4px] box-border;
+}
+
+.n-base-selection__border, .n-base-selection__state-border {
+@apply !left-[-1px] right-[-1px] top-[-1px] bottom-[-1px];
+}
