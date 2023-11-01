@@ -1,42 +1,21 @@
 <template>
   <div class="sz-verify-form">
     <section v-show="!registering">
-      <n-form
-        ref="formRef"
-        :model="formData"
-        :rules="formRules"
-        class="flex flex-col gap-[20px]"
-      >
+      <n-form ref="formRef" :model="formData" :rules="formRules" class="flex flex-col gap-[20px]">
         <section>
           <SZBlockContainer>
-            <n-form-item
-              v-for="field in fields"
-              :path="field.key"
-              :key="field.key"
-              :label="field.label"
-            >
-              <Component
-                :is="get(fieldTypeComponent, field.type)"
-                :disabled="field.disabled"
-                :placeholder="field.placeholder"
-                v-model:value="formData[field.key as keyof SZVerifyFormDataStruc]"
-                :options="field.options"
-                :filterable="field.filterable"
-                :clearable="field.clearable || true"
-              />
+            <n-form-item v-for="field in fields" :path="field.key" :key="field.key" :label="field.label">
+              <Component :is="get(fieldTypeComponent, field.type)" :disabled="field.disabled"
+                :placeholder="field.placeholder" v-model:value="formData[field.key as keyof SZVerifyFormDataStruc]"
+                :options="field.options" :filterable="field.filterable" :clearable="field.clearable || true" />
             </n-form-item>
           </SZBlockContainer>
         </section>
 
         <section>
           <n-form-item path="roles">
-            <CheckBoxArea
-              class="w-full"
-              v-model:value="formData.roles"
-              title="身份組"
-              titlePosition="center"
-              :options="szRoleOptions"
-            />
+            <CheckBoxArea class="w-full" v-model:value="formData.roles" title="身份組" titlePosition="center"
+              :options="szRoleOptions" />
           </n-form-item>
         </section>
 
@@ -45,25 +24,14 @@
         </section>
 
         <section>
-          <n-button
-            block
-            secondary
-            type="primary"
-            :disabled="!agreeTerm"
-            @click="onVerify"
-            size="large"
-          >
+          <n-button block secondary type="primary" :disabled="!agreeTerm" @click="onVerify" size="large">
             <p class="font-bold tracking-[1px]">Verify</p>
           </n-button>
         </section>
       </n-form>
     </section>
 
-    <ProcessingRegister
-      v-if="registering"
-      :formData="formData"
-      @close="registering = false"
-    />
+    <ProcessingRegister v-if="registering" :formData="formData" @close="registering = false" />
   </div>
 </template>
 
@@ -83,7 +51,7 @@ import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 // import HCaptcha from '@/components/HCaptcha/HCaptcha.vue'
 // config
 import countries from '@/configs/countries'
-import fromSources from '@/configs/fromSources'
+import { fromSourcesConfig } from '@/configs/verifyForm'
 // types
 import type { FormInst } from 'naive-ui'
 import type { SZVerifyFormDataStruc, SZVerifyFormField } from './types'
@@ -125,7 +93,7 @@ const fields = ref<SZVerifyFormField[]>([
     key: 'from',
     type: 'select',
     placeholder: '選擇來源',
-    options: fromSources,
+    options: fromSourcesConfig,
   },
 ])
 
