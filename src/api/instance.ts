@@ -48,7 +48,7 @@ const handleSuccessRes = (response: any): any => {
 }
 
 const handleErrorRes = (error: any) => {
-  return [null, formatResponse(error.response)]
+  return [null, formatResponse(error.response), error.response]
 }
 
 //= > use

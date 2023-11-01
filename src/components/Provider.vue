@@ -1,9 +1,5 @@
 <template>
-  <NConfigProvider
-    :theme="darkTheme"
-    id="n-config-provider"
-    :theme-overrides="themeOverride"
-  >
+  <NConfigProvider :theme="darkTheme" id="n-config-provider" :theme-overrides="themeOverride">
     <NMessageProvider>
       <NThemeEditor>
         <slot />

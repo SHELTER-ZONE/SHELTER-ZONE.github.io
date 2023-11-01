@@ -5,6 +5,13 @@ import { createI18n } from 'vue-i18n'
 import App from './App.vue'
 import router from './router'
 import messages from './locale'
+import { createDiscreteApi, darkTheme } from 'naive-ui'
+
+const { message: $message } = createDiscreteApi(['message'], {
+  configProviderProps: { theme: darkTheme },
+})
+
+window.$message = $message
 
 import 'virtual:windi.css'
 import './assets/base.css'

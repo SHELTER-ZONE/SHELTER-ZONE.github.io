@@ -27,7 +27,7 @@ export const useFetch = () => {
       await onSuccess(res)
     }
     if (err) {
-      if (options?.toastError) window.$message.error(err)
+      if (options?.toastError) window.$message.error(err.message)
       if (onError) await onError(err)
     }
   }
@@ -43,7 +43,7 @@ export const useFetch = () => {
     options?: FetchDataOptions,
   ) => {
     options = defaultOptions(options)
-    const [res, err]: any = await apiMethod(payload)
+    const [res, err, rawErr]: any = await apiMethod(payload)
     if (options?.consoleRes) console.log(res, err)
     if (res) {
       let data = res.data
@@ -53,8 +53,9 @@ export const useFetch = () => {
         set(valueRef.ref, valueRef.path as string, data)
     }
     if (err) {
-      if (options?.toastError) window.$message.error(err)
+      if (options?.toastError) window.$message.error(err.message)
     }
+    return [res, err, rawErr]
   }
 
   const fetchDataReturn = async <P>(
@@ -71,7 +72,7 @@ export const useFetch = () => {
       return res.data
     }
     if (err) {
-      if (options?.toastError) window.$message.error(err)
+      if (options?.toastError) window.$message.error(err.message)
       return null
     }
   }

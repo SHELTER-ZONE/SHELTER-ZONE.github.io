@@ -56,7 +56,7 @@ const pageLeave = (el: HTMLElement, done: AnimeCallbackFunction) => {
 }
 
 onMounted(() => {
-  window.$message = useMessage()
+  // window.$message = useMessage()
   // anime({
   //   targets: '.layout',
   //   opacity: [0, 1],

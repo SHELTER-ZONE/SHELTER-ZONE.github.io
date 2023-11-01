@@ -3,10 +3,10 @@ import { defineStore } from 'pinia'
 import { DiscordOauthLogin, GetDCAuthorizeUrl } from '@/api/oauth'
 import { FindSZUser } from '@/api/szUser'
 import { get, find } from 'lodash-es'
-import { useStorage, StorageSerializers } from '@vueuse/core'
-import dayjs from 'dayjs'
+import { useStorage } from '@vueuse/core'
 import { useFetch } from '@/use/useFetch'
 import { FindMeDCGuilds, FindMeDCUser } from '@/api/discord'
+import localStoreKey from '@/configs/localStoreKey'
 
 const discordAuthRedirectUrl = () =>
   `${location.protocol}//${location.host}/#/discord/callback`
@@ -17,13 +17,13 @@ export const useOauthStore = defineStore('oauth', () => {
   const user = reactive({
     discord: null,
     sz: null,
-    guilds: useStorage('user-guilds', []),
+    guilds: useStorage(localStoreKey.userGuilds, []),
   })
-  const szUserToken = useStorage<string>('szUserToken', '')
-  const dcUserToken = useStorage<string>('dcUserToken', '')
-  const expiresIn = useStorage<number | string>('expiresIn', '')
+  const szUserToken = useStorage<string>(localStoreKey.szUserToken, '')
+  const dcUserToken = useStorage<string>(localStoreKey.dcUserToken, '')
+  const expiresIn = useStorage<number | string>(localStoreKey.expiresIn, '')
 
-  function clearUser() {
+  const clearUser = () => {
     user.discord = null
     user.sz = null
     user.guilds = []
@@ -43,15 +43,15 @@ export const useOauthStore = defineStore('oauth', () => {
   }
 
   async function LoginSZUserByDiscord(code: string) {
-    console.log('LoginSZUserByDiscord', code)
     await fetchData(
       DiscordOauthLogin,
       { code, redirectUrl: discordAuthRedirectUrl() },
       (res: any) => {
         const data = res.data
+        // discord info
         user.discord = get(data, 'dcUser')
         dcUserToken.value = get(data, 'dcToken')
-
+        // sz info
         user.sz = get(data, 'user')
         szUserToken.value = get(data, 'szToken')
       },
@@ -64,7 +64,19 @@ export const useOauthStore = defineStore('oauth', () => {
 
   async function findMeUser() {
     if (!szUserToken.value || !dcUserToken.value) return
-    await fetchDataToValue(FindMeDCUser, null, { ref: user, path: 'discord' })
+    const [, err, rawErr] = await fetchDataToValue(
+      FindMeDCUser,
+      null,
+      { ref: user, path: 'discord' },
+      null,
+      { toastError: false },
+    )
+    if (err) {
+      if (rawErr.status === 401) {
+        logout()
+        return
+      } else window.$message.error(err.message)
+    }
     if (!get(user.discord, 'id')) {
       user.discord = null
       return
@@ -85,6 +97,10 @@ export const useOauthStore = defineStore('oauth', () => {
     if (!loginUrl) return
     const win: Window = window
     win.location = loginUrl
+  }
+
+  const logout = () => {
+    clearUser()
   }
 
   // getters
@@ -122,5 +138,6 @@ export const useOauthStore = defineStore('oauth', () => {
     expiresIn,
     findMeUser,
     findMeGuilds,
+    logout,
   }
 })
