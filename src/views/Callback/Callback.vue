@@ -19,15 +19,17 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { get } from 'lodash-es'
 import { useOauthStore } from '@/stores/oauth'
 import { NSpin, useNotification } from 'naive-ui'
 import notifyMessage from '@/configs/notifyMessage'
 import localStoreKey from '@/configs/localStoreKey'
 import { useStorage } from '@vueuse/core'
+import dayjs from 'dayjs'
 
 const router = useRouter()
+const route = useRoute()
 const oauthStore = useOauthStore()
 const notification = useNotification()
 const errorPageData = useStorage(
@@ -44,8 +46,7 @@ const emitError = (errorData: {
   [propName: string]: any
 }) => {
   errorPageData.value = errorData
-
-  router.replace({ name: 'error' })
+  router.replace({ name: 'error', query: { errorType: 'User Login Faild' } })
 }
 const verifyCode = (): string => {
   statusMessage.value = '驗證登入交換碼'
@@ -76,14 +77,22 @@ const handleLogin = async () => {
 
     router.push({ name: 'home' })
   } catch (error) {
+    console.log(error)
     const errorCode = get(error, 'data.code')
     const errorStatus = get(error, 'data.status')
     const errorMessage = get(error, 'data.message')
     emitError({
-      code: errorCode,
       status: errorStatus,
+      code: errorCode,
       message: errorMessage,
-      custom: get(error, 'config.data'),
+      requestUrl: `${get(error, 'config.method')} | ${get(
+        error,
+        'config.url',
+      )}`,
+      headers: get(error, 'config.headers'),
+      payload: get(error, 'config.data'),
+      page: route.fullPath,
+      timestamp: dayjs().format('YYYY/MM/DD HH:mm:ss'),
     })
   }
 }

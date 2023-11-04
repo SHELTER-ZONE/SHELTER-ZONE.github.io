@@ -8,7 +8,8 @@
     "textColor3": "rgba(255, 255, 255, 0.52)",
     "textColor2": "#6B7280FF",
     "popoverColor": "#272D38FF",
-    "inputColor": "rgba(0, 0, 0, 0.1)"
+    "inputColor": "rgba(0, 0, 0, 0.1)",
+    "placeholderColor": "rgba(255, 255, 255, 0.21)"
   },
   "Button": {},
   "Input": {
@@ -16,5 +17,10 @@
   },
   "Form": {
     "labelFontWeight": "600"
+  },
+  "Alert": {
+    "iconColorWarning": "#f2c97dFF",
+    "colorWarning": "rgba(242, 201, 125, 0.16)",
+    "contentTextColorWarning": "#777777FF"
   }
 }

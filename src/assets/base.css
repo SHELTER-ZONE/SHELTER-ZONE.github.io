@@ -14,7 +14,7 @@
 
 
 html, body, #app, .n-config-provider, .layout {
-  @apply full text-base;
+  @apply full text-base bg-$primary-bg;
   font-family: 'Noto Sans TC', sans-serif;
   font-family: 'Quicksand', sans-serif;
 }
