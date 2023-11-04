@@ -12,7 +12,6 @@ interface Signals {
 export const useAppStore = defineStore('app', () => {
   const appLoading = ref<boolean>(true)
   const apiEndPoints = ref({})
-  const errorMsg = ref<unknown>(null)
   const signals = reactive<Signals>({
     requestSignin: false,
     signoutConfirm: false,
@@ -43,7 +42,6 @@ export const useAppStore = defineStore('app', () => {
   }
 
   return {
-    errorMsg,
     appLoading,
     getApiEndPoint,
     apiEndPoints,

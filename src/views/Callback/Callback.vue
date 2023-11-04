@@ -1,9 +1,5 @@
 <template>
   <main class="callback full">
-    <!-- <SZBlockContainer class="process-info-wrapper">
-      <StackInfo v-model:value="stack" />
-      <Loading />
-    </SZBlockContainer> -->
     <div class="flex flex-col">
       <img
         class="rounded-[7px]"
@@ -14,9 +10,7 @@
         src="https://i.pinimg.com/originals/49/1e/cf/491ecfcebd2192e29b758ca798717ec6.gif"
       /> -->
       <div class="flex items-center justify-center gap-[5px]">
-        <p class="text-center py-[30px]">
-          驗證 SZ 避難者信息中，請稍後片刻 uwu
-        </p>
+        <p class="text-center py-[30px]">{{ statusMessage }}，請稍後片刻 uwu</p>
       </div>
       <n-spin :size="20" />
     </div>
@@ -24,76 +18,80 @@
 </template>
 
 <script setup lang="ts">
-import { SZBlockContainer } from '@shelter-zone/shelter-ui'
-import StackInfo from '@/components/StackInfo/StackInfo.vue'
-import Loading from '@/components/Loading.vue'
-import { useStackInfo } from '@/use/useStackInfo'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { get } from 'lodash-es'
 import { useOauthStore } from '@/stores/oauth'
-import { useAppStore } from '@/stores/app'
-import { NSpin } from 'naive-ui'
+import { NSpin, useNotification } from 'naive-ui'
 import notifyMessage from '@/configs/notifyMessage'
+import localStoreKey from '@/configs/localStoreKey'
+import { useStorage } from '@vueuse/core'
 
 const router = useRouter()
 const oauthStore = useOauthStore()
-const appStore = useAppStore()
-const { stack, changeStackInfo, pushStackInfo } = useStackInfo()
+const notification = useNotification()
+const errorPageData = useStorage(
+  localStoreKey.errorPageData,
+  {},
+  sessionStorage,
+)
 
-const isError = ref<boolean>(false)
-const needVerify = ref<boolean>(false)
-const redirectDelay: number = 3000
+const statusMessage = ref('')
 
-const emitError = (errorCode?: string | null, errorMsg?: unknown) => {
-  isError.value = true
-  pushStackInfo({ name: '頁面跳轉中', id: 'redirecting' })
+const emitError = (errorData: {
+  code?: string
+  message?: string
+  [propName: string]: any
+}) => {
+  errorPageData.value = errorData
 
-  if (errorMsg) appStore.errorMsg = errorMsg
-
-  setTimeout(() => {
-    router.replace({
-      name: 'error',
-      query: {
-        code: errorCode,
-      },
-    })
-  }, redirectDelay)
+  router.replace({ name: 'error' })
 }
-const verifyCode = (code: string) => {
-  if (!code) {
-    emitError('AUTH_ERROR_0')
-    return
-  }
+const verifyCode = (): string => {
+  statusMessage.value = '驗證登入交換碼'
+  let code = location.href.split('/')[3].split('=')[1]
+  code = code.replace('#', '')
+  if (!code) throw new Error('ascascs')
+  return code
 }
 
-const getDCUserGuilds = async () => {
-  if (isError.value) return
+const userLogin = async (code: string) => {
+  statusMessage.value = '驗證避難者信息中'
+  await oauthStore.LoginSZUserByDiscord(code)
+}
+
+const getUserDCGuilds = async () => {
+  // statusMessage.value = '驗證避難者信息中'
   await oauthStore.findMeGuilds()
 }
 
-const checkingSZUser = async (code: string) => {
-  if (isError.value) return
-  await oauthStore.LoginSZUserByDiscord(code)
-  const szUser = get(oauthStore.user, 'sz')
-  if (!szUser) {
-    emitError('AUTH_ERROR_3')
-    return
+const handleLogin = async () => {
+  try {
+    const code = verifyCode()
+    await userLogin(code)
+    await getUserDCGuilds()
+    notification.success({
+      content: notifyMessage.loginSuccess,
+    })
+
+    router.push({ name: 'home' })
+  } catch (error) {
+    const errorCode = get(error, 'data.code')
+    const errorStatus = get(error, 'data.status')
+    const errorMessage = get(error, 'data.message')
+    emitError({
+      code: errorCode,
+      status: errorStatus,
+      message: errorMessage,
+      custom: get(error, 'config.data'),
+    })
   }
 }
 
 onMounted(async () => {
   await router.isReady()
-  let code = location.href.split('/')[3].split('=')[1]
-  code = code.replace('#', '')
 
-  verifyCode(code)
-  await checkingSZUser(code)
-  getDCUserGuilds()
-  if (!isError.value) {
-    window.$message.success(notifyMessage.loginSuccess)
-    router.push({ name: 'home' })
-  }
+  handleLogin()
 })
 </script>
 

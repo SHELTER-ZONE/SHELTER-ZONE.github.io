@@ -21,14 +21,14 @@ export const useFetch = () => {
     options?: FetchDataOptions,
   ) => {
     options = defaultOptions(options)
-    const [res, err]: any = await apiMethod(payload)
+    const [res, err, rawErr]: any = await apiMethod(payload)
     // if (options?.consoleRes) console.log(res, err)
     if (res) {
       await onSuccess(res)
     }
     if (err) {
       if (options?.toastError) window.$message.error(err.message)
-      if (onError) await onError(err)
+      if (onError) await onError(err, rawErr)
     }
   }
 

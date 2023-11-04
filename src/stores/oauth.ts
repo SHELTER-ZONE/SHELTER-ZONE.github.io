@@ -55,6 +55,10 @@ export const useOauthStore = defineStore('oauth', () => {
         user.sz = get(data, 'user')
         szUserToken.value = get(data, 'szToken')
       },
+      (err: string, rawErr: any) => {
+        throw rawErr
+      },
+      { toastError: false },
     )
   }
 
@@ -82,7 +86,6 @@ export const useOauthStore = defineStore('oauth', () => {
   }
 
   async function findMeDCUser({ throwErr } = { throwErr: true }) {
-    console.log('throwErr', throwErr)
     if (!szUserToken.value || !dcUserToken.value) return
     const [, err, rawErr] = await fetchDataToValue(
       FindMeDCUser,

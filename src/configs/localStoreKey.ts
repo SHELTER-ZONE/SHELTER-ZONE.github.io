@@ -3,4 +3,5 @@ export default {
   dcUserToken: 'dcUserToken',
   expiresIn: 'expiresIn',
   userGuilds: 'user-guilds',
+  errorPageData: 'errorPageData',
 }

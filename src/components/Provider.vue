@@ -1,10 +1,18 @@
 <template>
-  <NConfigProvider :theme="darkTheme" id="n-config-provider" :theme-overrides="themeOverride">
-    <NMessageProvider>
-      <NThemeEditor>
-        <slot />
-      </NThemeEditor>
-    </NMessageProvider>
+  <NConfigProvider
+    :theme="darkTheme"
+    id="n-config-provider"
+    :theme-overrides="themeOverride"
+  >
+    <NNotificationProvider>
+      <NDialogProvider>
+        <NMessageProvider>
+          <NThemeEditor>
+            <slot />
+          </NThemeEditor>
+        </NMessageProvider>
+      </NDialogProvider>
+    </NNotificationProvider>
   </NConfigProvider>
 </template>
 
@@ -12,6 +20,8 @@
 import {
   NConfigProvider,
   NMessageProvider,
+  NNotificationProvider,
+  NDialogProvider,
   darkTheme,
   NThemeEditor,
 } from 'naive-ui'
