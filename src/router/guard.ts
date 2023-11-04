@@ -28,16 +28,3 @@ export function checkExpiresIn() {
     clearUser()
   }
 }
-
-export async function checkIsSZMember() {
-  const oauthStore = useOauthStore()
-  if (!oauthStore.loggedIn) return
-  await oauthStore.getDCUserGuilds()
-  if (oauthStore.szJoined) return
-  if (window.$message)
-    window.$message.warning('偵測使用者已離開 Discord Server，已自動登出', {
-      closable: true,
-      duration: 10000,
-    })
-  oauthStore.clearUser()
-}

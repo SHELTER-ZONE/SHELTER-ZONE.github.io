@@ -18,7 +18,7 @@ import Default from '@/layouts/default.vue'
 import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
 import { useOauthStore } from './stores/oauth'
-import { checkExpiresIn, checkIsSZMember } from '@/router/guard'
+import { checkExpiresIn } from '@/router/guard'
 import { useSZGuild } from './stores/szGuild'
 
 const route = useRoute()
@@ -37,19 +37,26 @@ async function appInit() {
   const szGuildStore = useSZGuild()
   await appStore.getApiEndPoint()
 
-  if (!oauthStore.loggedIn) oauthStore.clearUser()
-  await Promise.all([
-    oauthStore.findMeUser(),
-    szGuildStore.getSZInfo(),
-    szGuildStore.getAllSZChannel(),
-  ])
+  if (!oauthStore.loggedIn) {
+    oauthStore.clearUser()
+  } else {
+    try {
+      await oauthStore.findMeDCUser()
+      await oauthStore.findMeSZUser()
+      await oauthStore.findMeGuilds()
+      // szGuildStore.getSZInfo()
+      // szGuildStore.getAllSZChannel()
+    } catch (error: any) {
+      console.log('app init error', error)
+      if (error.status === 401) oauthStore.logout()
+    }
+  }
   appStore.appLoading = false
 }
 
 onBeforeMount(async () => {
   // checkExpiresIn()
   appInit()
-  // checkIsSZMember()
 })
 </script>
 

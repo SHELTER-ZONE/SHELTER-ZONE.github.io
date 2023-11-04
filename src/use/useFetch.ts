@@ -22,7 +22,7 @@ export const useFetch = () => {
   ) => {
     options = defaultOptions(options)
     const [res, err]: any = await apiMethod(payload)
-    if (options?.consoleRes) console.log(res, err)
+    // if (options?.consoleRes) console.log(res, err)
     if (res) {
       await onSuccess(res)
     }
@@ -44,7 +44,7 @@ export const useFetch = () => {
   ) => {
     options = defaultOptions(options)
     const [res, err, rawErr]: any = await apiMethod(payload)
-    if (options?.consoleRes) console.log(res, err)
+    // if (options?.consoleRes) console.log(res, err)
     if (res) {
       let data = res.data
       if (dataPath) data = get(res.data, dataPath)
@@ -66,7 +66,7 @@ export const useFetch = () => {
   ) => {
     options = defaultOptions(options)
     const [res, err]: any = await apiMethod(payload)
-    if (options?.consoleRes) console.log(res, err)
+    // if (options?.consoleRes) console.log(res, err)
     if (res) {
       if (returnDataPath) return get(res.data, returnDataPath)
       return res.data

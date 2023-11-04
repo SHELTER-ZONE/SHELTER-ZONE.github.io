@@ -58,11 +58,31 @@ export const useOauthStore = defineStore('oauth', () => {
     )
   }
 
-  async function findMeGuilds() {
-    await fetchDataToValue(FindMeDCGuilds, null, { ref: user, path: 'guilds' })
+  async function findMeGuilds({ throwErr } = { throwErr: true }) {
+    const [, err, rawErr] = await fetchDataToValue(
+      FindMeDCGuilds,
+      null,
+      { ref: user, path: 'guilds' },
+      null,
+      { toastError: false },
+    )
+    if (err && throwErr) throw rawErr
   }
 
-  async function findMeUser() {
+  async function findMeSZUser({ throwErr } = { throwErr: true }) {
+    const [, err, rawErr] = await fetchDataToValue(
+      FindSZUser,
+      { discordId: get(user.discord, 'id') },
+      { ref: user, path: 'sz' },
+      null,
+      { toastError: false },
+    )
+
+    if (err && throwErr) throw rawErr
+  }
+
+  async function findMeDCUser({ throwErr } = { throwErr: true }) {
+    console.log('throwErr', throwErr)
     if (!szUserToken.value || !dcUserToken.value) return
     const [, err, rawErr] = await fetchDataToValue(
       FindMeDCUser,
@@ -71,25 +91,7 @@ export const useOauthStore = defineStore('oauth', () => {
       null,
       { toastError: false },
     )
-    if (err) {
-      if (rawErr.status === 401) {
-        logout()
-        return
-      } else window.$message.error(err.message)
-    }
-    if (!get(user.discord, 'id')) {
-      user.discord = null
-      return
-    }
-
-    await Promise.all([
-      fetchDataToValue(FindMeDCGuilds, null, { ref: user, path: 'guilds' }),
-      fetchDataToValue(
-        FindSZUser,
-        { discordId: get(user.discord, 'id') },
-        { ref: user, path: 'sz' },
-      ),
-    ])
+    if (err && throwErr) throw rawErr
   }
 
   async function signin() {
@@ -111,7 +113,7 @@ export const useOauthStore = defineStore('oauth', () => {
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
   const loggedIn = computed(() => {
-    return szUserToken.value
+    return szUserToken.value && dcUserToken.value
   })
   const szJoined = computed(() => {
     return Boolean(find(user.guilds, { id: '445157253385814016' }))
@@ -136,7 +138,8 @@ export const useOauthStore = defineStore('oauth', () => {
     szUserToken,
     clearUser,
     expiresIn,
-    findMeUser,
+    findMeSZUser,
+    findMeDCUser,
     findMeGuilds,
     logout,
   }
