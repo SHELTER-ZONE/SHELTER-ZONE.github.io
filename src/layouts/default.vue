@@ -1,6 +1,6 @@
 <template>
   <main class="layout default">
-    <NavBar />
+    <NavBar v-if="!includes(navBarBlockList, $route.name)" />
 
     <div class="flex-1">
       <router-view v-slot="{ Component }">
@@ -28,42 +28,9 @@ import SiteFooter from '@/components/Footer/SiteFooter.vue'
 import RequestSigninModal from '@/components/Modal/RequestSigninModal.vue'
 import SignoutModal from '@/components/Modal/SignoutModal.vue'
 import { RouterView } from 'vue-router'
-import anime from 'animejs'
-import type { AnimeInstance } from 'animejs'
-import { onMounted } from 'vue'
-import { useMessage } from 'naive-ui'
+import { includes } from 'lodash-es'
 
-type AnimeCallbackFunction = (anim: AnimeInstance) => void
-
-const pageEnter = (el: HTMLElement, done: AnimeCallbackFunction) => {
-  anime({
-    targets: el,
-    translateX: [400, 0],
-    opacity: [0, 1],
-    easing: 'easeInOutSine',
-    complete: (anim: AnimeInstance) => done && done(anim),
-  })
-}
-
-const pageLeave = (el: HTMLElement, done: AnimeCallbackFunction) => {
-  anime({
-    targets: el,
-    translateX: [0, -400],
-    opacity: [1, 0],
-    easing: 'easeInOutSine',
-    complete: (anim: AnimeInstance) => done && done(anim),
-  })
-}
-
-onMounted(() => {
-  // window.$message = useMessage()
-  // anime({
-  //   targets: '.layout',
-  //   opacity: [0, 1],
-  //   easing: 'easeInOutSine',
-  //   duration: 1500,
-  // })
-})
+const navBarBlockList = ['RegisterProfile']
 </script>
 
 <style scoped lang="postcss">

@@ -1,18 +1,27 @@
 <template>
   <n-form ref="formRef" class="verify-form">
-    <div class="grid grid-cols-2 gap-x-20px">
-      <n-form-item v-for="field in fields" :path="field.key" :key="field.key" :label="field.label">
-        <Component :is="get(fieldTypeComponent, field.type)" :disabled="field.disabled" :placeholder="field.placeholder"
-          v-model:value="formData[field.key]" :options="field.options" :filterable="field.filterable"
-          :clearable="field.clearable || true" />
+    <div class="grid grid-cols-1 gap-x-20px">
+      <n-form-item
+        v-for="field in fields"
+        :path="field.key"
+        :key="field.key"
+        :label="field.label"
+      >
+        <Component
+          :is="get(fieldTypeComponent, field.type)"
+          :disabled="field.disabled"
+          :placeholder="field.placeholder"
+          v-model:value="formData[field.key]"
+          :options="field.options"
+          :filterable="field.filterable"
+          :clearable="field.clearable || true"
+        />
       </n-form-item>
     </div>
-
-    <n-button secondary block type="primary">進行驗證</n-button>
   </n-form>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { reactive, ref, computed } from 'vue'
 import { NForm, NFormItem, NButton } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
@@ -22,7 +31,7 @@ import countries from '@/configs/countries'
 import { useForm } from '@/use/useForm'
 import { values, get } from 'lodash-es'
 
-const formRef = ref<null>()
+const formRef = ref(null)
 
 const { fieldTypeComponent, verifyForm } = useForm()
 
@@ -34,7 +43,6 @@ const formData = reactive({
   country: null,
 })
 
-
 const fields = computed(() => [
   {
     label: '避難者 ID',
@@ -42,11 +50,18 @@ const fields = computed(() => [
     type: 'text',
   },
   {
-    label: '來源',
+    label: '路徑來源',
     key: 'from',
     type: 'select',
     placeholder: '選擇來源',
-    options: values(fromSourcesConfig)
+    options: values(fromSourcesConfig),
+  },
+  {
+    label: '避難原因',
+    key: 'from',
+    type: 'select',
+    placeholder: '選擇來源',
+    options: values(fromSourcesConfig),
   },
   {
     label: '地區',
@@ -61,6 +76,6 @@ const fields = computed(() => [
 
 <style scoped lang="postcss">
 .verify-form {
-  @apply max-w-[800px] w-full m-auto;
+  @apply max-w-[800px] w-full;
 }
 </style>
