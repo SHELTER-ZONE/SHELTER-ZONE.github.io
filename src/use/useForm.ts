@@ -23,7 +23,7 @@ export const useForm = () => {
         if (!errors) {
           resolve([true, null])
         } else {
-          resolve([null, errors])
+          resolve([false, errors])
         }
       })
     })

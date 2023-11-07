@@ -10,24 +10,50 @@
 
       <n-divider />
 
-      <n-progress type="line" :percentage="50" :show-indicator="false" />
-      <VerifyForm />
-      <n-button secondary type="primary">下一步</n-button>
+      <section class="mb-[40px]">
+        <n-progress
+          type="line"
+          :percentage="completePercentage"
+          :show-indicator="false"
+        />
+      </section>
 
-      <Important />
-
-      <OTPInput :inputCount="8" />
+      <KeepAlive>
+        <component :is="stages[curStage]" @complete="onStageComplete" />
+      </KeepAlive>
     </SZBlockContainer>
   </main>
 </template>
 
 <script setup lang="ts">
+import { ref, shallowReactive, computed, onMounted } from 'vue'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { AirlineRapidBoard } from '@vicons/carbon'
 import { NIcon, NDivider, NProgress, NButton } from 'naive-ui'
 import VerifyForm from './components/VerifyForm.vue'
 import Important from './components/Important.vue'
-import OTPInput from '@/components/OTPInput.vue'
+import OTPVerify from './components/OTPVerify.vue'
+
+const curStage = ref('VerifyForm')
+
+const stages = shallowReactive({
+  VerifyForm,
+  Important,
+  OTPVerify,
+})
+
+const completePercentage = ref(0)
+const stepPercentage = computed(() => 100 / Object.keys(stages).length)
+
+const onStageComplete = (stage: string) => {
+  completePercentage.value += stepPercentage.value
+  if (stage === 'VerifyForm') curStage.value = 'Important'
+  else if (stage === 'Important') curStage.value = 'OTPVerify'
+}
+
+onMounted(() => {
+  completePercentage.value += stepPercentage.value / 2
+})
 </script>
 
 <style scoped lang="postcss">

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { NInput } from 'naive-ui'
 import { useTemplateRefsList } from '@vueuse/core'
 
@@ -27,15 +27,8 @@ export interface OTPInputProps {
 }
 
 const props = defineProps<OTPInputProps>()
+const emits = defineEmits(['update'])
 const valueModel = ref<(string | null)[]>([])
-
-onMounted(() => {
-  for (let count = 0; count < props.inputCount; count++) {
-    valueModel.value.push(null)
-  }
-})
-
-const allowKeys = []
 
 const handleKeyDown = function (event: KeyboardEvent, index: number) {
   if (event.key === 'Backspace') {
@@ -50,7 +43,6 @@ const handleKeyDown = function (event: KeyboardEvent, index: number) {
   }
 
   if (new RegExp('^[0-9a-z]+$').test(event.key)) {
-    console.log('index', index)
     valueModel.value[index] = event.key.toUpperCase()
 
     setTimeout(() => {
@@ -61,7 +53,19 @@ const handleKeyDown = function (event: KeyboardEvent, index: number) {
   }
 }
 
-const otpCont = ref(null)
+watch(
+  valueModel,
+  () => {
+    emits('update', valueModel.value.join(''))
+  },
+  { deep: true },
+)
+
+onMounted(() => {
+  for (let count = 0; count < props.inputCount; count++) {
+    valueModel.value.push(null)
+  }
+})
 </script>
 
 <style scoped lang="postcss">
