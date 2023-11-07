@@ -13,6 +13,10 @@
       <n-progress type="line" :percentage="50" :show-indicator="false" />
       <VerifyForm />
       <n-button secondary type="primary">下一步</n-button>
+
+      <Important />
+
+      <OTPInput :inputCount="8" />
     </SZBlockContainer>
   </main>
 </template>
@@ -22,7 +26,8 @@ import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { AirlineRapidBoard } from '@vicons/carbon'
 import { NIcon, NDivider, NProgress, NButton } from 'naive-ui'
 import VerifyForm from './components/VerifyForm.vue'
-import AreaBlock from '@/components/AreaBlock.vue'
+import Important from './components/Important.vue'
+import OTPInput from '@/components/OTPInput.vue'
 </script>
 
 <style scoped lang="postcss">
