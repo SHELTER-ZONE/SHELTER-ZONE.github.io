@@ -2,7 +2,13 @@
   <section>
     <AreaBlock> sacascasc </AreaBlock>
 
-    <n-button block secondary type="primary" @click="onConfirm">
+    <n-button
+      block
+      secondary
+      type="primary"
+      :disabled="!canNext"
+      @click="onConfirm"
+    >
       <n-countdown v-if="!canNext" :duration="15000" :on-finish="onCooldown" />
       <span v-else>下一步</span>
     </n-button>

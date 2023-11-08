@@ -19,7 +19,11 @@
       </section>
 
       <KeepAlive>
-        <component :is="stages[curStage]" @complete="onStageComplete" />
+        <component
+          :is="stages[curStage]"
+          @complete="onStageComplete"
+          @previous="onPreviousStage"
+        />
       </KeepAlive>
     </SZBlockContainer>
   </main>
@@ -34,21 +38,26 @@ import VerifyForm from './components/VerifyForm.vue'
 import Important from './components/Important.vue'
 import OTPVerify from './components/OTPVerify.vue'
 
-const curStage = ref('VerifyForm')
+const curStage = ref(0)
 
-const stages = shallowReactive({
-  VerifyForm,
-  Important,
-  OTPVerify,
-})
+// const stages = shallowReactive({
+//   VerifyForm,
+//   Important,
+//   OTPVerify,
+// })
+
+const stages = ref([VerifyForm, Important, OTPVerify])
 
 const completePercentage = ref(0)
 const stepPercentage = computed(() => 100 / Object.keys(stages).length)
 
 const onStageComplete = (stage: string) => {
   completePercentage.value += stepPercentage.value
-  if (stage === 'VerifyForm') curStage.value = 'Important'
-  else if (stage === 'Important') curStage.value = 'OTPVerify'
+  curStage.value += 1
+}
+
+const onPreviousStage = () => {
+  curStage.value -= 1
 }
 
 onMounted(() => {
