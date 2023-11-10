@@ -9,7 +9,7 @@
       :disabled="!canNext"
       @click="onConfirm"
     >
-      <n-countdown v-if="!canNext" :duration="15000" :on-finish="onCooldown" />
+      <n-countdown v-if="!canNext" :duration="0" :on-finish="onCooldown" />
       <span v-else>下一步</span>
     </n-button>
   </section>

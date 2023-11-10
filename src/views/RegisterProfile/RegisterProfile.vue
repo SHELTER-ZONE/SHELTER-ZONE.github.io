@@ -10,12 +10,8 @@
 
       <n-divider />
 
-      <section class="mb-[40px]">
-        <n-progress
-          type="line"
-          :percentage="completePercentage"
-          :show-indicator="false"
-        />
+      <section class="mb-[40px] flex justify-center">
+        <StepBar :cur-step="curStage" />
       </section>
 
       <KeepAlive>
@@ -37,6 +33,7 @@ import { NIcon, NDivider, NProgress, NButton } from 'naive-ui'
 import VerifyForm from './components/VerifyForm.vue'
 import Important from './components/Important.vue'
 import OTPVerify from './components/OTPVerify.vue'
+import StepBar from '@/components/StepBar.vue'
 
 const curStage = ref(0)
 

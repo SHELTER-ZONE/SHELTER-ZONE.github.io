@@ -1,10 +1,11 @@
 import { apiAuth } from './instance'
 
-export const GenerateOTP = async () => {
+export const GenerateOTP = async (discordUserId: string) => {
   return await apiAuth({
     method: 'POST',
     url: `/otp`,
     data: {
+      discordUserId,
       sourceTarget: 'official-website',
     },
   })

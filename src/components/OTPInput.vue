@@ -4,9 +4,11 @@
       <n-input
         class="inputer"
         :ref="refs.set"
+        :status="error ? 'error' : undefined"
         type="text"
-        v-model:value="valueModel[index]"
-        :autofocus="index === 0 && !valueModel[0]"
+        v-model:value="syncValue[index]"
+        :autofocus="index === 0 && !syncValue[0]"
+        :disabled="disabled"
         maxlength="1"
         placeholder=""
         @keydown="handleKeyDown($event, index)"
@@ -16,35 +18,48 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { onMounted, watchEffect } from 'vue'
 import { NInput } from 'naive-ui'
-import { useTemplateRefsList } from '@vueuse/core'
-
-const refs = useTemplateRefsList<HTMLDivElement>()
+import { useTemplateRefsList, useVModel } from '@vueuse/core'
+import { every } from 'lodash-es'
 
 export interface OTPInputProps {
   inputCount: number
+  disabled: boolean
+  error: boolean
+  value: (string | null)[]
+  onVerify: Function
 }
 
-const props = defineProps<OTPInputProps>()
-const emits = defineEmits(['update'])
-const valueModel = ref<(string | null)[]>([])
+const props = withDefaults(defineProps<OTPInputProps>(), {
+  disabled: false,
+  error: false,
+})
+const emits = defineEmits(['update', 'update:value'])
+const syncValue = useVModel(props, 'value', emits)
+const refs = useTemplateRefsList<HTMLInputElement>()
 
 const handleKeyDown = function (event: KeyboardEvent, index: number) {
   if (event.key === 'Backspace') {
-    valueModel.value[index] = null
+    syncValue.value[index] = null
     if (index != 0) refs.value[index - 1].focus()
     return
   }
 
-  if (!new RegExp('^[0-9a-zA-z]+$').test(event.key)) {
+  if (!new RegExp('^[0-9a-z]+$').test(event.key)) {
     event.preventDefault()
     return
   }
 
   if (new RegExp('^[0-9a-z]+$').test(event.key)) {
-    valueModel.value[index] = event.key.toUpperCase()
-
+    syncValue.value[index] = event.key.toUpperCase()
+    if (
+      index === props.inputCount - 1 &&
+      every(syncValue.value, (i) => i !== null)
+    ) {
+      props.onVerify(refs)
+      return
+    }
     setTimeout(() => {
       if (index != props.inputCount - 1) {
         refs.value[index + 1].focus()
@@ -53,17 +68,16 @@ const handleKeyDown = function (event: KeyboardEvent, index: number) {
   }
 }
 
-watch(
-  valueModel,
-  () => {
-    emits('update', valueModel.value.join(''))
-  },
-  { deep: true },
-)
+// watchEffect(async () => {
+//   if (!syncValue.value || !syncValue.value.length) return
+//   if (every(syncValue.value, (i) => i !== null)) props.onVerify(refs)
+// })
 
 onMounted(() => {
-  for (let count = 0; count < props.inputCount; count++) {
-    valueModel.value.push(null)
+  if (!syncValue.value || !syncValue.value.length) {
+    for (let count = 0; count < props.inputCount; count++) {
+      syncValue.value.push(null)
+    }
   }
 })
 </script>
@@ -83,5 +97,9 @@ onMounted(() => {
 
 .inputer {
   @apply !w-50px h-50px text-center;
+}
+
+.disabled {
+  @apply pointer-events-none;
 }
 </style>
