@@ -41,6 +41,8 @@ import { useOauthStore } from '@/stores/oauth'
 import { get } from 'lodash-es'
 import { CharacterPatterns } from '@vicons/carbon'
 
+const emits = defineEmits(['complete'])
+
 const otpCode = ref<(string | null)[]>([])
 const verifying = ref<boolean>(false)
 const generating = ref<boolean>(false)
@@ -73,14 +75,16 @@ const verifyOTP = async (inputRefs: Ref) => {
   const [, err, rawErr]: any = await VerifyOTP({
     code: otpCode.value.join(''),
   })
-  verifying.value = false
   if (err) {
     window.$message.error(err.message)
     otpError.value = true
     otpCode.value.fill(null, 0)
+    verifying.value = false
     await nextTick()
     inputRefs.value[0].focus()
+    return
   }
+  emits('complete', 'OTPVerify')
 }
 </script>
 

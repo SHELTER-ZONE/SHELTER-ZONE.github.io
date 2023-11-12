@@ -4,7 +4,7 @@
       ref="formRef"
       :rules="formRules"
       :show-require-mark="false"
-      :model="formData"
+      :model="syncForm"
       class="verify-form"
     >
       <div class="grid grid-cols-1 gap-x-20px">
@@ -18,7 +18,7 @@
             :is="get(fieldTypeComponent, field.type)"
             :disabled="field.disabled"
             :placeholder="field.placeholder"
-            v-model:value="formData[field.key]"
+            v-model:value="syncForm[field.key]"
             :options="field.options"
             :filterable="field.filterable"
             :clearable="field.clearable || true"
@@ -33,7 +33,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref, computed } from 'vue'
 import { NForm, NFormItem, NButton } from 'naive-ui'
 import { fromSourcesConfig } from '@/configs/verifyForm'
@@ -41,17 +41,24 @@ import { Tag } from '@vicons/carbon'
 import countries from '@/configs/countries'
 import { useForm } from '@/use/useForm'
 import { values, get } from 'lodash-es'
+import { useVModel } from '@vueuse/core'
+
+export interface VerifyFormProps {
+  form: Record<string, string>
+}
 
 const { fieldTypeComponent, verifyForm } = useForm()
 const formRef = ref(null)
+const props = defineProps<VerifyFormProps>()
+const emits = defineEmits(['complete', 'update:form'])
 
-const emits = defineEmits(['complete'])
+const syncForm = useVModel(props, 'form', emits)
 
-const formData = reactive({
-  name: null,
-  from: null,
-  country: null,
-})
+// const formData = reactive({
+//   name: null,
+//   from: null,
+//   country: null,
+// })
 
 const formRules = {
   name: {
@@ -91,7 +98,7 @@ const fields = computed(() => [
   },
   {
     label: '避難原因',
-    key: 'reason',
+    key: 'joinReason',
     type: 'select',
     placeholder: '選擇來源',
     options: values(fromSourcesConfig),
