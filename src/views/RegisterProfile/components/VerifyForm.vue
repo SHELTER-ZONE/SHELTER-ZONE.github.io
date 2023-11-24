@@ -18,10 +18,16 @@
             :is="get(fieldTypeComponent, field.type)"
             :disabled="field.disabled"
             :placeholder="field.placeholder"
+            show-count
             v-model:value="syncForm[field.key]"
             :options="field.options"
+            :maxlength="field.maxlength"
+            :minlength="1"
             :filterable="field.filterable"
             :clearable="field.clearable || true"
+            :tag="field.tag"
+            :multiple="field.multiple"
+            :allow-input="(value: string) => !/ /g.test(value)"
           />
         </n-form-item>
       </div>
@@ -35,12 +41,16 @@
 
 <script setup lang="ts">
 import { reactive, ref, computed } from 'vue'
-import { NForm, NFormItem, NButton } from 'naive-ui'
-import { fromSourcesConfig } from '@/configs/verifyForm'
+import { NForm, NFormItem, NButton, type FormItemRule } from 'naive-ui'
 import { Tag } from '@vicons/carbon'
+
+// config
 import countries from '@/configs/countries'
+import joinReasonConfig from '@/configs/joinReason'
+import { fromSourcesConfig } from '@/configs/verifyForm'
+
 import { useForm } from '@/use/useForm'
-import { values, get } from 'lodash-es'
+import { values, get, map, isEmpty } from 'lodash-es'
 import { useVModel } from '@vueuse/core'
 
 export interface VerifyFormProps {
@@ -54,32 +64,32 @@ const emits = defineEmits(['complete', 'update:form'])
 
 const syncForm = useVModel(props, 'form', emits)
 
-// const formData = reactive({
-//   name: null,
-//   from: null,
-//   country: null,
-// })
-
-const formRules = {
+const formRules: Record<string, FormItemRule> = {
   name: {
     required: true,
-    message: 'Please input your number',
     trigger: ['input'],
+    validator: (rule: FormItemRule, v: string) => {
+      if (!v) return new Error('此欄位為必填')
+      const pass = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/.test(v)
+      if (!pass) return new Error('只允許英文、數字、中文')
+      return pass
+    },
   },
   from: {
     required: true,
-    message: 'Please input your number',
-    trigger: ['input'],
+    message: '此欄位為必填',
+    trigger: ['change'],
   },
-  reason: {
+  joinReason: {
     required: true,
-    message: 'Please input your number',
-    trigger: ['input'],
+    message: '此欄位為必填',
+    trigger: ['change'],
+    validator: (rule: FormItemRule, v: string[]) => !isEmpty(v),
   },
   country: {
     required: true,
-    message: 'Please input your number',
-    trigger: ['input'],
+    message: '此欄位為必填',
+    trigger: ['change'],
   },
 }
 
@@ -88,20 +98,30 @@ const fields = computed(() => [
     label: '避難者 ID',
     key: 'name',
     type: 'text',
+    maxlength: 20,
+    placeholder: '請輸入',
   },
   {
     label: '路徑來源',
     key: 'from',
     type: 'select',
-    placeholder: '選擇來源',
+    filterable: true,
+    tag: true,
+    placeholder: '選擇來源或輸入新增',
     options: values(fromSourcesConfig),
   },
   {
     label: '避難原因',
     key: 'joinReason',
     type: 'select',
-    placeholder: '選擇來源',
-    options: values(fromSourcesConfig),
+    filterable: true,
+    tag: true,
+    multiple: true,
+    placeholder: '選擇或輸入新增原因',
+    options: map(joinReasonConfig, (item: string) => ({
+      label: item,
+      value: item,
+    })),
   },
   {
     label: '地區',
