@@ -80,16 +80,11 @@ import { Warning } from '@vicons/carbon'
 import { get } from 'lodash-es'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { Home, Report } from '@vicons/carbon'
-import { useStorage } from '@vueuse/core'
-import localStoreKey from '@/configs/localStoreKey'
 import InfoList from '@/components/InfoList.vue'
 import { useRoute } from 'vue-router'
+import { useErrorPage } from '@/use/useErrorPage'
 
-const errorPageData = useStorage(
-  localStoreKey.errorPageData,
-  {},
-  sessionStorage,
-)
+const { errorPageData } = useErrorPage()
 
 const route = useRoute()
 

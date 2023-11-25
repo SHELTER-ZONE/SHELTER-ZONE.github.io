@@ -42,7 +42,7 @@ const { setSignal } = useAppStore()
 const dcUser = computed(() => oauthStore.user.discord)
 const userAvatar = computed(() => oauthStore.userAvatar)
 const dcUserName = computed(() => get(dcUser.value, 'username'))
-const szUserProfile = computed(() => get(oauthStore.user, 'sz.userProfile'))
+const szUserProfile = computed(() => get(oauthStore.user, 'sz.UserProfile'))
 
 const logout = () => {
   setSignal('signoutConfirm', true)
@@ -51,7 +51,7 @@ const logout = () => {
 const options = computed(() => {
   const options = [
     {
-      label: '使用者避難所',
+      label: '個人避難所',
       key: 'user-profile',
     },
     {

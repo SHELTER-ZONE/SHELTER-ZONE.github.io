@@ -12,17 +12,17 @@
 
         <div class="header-info">
           <div>
-            <p class="user-name">{{ userProfile.name }}</p>
-            <p>{{ dateFormat(userProfile.createdAt) }}</p>
+            <p class="user-name">{{ szUserProfile.name }}</p>
+            <p>{{ dateFormat(szUserProfile.createdAt) }}</p>
           </div>
 
           <div>
-            <p>{{ userProfile.from }}</p>
-            <p>{{ userProfile.country }}</p>
+            <p>{{ szUserProfile.from }}</p>
+            <p>{{ szUserProfile.country }}</p>
           </div>
 
           <div>
-            <p>🌟Rep: {{ userProfile.rep }}</p>
+            <p>🌟Rep: {{ szUserProfile.rep }}</p>
           </div>
         </div>
       </header>
@@ -46,7 +46,7 @@ const oauthStore = useOauthStore()
 const { fetchDataToValue } = useFetch()
 const userAvatar = computed(() => oauthStore.userAvatar)
 const szUser = computed(() => oauthStore.user.sz)
-const userProfile = computed(() => get(oauthStore.user, 'sz.UserProfile') || {})
+const szUserProfile = computed(() => get(oauthStore.user, 'sz.UserProfile'))
 // const loading = ref(true)
 
 onMounted(async () => {})

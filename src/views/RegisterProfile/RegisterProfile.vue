@@ -10,45 +10,45 @@
 
       <n-divider />
 
-      <section class="mb-[40px] flex justify-center">
-        <StepBar :cur-step="curStage" />
+      <section
+        v-if="curStage !== stages.length - 1"
+        class="mb-[40px] flex justify-center"
+      >
+        <StepBar :cur-step="curStage" :steps="stages.length" />
       </section>
 
-      <KeepAlive>
-        <component
-          :is="stages[curStage]"
-          v-model:form="formData"
-          @complete="onStageComplete"
-          @previous="onPreviousStage"
-        />
-      </KeepAlive>
+      <section>
+        <KeepAlive>
+          <component
+            :is="stages[curStage]"
+            v-model:form="formData"
+            :formData="formData"
+            @complete="onStageComplete"
+            @previous="onPreviousStage"
+          />
+        </KeepAlive>
+      </section>
     </SZBlockContainer>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref, shallowReactive, computed, reactive, onMounted } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { AirlineRapidBoard } from '@vicons/carbon'
-import { NIcon, NDivider, NProgress, NButton } from 'naive-ui'
-import { RegisterSZUserProfile } from '@/api/szUserProfile'
+import { NIcon, NDivider } from 'naive-ui'
 import VerifyForm from './components/VerifyForm.vue'
 import Important from './components/Important.vue'
 import OTPVerify from './components/OTPVerify.vue'
 import StepBar from '@/components/StepBar.vue'
-import { useOauthStore } from '@/stores/oauth'
-import { get } from 'lodash-es'
+import Registering from './components/Registering.vue'
 
-// const stages = shallowReactive({
-//   VerifyForm,
-//   Important,
-//   OTPVerify,
-// })
-const { user } = useOauthStore()
-const stages = ref([VerifyForm, Important, OTPVerify])
+const stages = ref([VerifyForm, Important, OTPVerify, Registering])
 const curStage = ref(0)
 const completePercentage = ref(0)
+
 const stepPercentage = computed(() => 100 / Object.keys(stages).length)
+
 const formData = reactive({
   name: null,
   joinReason: null,
@@ -56,28 +56,13 @@ const formData = reactive({
   country: null,
 })
 
-const payloadData = computed(() => {
-  return {
-    userId: get(user, 'sz.id'),
-    ...formData,
-  }
-})
-
-const onStageComplete = (stage: string) => {
-  if (stage === 'otp') {
-    // register profile
-    return
-  }
+const onStageComplete = async (stage: string): Promise<void> => {
   completePercentage.value += stepPercentage.value
   curStage.value += 1
 }
 
-const onPreviousStage = () => {
+const onPreviousStage = (): void => {
   curStage.value -= 1
-}
-
-const registerSZUserProfile = async () => {
-  await RegisterSZUserProfile(payloadData.value)
 }
 
 onMounted(() => {

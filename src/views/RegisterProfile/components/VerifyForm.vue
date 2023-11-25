@@ -14,6 +14,12 @@
           :key="field.key"
           :label="field.label"
         >
+          <template #label>
+            <div class="flex items-center gap-5px">
+              <p>{{ field.label }}</p>
+              <Tip tip="this is test tip" />
+            </div>
+          </template>
           <Component
             :is="get(fieldTypeComponent, field.type)"
             :disabled="field.disabled"
@@ -42,7 +48,7 @@
 <script setup lang="ts">
 import { reactive, ref, computed } from 'vue'
 import { NForm, NFormItem, NButton, type FormItemRule } from 'naive-ui'
-import { Tag } from '@vicons/carbon'
+import Tip from '@/components/Tip.vue'
 
 // config
 import countries from '@/configs/countries'

@@ -24,19 +24,14 @@ import { get } from 'lodash-es'
 import { useOauthStore } from '@/stores/oauth'
 import { NSpin, useNotification } from 'naive-ui'
 import notifyMessage from '@/configs/notifyMessage'
-import localStoreKey from '@/configs/localStoreKey'
-import { useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
+import { useErrorPage } from '@/use/useErrorPage'
 
 const router = useRouter()
 const route = useRoute()
 const oauthStore = useOauthStore()
 const notification = useNotification()
-const errorPageData = useStorage(
-  localStoreKey.errorPageData,
-  {},
-  sessionStorage,
-)
+const { errorPageData } = useErrorPage()
 
 const statusMessage = ref('')
 
