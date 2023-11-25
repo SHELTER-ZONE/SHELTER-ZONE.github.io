@@ -1,7 +1,7 @@
 <template>
   <n-tooltip trigger="hover">
     <template #trigger>
-      <n-icon :size="size"><Help /></n-icon>
+      <n-icon :size="size" :color="color"><Help /></n-icon>
     </template>
     <slot>{{ tip }}</slot>
   </n-tooltip>

@@ -1,6 +1,6 @@
 <template>
   <main class="register-profile">
-    <SZBlockContainer class="w-full max-w-[500px] m-auto">
+    <SZBlockContainer class="w-full max-w-[500px] flex-1 m-auto">
       <div
         class="flex flex-col justify-center items-center gap-[20px] py-[20px]"
       >
@@ -11,22 +11,22 @@
       <n-divider />
 
       <section
-        v-if="curStage !== stages.length - 1"
+        v-if="curStage < stages.length - 2"
         class="mb-[40px] flex justify-center"
       >
-        <StepBar :cur-step="curStage" :steps="stages.length" />
+        <StepBar :cur-step="curStage" :steps="stages.length - 2" />
       </section>
 
-      <section>
-        <KeepAlive>
-          <component
-            :is="stages[curStage]"
-            v-model:form="formData"
-            :formData="formData"
-            @complete="onStageComplete"
-            @previous="onPreviousStage"
-          />
-        </KeepAlive>
+      <section class="flex-1 grid">
+        <!-- <KeepAlive> -->
+        <component
+          :is="stageCmps[curStage]"
+          v-model:form="formData"
+          :formData="formData"
+          @complete="onStageComplete"
+          @previous="onPreviousStage"
+        />
+        <!-- </KeepAlive> -->
       </section>
     </SZBlockContainer>
   </main>
@@ -37,17 +37,18 @@ import { ref, computed, reactive, onMounted } from 'vue'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { AirlineRapidBoard } from '@vicons/carbon'
 import { NIcon, NDivider } from 'naive-ui'
-import VerifyForm from './components/VerifyForm.vue'
-import Important from './components/Important.vue'
-import OTPVerify from './components/OTPVerify.vue'
 import StepBar from '@/components/StepBar.vue'
-import Registering from './components/Registering.vue'
+import VerifyForm from './components/VerifyForm.vue'
 
-const stages = ref([VerifyForm, Important, OTPVerify, Registering])
-const curStage = ref(0)
-const completePercentage = ref(0)
-
-const stepPercentage = computed(() => 100 / Object.keys(stages).length)
+const stages = [
+  'VerifyForm',
+  'Important',
+  'OTPVerify',
+  'Registering',
+  'CompleteRegister',
+]
+const stageCmps = ref<any[]>([VerifyForm])
+const curStage = ref<number>(0)
 
 const formData = reactive({
   name: null,
@@ -57,7 +58,6 @@ const formData = reactive({
 })
 
 const onStageComplete = async (stage: string): Promise<void> => {
-  completePercentage.value += stepPercentage.value
   curStage.value += 1
 }
 
@@ -65,14 +65,20 @@ const onPreviousStage = (): void => {
   curStage.value -= 1
 }
 
-onMounted(() => {
-  completePercentage.value += stepPercentage.value / 2
+onMounted(async () => {
+  for (let cmpName of stages) {
+    if (cmpName !== 'VerifyForm') {
+      stageCmps.value.push(
+        (await import(`./components/${cmpName}.vue`)).default,
+      )
+    }
+  }
 })
 </script>
 
 <style scoped lang="postcss">
 .register-profile {
-  @apply p-[50px];
+  @apply p-[50px] min-h-[600px];
   @apply flex flex-col gap-[50px];
 }
 </style>

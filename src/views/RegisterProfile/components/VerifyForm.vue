@@ -14,10 +14,10 @@
           :key="field.key"
           :label="field.label"
         >
-          <template #label>
-            <div class="flex items-center gap-5px">
+          <template #label v-if="field.tip">
+            <div class="f-row-center gap-[7px]">
               <p>{{ field.label }}</p>
-              <Tip tip="this is test tip" />
+              <Tip :tip="field.tip" :size="16" color="var(--base)" />
             </div>
           </template>
           <Component
@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { NForm, NFormItem, NButton, type FormItemRule } from 'naive-ui'
 import Tip from '@/components/Tip.vue'
 
@@ -105,12 +105,14 @@ const fields = computed(() => [
     key: 'name',
     type: 'text',
     maxlength: 20,
+    tip: 'SZ 使用者名稱',
     placeholder: '請輸入',
   },
   {
     label: '路徑來源',
     key: 'from',
     type: 'select',
+    tip: '從何得知或是加入 SZ',
     filterable: true,
     tag: true,
     placeholder: '選擇來源或輸入新增',

@@ -47,12 +47,14 @@ const registerSZUserProfile = async () => {
     }
     return
   }
+  await oauthStore.findMeSZUser()
   emits('complete', 'Registering')
 }
 
 onMounted(async () => {
   await nextTick()
   await registerSZUserProfile()
+  // TODO assign discord roles
 })
 </script>
 
