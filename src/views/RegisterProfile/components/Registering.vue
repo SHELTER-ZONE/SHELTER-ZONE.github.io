@@ -54,7 +54,6 @@ const registerSZUserProfile = async () => {
 onMounted(async () => {
   await nextTick()
   await registerSZUserProfile()
-  // TODO assign discord roles
 })
 </script>
 
