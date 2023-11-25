@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home/Home.vue'
-import verifyRoutes from './modules/verify'
 import { registerRouterGuard } from './guard'
 
 const router = createRouter({
@@ -13,6 +12,17 @@ const router = createRouter({
         title: '首頁',
       },
       component: Home,
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: () => import('@/views/Error/Error.vue'),
+    },
+    {
+      path: '/discord/callback',
+      name: 'discord callback',
+      meta: { hidden: true },
+      component: () => import('@/views/Callback/Callback.vue'),
     },
     {
       path: '/about',
@@ -31,23 +41,11 @@ const router = createRouter({
       component: () => import('@/views/SZTeam/SZTeam.vue'),
     },
     {
-      path: '/discord/callback',
-      name: 'discord callback',
-      meta: { hidden: true },
-      component: () => import('@/views/Callback/Callback.vue'),
-    },
-    {
       path: '/ecosystem',
       name: 'ecosystem',
       meta: { title: '生態與資源' },
       component: () => import('@/views/Ecosystem/Ecosystem.vue'),
     },
-    {
-      path: '/error',
-      name: 'error',
-      component: () => import('@/views/Error/Error.vue'),
-    },
-    ...verifyRoutes,
     {
       path: '/profile',
       name: 'profile',
@@ -66,15 +64,6 @@ const router = createRouter({
         title: '避難者驗證',
       },
       component: () => import('@/views/RegisterProfile/RegisterProfile.vue'),
-    },
-    {
-      path: '/test',
-      name: 'test',
-      meta: {
-        hidden: true,
-        title: '測試',
-      },
-      component: () => import('@/views/Profile/Profile.vue'),
     },
   ],
 })
