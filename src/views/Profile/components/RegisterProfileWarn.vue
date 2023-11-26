@@ -1,5 +1,10 @@
 <template>
-  <ActionBlock title="避難者驗證" actionName="前往驗證" @action="goVerify">
+  <ActionBlock
+    title="避難者驗證"
+    actionName="前往驗證"
+    actionType="info"
+    @action="goVerify"
+  >
     <template #icon><FingerprintRecognition /></template>
     <div>
       <p>
