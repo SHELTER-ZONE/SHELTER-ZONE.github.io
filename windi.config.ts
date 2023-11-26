@@ -37,7 +37,7 @@ export default defineConfig({
       },
       screens: {
         tablet: '640px',
-        mb: '425px',
+        mb: '426px',
       },
     },
   },

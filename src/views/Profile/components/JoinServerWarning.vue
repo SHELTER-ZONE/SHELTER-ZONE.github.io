@@ -10,11 +10,6 @@
         請先加入 SHELTER ZONE Discord 伺服器，SZ 所有的服務都以 Discord
         為中心，所以請務必加入
       </p>
-
-      <n-alert type="error"
-        >請牢記，如果退出 Discord 伺服器，系統將會自動抹除你的所有資料
-        !</n-alert
-      >
     </div>
     <template #hint>
       <n-button

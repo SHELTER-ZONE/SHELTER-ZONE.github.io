@@ -8,7 +8,7 @@
           <p v-if="errorType" class="text-danger text-md font-bold">
             — {{ errorType }} —
           </p>
-          <p class="font-medium">
+          <p class="error-msg">
             {{ get(errorPageData, 'message') }}
           </p>
 
@@ -25,18 +25,20 @@
           >
             <div class="flex flex-col gap-[20px]">
               <n-alert type="warning">
-                以下資料可能含有身分驗證信息，僅供除錯用途，切勿截圖與外洩他人，以防身分盜用
+                <div class="<mb:(text-sm)">
+                  以下資料可能含有身分驗證信息，僅供除錯用途，切勿截圖與外洩他人，以防身分盜用
+                </div>
               </n-alert>
-              <InfoList :data="errorPageData" />
+              <InfoList :data="errorPageData" class="<mb:(text-sm)" />
             </div>
           </n-scrollbar>
         </n-collapse-transition>
 
         <n-divider />
 
-        <section class="flex justify-center items-center flex-wrap gap-[20px]">
+        <section class="btn-container">
           <n-button
-            class="flex-1"
+            class="w-full"
             secondary
             type="warning"
             :disabled="reported"
@@ -48,11 +50,7 @@
             Report Error
           </n-button>
 
-          <router-link
-            class="flex-1"
-            :to="{ name: 'home' }"
-            @click="resetErrorPageData"
-          >
+          <router-link :to="{ name: 'home' }" @click="resetErrorPageData">
             <n-button class="w-full" secondary type="primary">
               <template #icon>
                 <n-icon><Home /> </n-icon>
@@ -108,7 +106,16 @@ const resetErrorPageData = () => {
   @apply gap-20px px-50px pt-100px;
 }
 
+.error-msg {
+  @apply font-medium text-danger;
+}
+
 .error-content-wrapper {
   @apply text-center;
+}
+
+.btn-container {
+  @apply grid grid-cols-2 gap-[20px];
+  @apply <mb:(grid-cols-1);
 }
 </style>

@@ -5,14 +5,14 @@
       <p class="topic-title">Personal Shelter</p>
       <n-divider class="bg-primary-bg" />
 
-      <div class="flex flex-col items-center gap-[10px]">
+      <div class="flex flex-col items-center gap-[10px] mb-[20px]">
         <n-icon :size="30" color="var(--danger)"><Locked /></n-icon>
         <p class="text-danger text-lg font-bold">Access Denied</p>
       </div>
 
-      <section class="max-w-[600px] w-full flex flex-col gap-[30px]">
-        <JoinServerWarning v-if="!szJoined" />
-        <n-divider v-if="!szJoined && !szUserProfile" />
+      <section class="max-w-[600px] w-full flex flex-col gap-[10px]">
+        <JoinServerWarning />
+        <n-divider />
         <RegisterProfileWarn v-if="!szUserProfile" />
       </section>
     </div>

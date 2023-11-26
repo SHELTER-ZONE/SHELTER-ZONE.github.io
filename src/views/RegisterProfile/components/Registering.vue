@@ -27,7 +27,7 @@ const props = defineProps<RegisteringProps>()
 const emits = defineEmits(['complete'])
 const oauthStore = useOauthStore()
 const message = useMessage()
-const { errorPageData, rawErrorDataFormat } = useErrorPage()
+const { handleToErrorPage } = useErrorPage()
 
 const payloadData = computed(() => {
   return {
@@ -40,11 +40,11 @@ const registerSZUserProfile = async () => {
   const [, err, rawErr]: any = await RegisterSZUserProfile(payloadData.value)
   if (err) {
     message.error(err.message)
-    errorPageData.value = {
-      code: err.code,
-      message: err.message,
-      ...rawErrorDataFormat(rawErr),
-    }
+    handleToErrorPage({
+      errData: err,
+      rawErr,
+      context: 'registerSZUserProfile',
+    })
     return
   }
   await oauthStore.findMeSZUser()

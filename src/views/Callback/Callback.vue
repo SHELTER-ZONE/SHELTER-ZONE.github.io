@@ -38,6 +38,7 @@ const statusMessage = ref('')
 const emitError = (errorData: {
   code?: string
   message?: string
+  function: string
   [propName: string]: any
 }) => {
   errorPageData.value = errorData
@@ -80,6 +81,7 @@ const handleLogin = async () => {
       status: errorStatus,
       code: errorCode,
       message: errorMessage,
+      function: 'handleLogin',
       requestUrl: `${get(error, 'config.method')} | ${get(
         error,
         'config.url',
