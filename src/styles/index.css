@@ -4,7 +4,14 @@
     @apply text-[30px] tracking-[2.5px] font-medium;
 }
 
+/* position */
 
+.abs-center {
+    @apply absolute top-0 bottom-0 left-0 right-0 m-auto;
+}
+
+
+/* layouts */
 .f-col {
     @apply flex flex-col justify-center;
 }

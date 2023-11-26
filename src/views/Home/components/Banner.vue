@@ -16,11 +16,11 @@ import banner from '@/assets/home/banner.jpg'
 
 <style scoped lang="postcss">
 .home-banner {
-  @apply relative;
+  @apply relative select-none;
 }
 
 .home-banner img {
-  @apply w-full h-screen;
+  @apply w-full h-screen  pointer-events-none;
   @apply object-cover opacity-50;
 }
 
@@ -39,7 +39,8 @@ import banner from '@/assets/home/banner.jpg'
   @apply text-md md:text-xl;
 }
 
-.sz-main-title, sub-title {
+.sz-main-title,
+sub-title {
   @apply tracking-widest sm:tracking-[10px] md:tracking-[20px];
 }
 

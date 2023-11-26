@@ -5,11 +5,11 @@
     </header>
     <main class="modal-content">確認登出？</main>
     <footer class="modal-footer">
-      <n-button class="flex-1" ghost @click="onCancel">取消</n-button>
+      <n-button class="flex-1" secondary @click="onCancel">取消</n-button>
       <n-button
         class="flex-1"
-        ghost
-        type="primary"
+        secondary
+        type="error"
         :loading="loading"
         @click="onSignout"
       >

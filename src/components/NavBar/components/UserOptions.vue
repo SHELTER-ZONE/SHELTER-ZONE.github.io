@@ -25,14 +25,14 @@
 
 <script setup lang="ts">
 import LoginBtn from './LoginBtn.vue'
-import { computed, h } from 'vue'
-import { RouterLink } from 'vue-router'
+import { computed } from 'vue'
 import { NButton, NDropdown, NIcon, NAvatar } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
-import { ChevronDown, WarningFilled } from '@vicons/carbon'
+import { ChevronDown, WarningFilled, Campsite, Logout } from '@vicons/carbon'
 import { get } from 'lodash-es'
 import { useAppStore } from '@/stores/app'
 import router from '@/router'
+import { renderIcon } from '@/utils/helper'
 
 const emits = defineEmits(['close'])
 
@@ -41,7 +41,6 @@ const { setSignal } = useAppStore()
 
 const dcUser = computed(() => oauthStore.user.discord)
 const userAvatar = computed(() => oauthStore.userAvatar)
-const dcUserName = computed(() => get(dcUser.value, 'username'))
 const szUserProfile = computed(() => get(oauthStore.user, 'sz.UserProfile'))
 
 const logout = () => {
@@ -53,10 +52,14 @@ const options = computed(() => {
     {
       label: '個人避難所',
       key: 'user-profile',
+      icon: !szUserProfile.value
+        ? renderIcon(WarningFilled, { color: 'var(--warning)' })
+        : renderIcon(Campsite),
     },
     {
       label: '登出',
       key: 'logout',
+      icon: renderIcon(Logout),
     },
   ]
   return options

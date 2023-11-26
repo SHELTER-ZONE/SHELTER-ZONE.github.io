@@ -1,32 +1,37 @@
 <template>
   <main class="ecosystem">
-    <section class="resource-section">
-      <h3 class="resource-section-title">
-        <n-icon><ApplicationWeb /></n-icon>
-        <p>Applications</p>
-      </h3>
-      <div class="resource-list">
-        <ResourceCard
-          v-for="item in applications"
-          :key="item.name"
-          :data="item"
-        />
-      </div>
-    </section>
+    <StatusMask text="施工中" status="blocked" :iconSize="30">
+      <div class="f-col gap-[30px]">
+        <section class="resource-section">
+          <h3 class="resource-section-title">
+            <n-icon><ApplicationWeb /></n-icon>
+            <p>Applications</p>
+          </h3>
+          <div class="resource-list">
+            <ResourceCard
+              v-for="item in applications"
+              :key="item.name"
+              :data="item"
+            />
+          </div>
+        </section>
 
-    <section class="resource-section">
-      <h3 class="resource-section-title">
-        <n-icon><Bookmark /></n-icon>
-        <p>Document</p>
-      </h3>
-      <div class="resource-list">
-        <ResourceCard v-for="item in docs" :key="item.name" :data="item" />
+        <section class="resource-section">
+          <h3 class="resource-section-title">
+            <n-icon><Bookmark /></n-icon>
+            <p>Document</p>
+          </h3>
+          <div class="resource-list">
+            <ResourceCard v-for="item in docs" :key="item.name" :data="item" />
+          </div>
+        </section>
       </div>
-    </section>
+    </StatusMask>
   </main>
 </template>
 
 <script setup>
+import StatusMask from '@/components/StatusMask.vue'
 import ResourceCard from './components/ResourceCard.vue'
 import { NIcon } from 'naive-ui'
 import {

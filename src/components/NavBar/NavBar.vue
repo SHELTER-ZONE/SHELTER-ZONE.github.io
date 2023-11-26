@@ -12,7 +12,7 @@ import NavbarMobile from './components/NavbarMobile.vue'
 
 <style scoped lang="postcss">
 .navbar {
-  @apply fixed top-0 left-0 right-0 z-10;
+  @apply fixed top-0 left-0 right-0 z-10 max-w-[2080px] m-auto;
 }
 
 .nav-wrapper {
