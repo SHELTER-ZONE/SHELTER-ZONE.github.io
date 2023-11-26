@@ -1,22 +1,24 @@
 <template>
   <main class="sz-team">
-    <PageTitle />
+    <StatusMask text="施工中" status="blocked" :iconSize="30">
+      <PageTitle />
 
-    <section class="sz-team-intro">
-      <p>SZ 開發團隊屬於貢獻性質，開發 SZ 相關服務、網站、Discord Bot</p>
-      <p>casc</p>
-    </section>
+      <section class="sz-team-intro">
+        <p>SZ 開發團隊屬於貢獻性質，開發 SZ 相關服務、網站、Discord Bot</p>
+        <p>casc</p>
+      </section>
 
-    <div class="teams-list">
-      <TeamBlock
-        v-for="team in teams"
-        :data="team"
-        :key="team.name"
-        :team="team.name"
-        :techs="team.techs"
-        :type="team.type"
-      />
-    </div>
+      <div class="teams-list">
+        <TeamBlock
+          v-for="team in teams"
+          :data="team"
+          :key="team.name"
+          :team="team.name"
+          :techs="team.techs"
+          :type="team.type"
+        />
+      </div>
+    </StatusMask>
   </main>
 </template>
 
@@ -24,6 +26,7 @@
 import TeamBlock from './components/TeamBlock.vue'
 import PageTitle from '@/components/Title/PageTitle.vue'
 import { TeamData } from './types'
+import StatusMask from '@/components/StatusMask.vue'
 
 const teams: TeamData[] = [
   {

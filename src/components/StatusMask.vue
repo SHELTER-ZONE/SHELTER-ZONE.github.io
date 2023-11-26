@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { NIcon } from 'naive-ui'
-import { CheckmarkFilled, ErrorFilled } from '@vicons/carbon'
+import { CheckmarkFilled, ErrorFilled, WarningHexFilled } from '@vicons/carbon'
 import { computed } from 'vue'
 import { get } from 'lodash-es'
 
@@ -44,6 +44,7 @@ const props = withDefaults(defineProps<StatusMaskProps>(), {
 const statusConfig = {
   complete: { icon: CheckmarkFilled, color: 'var(--primary)' },
   error: { icon: ErrorFilled, color: 'var(--danger)' },
+  blocked: { icon: WarningHexFilled, color: 'var(--warning)' },
 }
 
 const iconProps = computed(() => {

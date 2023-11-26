@@ -13,7 +13,7 @@
       />
     </SZBlockContainer>
 
-    <SZBlockContainer title="Channels" class="h-full">
+    <!-- <SZBlockContainer title="Channels" class="h-full">
       <p
         v-for="channel in channels.value"
         :key="get(channel, 'id')"
@@ -21,7 +21,7 @@
       >
         - {{ get(channel, 'name', '-') }}
       </p>
-    </SZBlockContainer>
+    </SZBlockContainer> -->
   </div>
 </template>
 
