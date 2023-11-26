@@ -1,53 +1,31 @@
 <template>
   <main class="profile">
-    <NotAccess v-if="!szUserProfile" />
+    <SZBlockContainer class="w-full max-w-[1980px]">
+      <div class="f-col-center gap-[20px] py-[40px]">
+        <n-icon :size="50"><Campsite /></n-icon>
+        <p class="topic-title">Personal Shelter</p>
+        <n-divider class="bg-primary-bg" />
 
-    <SZBlockContainer v-if="szUserProfile">
-      <header class="profile-header">
-        <img
-          class="user-avatar"
-          :src="`${userAvatar}?size=1024`"
-          alt="discord user avatar"
-        />
+        <NotAccess v-if="!szUserProfile || !szJoined" />
 
-        <div class="header-info">
-          <div>
-            <p class="user-name">{{ szUserProfile.name }}</p>
-            <p>{{ dateFormat(szUserProfile.createdAt) }}</p>
-          </div>
-
-          <div>
-            <p>{{ szUserProfile.from }}</p>
-            <p>{{ szUserProfile.country }}</p>
-          </div>
-
-          <div>
-            <p>🌟Rep: {{ szUserProfile.rep }}</p>
-          </div>
+        <div v-if="szUserProfile && szJoined">
+          <BaseInfoBlock />
         </div>
-      </header>
+      </div>
     </SZBlockContainer>
-    <!-- </n-spin> -->
   </main>
 </template>
 
 <script setup lang="ts">
 import { useOauthStore } from '@/stores/oauth'
-import { computed, onMounted, ref } from 'vue'
-import { NSpin, NForm, NFormItem } from 'naive-ui'
-import { GetSZUserProfile } from '@/api/szUserProfile'
+import { onMounted } from 'vue'
+import { NIcon, NDivider } from 'naive-ui'
+import { Campsite } from '@vicons/carbon'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import NotAccess from './components/NotAccess.vue'
-import { dateFormat } from '@/utils/helper'
-import { get } from 'lodash-es'
-import { useFetch } from '@/use/useFetch'
+import BaseInfoBlock from './components/BaseInfoBlock.vue'
 
-const oauthStore = useOauthStore()
-const { fetchDataToValue } = useFetch()
-const userAvatar = computed(() => oauthStore.userAvatar)
-const szUser = computed(() => oauthStore.user.sz)
-const szUserProfile = computed(() => get(oauthStore.user, 'sz.UserProfile'))
-// const loading = ref(true)
+const { szJoined, szUserProfile } = useOauthStore()
 
 onMounted(async () => {})
 </script>

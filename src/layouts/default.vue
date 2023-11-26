@@ -30,7 +30,7 @@ import SignoutModal from '@/components/Modal/SignoutModal.vue'
 import { RouterView } from 'vue-router'
 import { includes } from 'lodash-es'
 
-const navBarBlockList = ['RegisterProfile']
+const navBarBlockList = ['RegisterProfile', 'discord callback']
 </script>
 
 <style scoped lang="postcss">

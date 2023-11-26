@@ -1,6 +1,8 @@
 import { get } from 'lodash-es'
 import { useAppStore } from '@/stores/app'
 import dayjs from 'dayjs'
+import { h } from 'vue'
+import { NIcon } from 'naive-ui'
 
 export const getHost = (hostName: string) => {
   const appStore = useAppStore()
@@ -20,4 +22,12 @@ export const wait = (ms: number): Promise<void> => {
       resolve()
     }, ms)
   })
+}
+
+export const renderIcon = (icon: Component, props: any = null) => {
+  return () => {
+    return h(NIcon, props, {
+      default: () => h(icon),
+    })
+  }
 }

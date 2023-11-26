@@ -3,7 +3,7 @@ import { defineConfig } from 'windicss/helpers'
 export default defineConfig({
   shortcuts: {
     full: 'w-full h-full',
-    viewPx: 'px-[30px]',
+    viewPx: 'px-[50px]',
     'w-fit': 'w-[fit-content]',
     'h-fit': 'h-[fit-content]',
   },
@@ -30,6 +30,7 @@ export default defineConfig({
         base: 'var(--base)',
         danger: 'var(--danger)',
         warning: 'var(--warning)',
+        action: 'var(--action)',
       },
       borderRadius: {
         normal: '6px',
