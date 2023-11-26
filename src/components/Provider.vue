@@ -7,9 +7,9 @@
     <NNotificationProvider>
       <NDialogProvider>
         <NMessageProvider>
-          <NThemeEditor>
-            <slot />
-          </NThemeEditor>
+          <!-- <NThemeEditor> -->
+          <slot />
+          <!-- </NThemeEditor> -->
         </NMessageProvider>
       </NDialogProvider>
     </NNotificationProvider>

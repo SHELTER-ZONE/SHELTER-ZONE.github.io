@@ -22,7 +22,7 @@
       >
         <n-countdown
           v-if="cooldown"
-          :duration="5000"
+          :duration="30000"
           :on-finish="onCooldownFinish"
         />
         <p v-show="!cooldown">發送 OTP 驗證碼</p>
