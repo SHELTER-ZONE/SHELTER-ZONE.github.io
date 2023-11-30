@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import TeamBlock from './components/TeamBlock.vue'
 import PageTitle from '@/components/Title/PageTitle.vue'
-import { TeamData } from './types'
+import type { TeamData } from './types'
 import StatusMask from '@/components/StatusMask.vue'
 
 const teams: TeamData[] = [
