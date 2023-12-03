@@ -67,6 +67,7 @@ const handleLogin = async () => {
     const code = verifyCode()
     await userLogin(code)
     await getUserDCGuilds()
+    await oauthStore.findMeDCMember({ throwErr: false })
     notification.success({
       content: notifyMessage.loginSuccess,
     })

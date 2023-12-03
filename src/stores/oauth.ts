@@ -5,7 +5,7 @@ import { FindSZUser } from '@/api/szUser'
 import { get, find } from 'lodash-es'
 import { useStorage } from '@vueuse/core'
 import { useFetch } from '@/use/useFetch'
-import { FindMeDCGuilds, FindMeDCUser } from '@/api/discord'
+import { FindMeDCGuilds, FindMeDCMember, FindMeDCUser } from '@/api/discord'
 import localStoreKey from '@/configs/localStoreKey'
 
 const discordAuthRedirectUrl = () =>
@@ -97,6 +97,18 @@ export const useOauthStore = defineStore('oauth', () => {
     if (err && throwErr) throw rawErr
   }
 
+  async function findMeDCMember({ throwErr } = { throwErr: true }) {
+    const [, err, rawErr] = await fetchDataToValue(
+      FindMeDCMember,
+      { discordId: get(user.discord, 'id') },
+      { ref: user, path: 'discord' },
+      null,
+      { toastError: false },
+    )
+
+    if (err && throwErr) throw rawErr
+  }
+
   async function signin() {
     const loginUrl = await getDCAuthorizeUrl()
     if (!loginUrl) return
@@ -111,8 +123,9 @@ export const useOauthStore = defineStore('oauth', () => {
   // getters
   const userAvatar = computed(() => {
     if (!user.discord) return ''
-    const userId = get(user.discord, 'id')
-    const avatarId = get(user.discord, 'avatar')
+    const userId = get(user.discord, 'user.id') || get(user.discord, 'id')
+    const avatarId =
+      get(user.discord, 'user.avatar') || get(user.discord, 'avatar')
     return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.webp`
   })
   const loggedIn = computed(() => {
@@ -144,6 +157,7 @@ export const useOauthStore = defineStore('oauth', () => {
     findMeSZUser,
     findMeDCUser,
     findMeGuilds,
+    findMeDCMember,
     logout,
   }
 })

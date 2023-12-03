@@ -44,6 +44,7 @@ async function appInit() {
       await oauthStore.findMeDCUser()
       await oauthStore.findMeSZUser()
       await oauthStore.findMeGuilds()
+      await oauthStore.findMeDCMember({ throwErr: false })
       // szGuildStore.getSZInfo()
       // szGuildStore.getAllSZChannel()
     } catch (error: any) {

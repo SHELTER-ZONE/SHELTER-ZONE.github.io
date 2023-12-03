@@ -37,7 +37,7 @@
 import AreaBlock from '@/components/AreaBlock.vue'
 import { useOauthStore } from '@/stores/oauth'
 import { dateFormat } from '@/utils/helper'
-import { computed } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { NDivider } from 'naive-ui'
 import InfoItem from './InfoItem.vue'
 import { UserRole, ConditionPoint, DirectLink } from '@vicons/carbon'

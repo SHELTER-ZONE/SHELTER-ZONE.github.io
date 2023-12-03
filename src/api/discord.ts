@@ -1,4 +1,4 @@
-import { discord } from './instance'
+import { discord, apiAuth } from './instance'
 
 export const FindMeDCUser = async () => {
   return await discord({
@@ -11,5 +11,12 @@ export const FindMeDCGuilds = async () => {
   return await discord({
     method: 'GET',
     url: `/users/@me/guilds`,
+  })
+}
+
+export const FindMeDCMember = async ({ discordId }: { discordId: string }) => {
+  return await apiAuth({
+    method: 'GET',
+    url: `/discord/guild/member/${discordId}`,
   })
 }
