@@ -11,7 +11,7 @@
         </div>
       </n-scrollbar>
 
-      <LanguageBtn />
+      <!-- <LanguageBtn /> -->
       <UserOptions />
     </div>
   </nav>

@@ -1,3 +1,3 @@
 export default {
-  login: '登入',
+  login: '避難者登入',
 }
