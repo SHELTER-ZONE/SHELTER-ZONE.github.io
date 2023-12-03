@@ -1,5 +1,5 @@
 <template>
-  <main class="profile">
+  <main class="profile viewPx">
     <SZBlockContainer class="w-full max-w-[1980px]">
       <div class="f-col-center gap-[20px] py-[40px]">
         <n-icon :size="50"><Campsite /></n-icon>
@@ -8,7 +8,7 @@
 
         <NotAccess v-if="!szUserProfile || !szJoined" />
 
-        <div v-if="szUserProfile && szJoined">
+        <div v-if="szUserProfile && szJoined" class="wrapper">
           <BaseInfoBlock />
         </div>
       </div>
@@ -32,25 +32,17 @@ onMounted(async () => {})
 
 <style scoped lang="postcss">
 .profile {
-  @apply pt-[100px] px-[50px];
+  @apply pt-[100px];
   @apply flex flex-col gap-[30px];
   @apply justify-center items-center;
-}
-
-.user-avatar {
-  @apply w-[150px];
-}
-
-.profile-header {
-  @apply flex gap-[30px];
-}
-
-.user-name {
-  @apply text-lg text-primary;
 }
 
 .header-info {
   @apply flex flex-col justify-between;
   @apply text-normal;
+}
+
+.wrapper {
+  @apply full flex flex-col justify-center items-center;
 }
 </style>

@@ -17,6 +17,9 @@ const router = createRouter({
       path: '/error',
       name: 'error',
       component: () => import('@/views/Error/Error.vue'),
+      meta: {
+        hidden: true,
+      },
     },
     {
       path: '/discord/callback',

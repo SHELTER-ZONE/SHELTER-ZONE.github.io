@@ -3,7 +3,7 @@ import { defineConfig } from 'windicss/helpers'
 export default defineConfig({
   shortcuts: {
     full: 'w-full h-full',
-    viewPx: 'px-[50px]',
+    viewPx: 'px-[20px] mb:(px-[50px])',
     'w-fit': 'w-[fit-content]',
     'h-fit': 'h-[fit-content]',
   },
@@ -37,7 +37,7 @@ export default defineConfig({
         sub: '4px',
       },
       screens: {
-        tablet: '640px',
+        tablet: '641px',
         mb: '426px',
       },
     },
