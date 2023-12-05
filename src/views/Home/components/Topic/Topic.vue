@@ -1,7 +1,9 @@
 <template>
   <article class="topic">
     <header>
-      <SectionTitle title="Topic Zone" />
+      <SectionTitle title="Topic Zone">
+        <template #prefix>💬</template>
+      </SectionTitle>
     </header>
 
     <main>

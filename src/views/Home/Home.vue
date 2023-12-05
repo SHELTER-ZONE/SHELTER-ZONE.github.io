@@ -22,7 +22,8 @@ import Topic from './components/Topic/Topic.vue'
 }
 .page-wrapper {
   @apply px-[30px] pt-[30px] tablet:(pt-[100px]);
-  @apply flex flex-col gap-[100px];
+  @apply flex flex-col gap-[200px];
   @apply max-w-[1400px] m-auto;
+  @apply <tablet:(gap-[140px]);
 }
 </style>

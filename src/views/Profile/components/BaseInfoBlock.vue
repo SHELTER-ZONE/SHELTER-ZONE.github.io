@@ -1,7 +1,7 @@
 <template>
   <main class="base-info-block">
     <AreaBlock>
-      <div class="f-row gap-[20px]">
+      <div class="<tablet:(flex-col) f-row gap-[20px]">
         <img
           class="user-avatar"
           :src="`${userAvatar}?size=1024`"
@@ -12,15 +12,17 @@
           <p class="user-name">
             <span>{{ displayData.name.value }}</span>
           </p>
-          <div>
-            <div class="f-row gap-[10px]">
+          <div class="w-full">
+            <div
+              class="<tablet:(flex-col !items-center gap-[2px]) f-row gap-[10px]"
+            >
               <p class="text-sub">{{ displayData.country.value }}</p>
-              <n-divider vertical />
+              <n-divider vertical class="<tablet:(!hidden)" />
               <p class="text-sub">{{ displayData.createdAt.value }}</p>
             </div>
 
             <n-divider />
-            <section class="f-row">
+            <section class="<tablet:(justify-center) f-row">
               <template v-for="(info, key, idx) in lowerData" :key="key">
                 <InfoItem :data="info" />
                 <n-divider vertical v-if="idx !== keys(lowerData).length - 1" />
@@ -83,7 +85,8 @@ const lowerData = computed(() =>
 
 <style scoped lang="postcss">
 .base-info-block {
-  @apply w-full tablet:(w-fit);
+  @apply w-full;
+  @apply tablet:(w-fit);
 }
 .user-avatar {
   @apply max-w-[150px] rounded-lg;
@@ -92,10 +95,12 @@ const lowerData = computed(() =>
 
 .user-name {
   @apply text-lg text-base font-bold pb-[5px];
+  @apply <tablet:(pb-[20px]);
 }
 
 .base-info {
   @apply flex flex-col justify-between flex-1 self-stretch;
   @apply text-normal;
+  @apply <tablet:(items-center);
 }
 </style>

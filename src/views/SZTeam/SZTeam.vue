@@ -94,12 +94,13 @@ const teams: TeamData[] = [
 
 <style scoped lang="postcss">
 .sz-team {
-  @apply viewPx pt-[150px];
+  @apply viewPx viewPt;
   @apply flex flex-col items-center;
 }
 
 .sz-team-intro {
   @apply text-md mb-[40px] max-w-[640px] py-[40px];
+  @apply <tablet:(text-normal py-[10px] mb-[30px]);
 }
 
 .teams-list {

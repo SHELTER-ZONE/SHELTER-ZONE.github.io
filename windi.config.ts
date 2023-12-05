@@ -4,6 +4,7 @@ export default defineConfig({
   shortcuts: {
     full: 'w-full h-full',
     viewPx: 'px-[20px] mb:(px-[50px])',
+    viewPt: 'pt-[80px] mb:(pt-[150px])',
     'w-fit': 'w-[fit-content]',
     'h-fit': 'h-[fit-content]',
   },

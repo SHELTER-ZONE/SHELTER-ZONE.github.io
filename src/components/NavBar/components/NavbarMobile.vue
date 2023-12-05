@@ -8,9 +8,9 @@
       class="navbar-mobile-mask"
     />
     <section class="navbar-mobile-header">
-      <router-link :to="{ name: 'home' }">
+      <!-- <router-link :to="{ name: 'home' }">
         <h2 class="navbar-icon">SZ</h2>
-      </router-link>
+      </router-link> -->
       <n-icon v-if="!toggle" size="30" @click="toggle = true"><Menu /></n-icon>
       <n-icon v-if="toggle" size="30" @click="toggle = false"><Close /></n-icon>
     </section>
@@ -49,6 +49,7 @@ import LanguageBtn from './LanguageBtn.vue'
 import { NIcon, NScrollbar, NCollapseTransition } from 'naive-ui'
 import { Menu, Close } from '@vicons/carbon'
 import { useRoutes } from '@/use/useRoutes'
+import { RouterLink } from 'vue-router'
 const { displayRoutes } = useRoutes()
 
 const toggle = ref(false)
@@ -68,7 +69,7 @@ const toggle = ref(false)
 }
 
 .navbar-mobile-header {
-  @apply flex justify-between items-center;
+  @apply flex justify-between items-center flex-row-reverse;
   @apply text-primary text-md;
 }
 

@@ -72,7 +72,7 @@ const handleLogin = async () => {
       content: notifyMessage.loginSuccess,
     })
 
-    router.push({ name: 'home' })
+    router.push({ name: 'profile' })
   } catch (error) {
     console.log(error)
     const errorCode = get(error, 'data.code')
