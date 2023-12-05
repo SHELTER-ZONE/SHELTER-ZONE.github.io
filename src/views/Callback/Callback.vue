@@ -67,11 +67,12 @@ const handleLogin = async () => {
     const code = verifyCode()
     await userLogin(code)
     await getUserDCGuilds()
+    await oauthStore.findMeDCMember({ throwErr: false })
     notification.success({
       content: notifyMessage.loginSuccess,
     })
 
-    router.push({ name: 'home' })
+    router.push({ name: 'profile' })
   } catch (error) {
     console.log(error)
     const errorCode = get(error, 'data.code')

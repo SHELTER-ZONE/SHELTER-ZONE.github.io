@@ -1,9 +1,23 @@
 <template>
   <header class="home-banner">
     <div class="sz-main-title">
-      <h1>SHELTER ZONE</h1>
-      <h2 class="sub-title">since 2018</h2>
+      <div class="f-col-center gap-[7px]">
+        <h1 class="sz-name">SHELTER ZONE</h1>
+        <h2 class="sub-title">a place your shelter</h2>
+      </div>
+      <n-button
+        v-if="!dcUser"
+        secondary
+        type="primary"
+        class="join-btn"
+        @click="onSignin"
+        :loading="loading"
+      >
+        加入成為避難者
+      </n-button>
     </div>
+
+    <div class="banner-mask" />
     <img :src="banner" alt="SHELTER ZONE" />
 
     <div class="banner-gradient" />
@@ -12,6 +26,42 @@
 
 <script setup lang="ts">
 import banner from '@/assets/home/banner.jpg'
+import { useOauthStore } from '@/stores/oauth'
+import { NButton } from 'naive-ui'
+import { onMounted } from 'vue'
+import { ref } from 'vue'
+import anime from 'animejs'
+import { computed } from 'vue'
+
+const oauthStore = useOauthStore()
+const dcUser = computed(() => oauthStore.user.discord)
+const loading = ref(false)
+
+const onSignin = async () => {
+  try {
+    loading.value = true
+    await oauthStore.signin()
+  } catch (error) {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  anime({
+    targets: '.banner-mask',
+    opacity: [1, 0],
+    easing: 'easeOutSine',
+    duration: 8000,
+    delay: 700,
+  })
+  anime
+    .timeline({
+      easing: 'easeInOutQuad',
+      duration: 6000,
+    })
+    .add({ targets: '.sz-name', color: '#DEDEDE' }, 0)
+    .add({ targets: '.sub-title', color: '#DEDEDE' }, 0)
+})
 </script>
 
 <style scoped lang="postcss">
@@ -27,8 +77,8 @@ import banner from '@/assets/home/banner.jpg'
 .sz-main-title {
   @apply absolute top-0 left-0 right-0 bottom-0;
   @apply m-auto;
-  @apply z-1;
-  @apply flex flex-col justify-center items-center gap-[20px];
+  @apply z-2;
+  @apply flex flex-col justify-center items-center gap-[20px] tablet:(gap-[40px]);
   @apply text-center text-primary text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-shadow-lg;
   @apply font-bold;
 
@@ -36,12 +86,23 @@ import banner from '@/assets/home/banner.jpg'
 }
 
 .sub-title {
-  @apply text-md md:text-xl;
+  @apply text-md tracking-0.8rem md:text-lg;
 }
 
-.sz-main-title,
-sub-title {
+.sz-main-title {
   @apply tracking-widest sm:tracking-[10px] md:tracking-[20px];
+}
+
+.join-btn {
+  @apply text-normal rounded-0.5rem;
+  @apply tablet:(text-lg p-2rem rounded-[1rem]);
+  @apply overflow-hidden;
+}
+
+.banner-mask {
+  @apply w-full h-full;
+  @apply bg-[#111111];
+  @apply absolute left-0 right-0 bottom-0 top-0 z-1;
 }
 
 .banner-gradient {

@@ -1,7 +1,7 @@
 <template>
   <div class="tram-intro">
-    <SectionTitle title="Development Team" iconSize="30">
-      <template #icon><Code /></template>
+    <SectionTitle title="Development Team">
+      <template #prefix>💻</template>
     </SectionTitle>
     <TeamMembers />
   </div>

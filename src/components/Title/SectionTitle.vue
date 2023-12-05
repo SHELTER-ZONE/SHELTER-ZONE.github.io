@@ -8,7 +8,8 @@
     }"
   >
     <h2 v-if="title" class="flex flex-col items-center">
-      <n-icon :size="iconSize">
+      <slot name="prefix" />
+      <n-icon v-if="iconSize" :size="iconSize">
         <slot name="icon" />
       </n-icon>
       <p>{{ title }}</p>

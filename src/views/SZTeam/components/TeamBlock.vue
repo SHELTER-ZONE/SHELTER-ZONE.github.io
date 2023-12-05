@@ -27,9 +27,9 @@
           </div>
         </section>
       </main>
-      <footer>
+      <!-- <footer>
         <n-button type="primary" block secondary>Join Team</n-button>
-      </footer>
+      </footer> -->
     </article>
   </SZBlockContainer>
   <!-- </div> -->

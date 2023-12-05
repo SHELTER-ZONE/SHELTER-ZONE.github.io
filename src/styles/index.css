@@ -1,7 +1,7 @@
 @import url('./naive-ui/index.css');
 
 .topic-title {
-    @apply text-[30px] tracking-[2.5px] font-medium;
+    @apply text-[30px] tracking-[2.5px] font-medium text-center;
 }
 
 /* position */

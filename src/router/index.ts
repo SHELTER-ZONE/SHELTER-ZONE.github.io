@@ -17,6 +17,9 @@ const router = createRouter({
       path: '/error',
       name: 'error',
       component: () => import('@/views/Error/Error.vue'),
+      meta: {
+        hidden: true,
+      },
     },
     {
       path: '/discord/callback',
@@ -36,7 +39,7 @@ const router = createRouter({
       path: '/sz-team',
       name: 'szteam',
       meta: {
-        title: '開發團隊',
+        title: 'SZ 開發團隊',
       },
       component: () => import('@/views/SZTeam/SZTeam.vue'),
     },
