@@ -9,7 +9,7 @@ import { FindMeDCGuilds, FindMeDCMember, FindMeDCUser } from '@/api/discord'
 import localStoreKey from '@/configs/localStoreKey'
 
 const discordAuthRedirectUrl = () =>
-  `${location.protocol}//${location.host}/#/discord/callback`
+  `${location.protocol}//${location.host}/discord/callback`
 
 export const useOauthStore = defineStore('oauth', () => {
   const { fetchDataToValue, fetchDataReturn, fetchData } = useFetch()

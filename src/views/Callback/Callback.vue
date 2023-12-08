@@ -46,10 +46,11 @@ const emitError = (errorData: {
 }
 const verifyCode = (): string => {
   statusMessage.value = '驗證登入交換碼'
-  let code = location.href.split('/')[3].split('=')[1]
-  code = code.replace('#', '')
+  const code = get(route.query, 'code')
+  // let code = location.href.split('/')[3].split('=')[1]
+  // code = code.replace('#', '')
   if (!code) throw new Error('ascascs')
-  return code
+  return code as string
 }
 
 const userLogin = async (code: string) => {

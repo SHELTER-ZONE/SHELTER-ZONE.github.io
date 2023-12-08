@@ -1,5 +1,5 @@
 <template>
-  <main class="layout default">
+  <main id="layout" class="layout default">
     <NavBar v-if="!includes(navBarBlockList, $route.name)" />
 
     <div class="flex-1">

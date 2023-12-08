@@ -15,6 +15,17 @@ export const registerRouterGuard = (router: Router) => {
     if (!loggedIn) return setSignal('requestSignin', true)
     next()
   })
+
+  router.afterEach(() => {
+    console.log('afterEach')
+    const layout = document.getElementById('layout')
+    if (!layout) return
+    const res = layout.scrollTo({
+      top: 0,
+    })
+
+    console.log('res', res)
+  })
 }
 
 export function checkExpiresIn() {
