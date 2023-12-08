@@ -11,3 +11,9 @@ export const teamTypeColorConfig = {
   frontend: '#F2E355',
   bot: '#55B0F2',
 }
+
+export const teamTypesConfig = {
+  frontend: { label: 'Frontend 前端 ', value: 'frontend' },
+  backend: { label: 'Backend 後端', value: 'backend' },
+  bot: { label: 'Bot 開發', value: 'bot' },
+}

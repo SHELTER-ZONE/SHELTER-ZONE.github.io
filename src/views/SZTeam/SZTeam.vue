@@ -16,16 +16,29 @@
       </div>
     </section>
 
-    <div class="teams-list">
-      <TeamBlock
-        v-for="team in teams"
-        :data="team"
-        :key="team.name"
-        :team="team.name"
-        :techs="team.techs"
-        :type="team.type"
-      />
-    </div>
+    <section class="teams-list">
+      <TeamBlock v-for="team in teams" :data="team" :key="team.name" :team="team.name" :techs="team.techs"
+        :type="team.type" />
+    </section>
+
+    <AreaBlock class="w-full max-w-[800px] m-auto" color="var(--base)">
+      <section class="w-full how-to-join">
+
+        <h2 class="text-lg">加入 SZ 開發團隊</h2>
+        <JoinTeamForm />
+
+        <!-- <AreaBlock style="padding: 0" color="var(--base)">
+          <a href="https://discordapp.com/users/149772971555160064" target="_blank" rel="noopener noreferrer">
+            <n-button secondary type="info" block>
+              <template #icon>
+                <MailAll />
+              </template>
+              聯絡 Proladon
+            </n-button>
+          </a>
+        </AreaBlock> -->
+      </section>
+    </AreaBlock>
     <!-- </StatusMask> -->
   </main>
 </template>
@@ -34,8 +47,8 @@
 import TeamBlock from './components/TeamBlock.vue'
 import PageTitle from '@/components/Title/PageTitle.vue'
 import type { TeamData } from './types'
-import StatusMask from '@/components/StatusMask.vue'
 import AreaBlock from '@/components/AreaBlock.vue'
+import JoinTeamForm from './components/JoinTeamForm.vue'
 import { Code } from '@vicons/carbon'
 import { NIcon } from 'naive-ui'
 
@@ -95,16 +108,20 @@ const teams: TeamData[] = [
 <style scoped lang="postcss">
 .sz-team {
   @apply viewPx viewPt;
-  @apply flex flex-col items-center;
+  @apply flex flex-col items-center gap-[100px];
 }
 
 .sz-team-intro {
-  @apply text-md mb-[40px] max-w-[640px] py-[40px];
-  @apply <tablet:(text-normal py-[10px] mb-[30px]);
+  @apply text-md max-w-[640px];
+  @apply <tablet:(text-normal mb-[30px]);
 }
 
 .teams-list {
   @apply flex flex-col items-center gap-[20px];
   @apply tablet:(flex-wrap flex-row justify-center items-stretch);
+}
+
+.how-to-join {
+  @apply text-center;
 }
 </style>
