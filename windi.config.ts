@@ -38,8 +38,11 @@ export default defineConfig({
         sub: '4px',
       },
       screens: {
-        tablet: '641px',
-        mb: '426px',
+        desktop: '1280px',
+        laptop: '1024px',
+        tablet: '768px',
+        md: '640px',
+        small: '480px',
       },
     },
   },
