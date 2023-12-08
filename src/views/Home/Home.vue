@@ -2,9 +2,10 @@
   <main class="home">
     <Banner />
     <div class="page-wrapper">
-      <Statistic />
-      <TeamIntro />
-      <Topic />
+      <Statistic class="section-max-w" />
+      <SZIntro class="section-max-w" />
+      <Topic class="section-max-w" />
+      <TeamIntro class="section-max-w" />
     </div>
   </main>
 </template>
@@ -13,6 +14,7 @@
 import Banner from './components/Banner.vue'
 import TeamIntro from './components/TeamIntro/TeamIntro.vue'
 import Statistic from './components/Statistic/Statistic.vue'
+import SZIntro from './components/SZIntro.vue'
 import Topic from './components/Topic/Topic.vue'
 </script>
 
@@ -20,10 +22,15 @@ import Topic from './components/Topic/Topic.vue'
 .home {
   @apply pb-[100px];
 }
+
 .page-wrapper {
-  @apply px-[30px] pt-[30px] tablet:(pt-[100px]);
+  @apply pt-[30px] tablet:(pt-[100px]);
   @apply flex flex-col gap-[200px];
   @apply max-w-[1400px] m-auto;
   @apply <tablet:(gap-[140px]);
+}
+
+.section-max-w {
+  @apply max-w-[800px] px-[50px] m-auto;
 }
 </style>

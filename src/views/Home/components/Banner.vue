@@ -5,14 +5,7 @@
         <h1 class="sz-name">SHELTER ZONE</h1>
         <h2 class="sub-title">a place your shelter</h2>
       </div>
-      <n-button
-        v-if="!dcUser"
-        secondary
-        type="primary"
-        class="join-btn"
-        @click="onSignin"
-        :loading="loading"
-      >
+      <n-button v-if="!dcUser" secondary type="primary" class="join-btn" @click="onSignin" :loading="loading">
         加入成為避難者
       </n-button>
     </div>
@@ -52,7 +45,7 @@ onMounted(() => {
     opacity: [1, 0],
     easing: 'easeOutSine',
     duration: 8000,
-    delay: 700,
+    delay: 500,
   })
   anime
     .timeline({
@@ -70,27 +63,29 @@ onMounted(() => {
 }
 
 .home-banner img {
-  @apply w-full h-screen  pointer-events-none;
+  @apply w-full h-screen pointer-events-none;
   @apply object-cover opacity-50;
 }
 
 .sz-main-title {
-  @apply absolute top-0 left-0 right-0 bottom-0;
-  @apply m-auto;
-  @apply z-2;
-  @apply flex flex-col justify-center items-center gap-[20px] tablet:(gap-[40px]);
-  @apply text-center text-primary text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-shadow-lg;
-  @apply font-bold;
+  @apply absolute top-0 left-0 right-0 bottom-0 m-auto z-2;
+  @apply text-center text-primary font-bold text-shadow-lg;
+  @apply flex flex-col justify-center items-center;
+  @apply text-3xl tracking-[10px] gap-[20px];
+  @apply md:(text-4xl tracking-[20px] gap-[30px]);
+  @apply tablet:(text-5xl tracking-[30px] gap-[40px]);
 
   backdrop-filter: blur(8px);
 }
 
 .sub-title {
-  @apply text-md tracking-0.8rem md:text-lg;
+  @apply text-sm leading-[12px] tracking-[0.3rem] font-medium;
+  @apply md:(text-normal leading-[20px] tracking-[0.5rem]);
+  @apply tablet:(text-[20px] leading-[30px] tracking-[0.6rem]);
 }
 
 .sz-main-title {
-  @apply tracking-widest sm:tracking-[10px] md:tracking-[20px];
+  /* @apply tracking-widest sm:tracking-[10px] md:tracking-[20px]; */
 }
 
 .join-btn {
@@ -108,10 +103,8 @@ onMounted(() => {
 .banner-gradient {
   @apply w-full h-[200px];
   @apply absolute left-0 right-0 bottom-0;
-  background: linear-gradient(
-    0deg,
-    var(--primary-bg) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(0deg,
+      var(--primary-bg) 0%,
+      rgba(0, 0, 0, 0) 100%);
 }
 </style>

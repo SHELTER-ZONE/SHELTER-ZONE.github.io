@@ -2,7 +2,9 @@
   <AreaBlock class="action-block">
     <section class="upper">
       <div>
-        <n-icon :size="48"><slot name="icon" /></n-icon>
+        <n-icon :size="48">
+          <slot name="icon" />
+        </n-icon>
       </div>
 
       <div>
@@ -54,6 +56,7 @@ const emits = defineEmits(['action'])
 .action-block {
   @apply flex flex-col gap-[15px];
 }
+
 .action-block .upper {
   @apply flex items-start gap-[20px];
 }
