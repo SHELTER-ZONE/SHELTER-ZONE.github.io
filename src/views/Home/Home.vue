@@ -31,6 +31,6 @@ import Topic from './components/Topic/Topic.vue'
 }
 
 .section-max-w {
-  @apply max-w-[800px] px-[50px] m-auto;
+  @apply max-w-[800px] viewPx m-auto;
 }
 </style>

@@ -1,7 +1,7 @@
 import { get } from 'lodash-es'
 import { useAppStore } from '@/stores/app'
 import dayjs from 'dayjs'
-import { h } from 'vue'
+import { h, type Component, type Ref } from 'vue'
 import { NIcon } from 'naive-ui'
 
 export const getHost = (hostName: string) => {
@@ -30,4 +30,13 @@ export const renderIcon = (icon: Component, props: any = null) => {
       default: () => h(icon),
     })
   }
+}
+
+export const checkForm = async (formRef: any) => {
+  return new Promise((resolve) => {
+    formRef.validate((errors: any) => {
+      if (errors) return resolve(false)
+      resolve(true)
+    })
+  })
 }
