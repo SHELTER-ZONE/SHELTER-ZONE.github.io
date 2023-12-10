@@ -1,5 +1,5 @@
 <template>
-  <div class="tram-intro">
+  <div class="team-intro">
     <SectionTitle title="Development Team">
       <template #prefix>💻</template>
     </SectionTitle>
@@ -10,8 +10,6 @@
 <script setup lang="ts">
 import SectionTitle from '@/components/Title/SectionTitle.vue'
 import TeamMembers from './components/TeamMembers.vue'
-
-import { Code } from '@vicons/carbon'
 </script>
 
 <style scoped lang="postcss"></style>
