@@ -1,14 +1,7 @@
 <template>
   <main class="callback full">
     <div class="flex flex-col">
-      <img
-        class="rounded-[7px]"
-        src="https://i.pinimg.com/originals/0b/5c/c0/0b5cc024841accd9a31a7b2daeb0e57b.gif"
-      />
-      <!-- <img
-        class="rounded-[7px]"
-        src="https://i.pinimg.com/originals/49/1e/cf/491ecfcebd2192e29b758ca798717ec6.gif"
-      /> -->
+      <img class="rounded-[7px]" src="@/assets/user_login.gif" />
       <div class="flex items-center justify-center gap-[5px]">
         <p class="text-center py-[30px]">{{ statusMessage }}，請稍後片刻 uwu</p>
       </div>
