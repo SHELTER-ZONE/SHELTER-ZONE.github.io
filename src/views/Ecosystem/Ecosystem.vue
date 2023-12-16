@@ -1,32 +1,37 @@
 <template>
   <main class="ecosystem">
-    <StatusMask text="施工中" status="blocked" :iconSize="30">
-      <div class="f-col gap-[30px]">
-        <section class="resource-section">
-          <h3 class="resource-section-title">
-            <n-icon><ApplicationWeb /></n-icon>
-            <p>Applications</p>
-          </h3>
-          <div class="resource-list">
-            <ResourceCard
-              v-for="item in applications"
-              :key="item.name"
-              :data="item"
-            />
-          </div>
-        </section>
+    <div class="f-col gap-[30px]">
+      <section class="resource-section">
+        <h3 class="resource-section-title">
+          <n-icon><ApplicationWeb /></n-icon>
+          <p>Applications</p>
+        </h3>
+        <div class="resource-list">
+          <div v-for="item in applications" :key="item.name">
+            <ResourceCard v-if="!item.disabled" :data="item" />
 
-        <section class="resource-section">
-          <h3 class="resource-section-title">
-            <n-icon><Bookmark /></n-icon>
-            <p>Document</p>
-          </h3>
-          <div class="resource-list">
-            <ResourceCard v-for="item in docs" :key="item.name" :data="item" />
+            <StatusMask
+              v-if="item.disabled"
+              text="施工中"
+              status="blocked"
+              :iconSize="30"
+            >
+              <ResourceCard :data="item" />
+            </StatusMask>
           </div>
-        </section>
-      </div>
-    </StatusMask>
+        </div>
+      </section>
+
+      <section class="resource-section">
+        <h3 class="resource-section-title">
+          <n-icon><Bookmark /></n-icon>
+          <p>Document</p>
+        </h3>
+        <div class="resource-list">
+          <ResourceCard v-for="item in docs" :key="item.name" :data="item" />
+        </div>
+      </section>
+    </div>
   </main>
 </template>
 
@@ -49,6 +54,7 @@ const applications = [
     description: 'SZ 表單系統',
     icon: LicenseDraft,
     link: 'https://shelter-zone.github.io/sz-form-frontend/',
+    disabled: true,
   },
   {
     name: 'SZ Question Template Generator',
