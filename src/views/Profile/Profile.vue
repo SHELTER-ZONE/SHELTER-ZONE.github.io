@@ -10,6 +10,7 @@
 
         <div v-if="szUserProfile && szJoined" class="wrapper">
           <BaseInfoBlock />
+          <DailyCheckRecordBlock />
         </div>
       </div>
     </SZBlockContainer>
@@ -24,6 +25,7 @@ import { Campsite } from '@vicons/carbon'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import NotAccess from './components/NotAccess.vue'
 import BaseInfoBlock from './components/BaseInfoBlock.vue'
+import DailyCheckRecordBlock from './components/DailyCheckRecordBlock.vue'
 
 const { szJoined, szUserProfile } = useOauthStore()
 
@@ -43,6 +45,7 @@ onMounted(async () => {})
 }
 
 .wrapper {
-  @apply full flex flex-col justify-center items-center;
+  @apply full flex flex-col justify-center items-center gap-[30px];
+  @apply tablet:(flex-row items-start );
 }
 </style>

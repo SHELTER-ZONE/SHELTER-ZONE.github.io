@@ -1,12 +1,16 @@
 <template>
   <NButton secondary type="primary" @click="onSignin" :loading="loading">
-    {{ translate('common.login') }}
+    <div class="f-row gap-[5px]">
+      <n-icon><Login /></n-icon>
+      <p>{{ translate('common.login') }}</p>
+    </div>
   </NButton>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { NButton } from 'naive-ui'
+import { NButton, NIcon } from 'naive-ui'
+import { Login } from '@vicons/carbon'
 import { useOauthStore } from '@/stores/oauth'
 import { useLocale } from '@/use/useLocale'
 

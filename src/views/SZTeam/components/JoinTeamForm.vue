@@ -25,7 +25,13 @@
       </n-form-item>
     </n-form>
 
-    <BaseButton type="info" border @click="onSubmit" :disabled="!user.sz">
+    <BaseButton
+      type="info"
+      border
+      @click="onSubmit"
+      :disabled="!user.sz"
+      :loading="sending"
+    >
       <template #icon v-if="user.sz">
         <MailAll />
       </template>
@@ -41,6 +47,7 @@ import {
   NForm,
   NFormItem,
   NIcon,
+  NAlert,
   useMessage,
   type FormRules,
 } from 'naive-ui'
@@ -89,6 +96,7 @@ const formRules = computed(() => {
 })
 
 const formRef = ref<HTMLElement | null>(null)
+const sending = ref<boolean>(false)
 
 const teamOptions: TeamOption[] = map(teamTypesConfig, (item) => ({
   label: item.label,
@@ -115,25 +123,32 @@ const renderLabel = (option: TeamOption): VNodeChild => {
   ]
 }
 
-const introPlaceholder = '請輸入自我介紹，'
+const introPlaceholder =
+  '請輸入自我介紹，建議附上 github profile 連結或是自己的 project 連結'
 
 const submitData = computed(() => {
   return {
-    // discordId: get(user.value, 'sz.discordId'),
+    discordId: get(user.value, 'sz.discordId'),
     joinTeam: formData.joinTeam,
     content: formData.content,
   }
 })
 
 const onSubmit = async () => {
-  if (!(await checkForm(formRef.value))) return
+  sending.value = true
+  if (!(await checkForm(formRef.value))) {
+    sending.value = false
+    return
+  }
   const [, errMsg]: any = await sendJoinSZTeamForm(submitData.value)
+  sending.value = false
   if (errMsg) {
-    console.log(errMsg.message || errMsg)
-    message.error(errMsg.message || errMsg)
+    message.error(errMsg.message || errMsg, { closable: true, duration: 0 })
     return
   }
   message.success('✅ 送出申請成功！')
+  formData.joinTeam = null
+  formData.content = null
 }
 </script>
 

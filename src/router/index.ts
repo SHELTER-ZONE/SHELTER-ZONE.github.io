@@ -1,6 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home/Home.vue'
 import { registerRouterGuard } from './guard'
+import {
+  Home as HomeIcon,
+  Magnify,
+  Code,
+  Bookmark,
+  AppConnectivity,
+} from '@vicons/carbon'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,6 +17,7 @@ const router = createRouter({
       name: 'home',
       meta: {
         title: '首頁',
+        icon: HomeIcon,
       },
       component: Home,
     },
@@ -32,6 +40,7 @@ const router = createRouter({
       name: 'about',
       meta: {
         title: '關於',
+        icon: Magnify,
       },
       component: () => import('@/views/About/About.vue'),
     },
@@ -40,13 +49,14 @@ const router = createRouter({
       name: 'szteam',
       meta: {
         title: 'SZ 開發團隊',
+        icon: Code,
       },
       component: () => import('@/views/SZTeam/SZTeam.vue'),
     },
     {
       path: '/ecosystem',
       name: 'ecosystem',
-      meta: { title: '生態與資源' },
+      meta: { title: '生態與資源', icon: AppConnectivity },
       component: () => import('@/views/Ecosystem/Ecosystem.vue'),
     },
     {

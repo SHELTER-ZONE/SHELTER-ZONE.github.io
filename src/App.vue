@@ -1,8 +1,9 @@
 <template>
   <Provider class="bg-primary-bg">
-    <div v-if="appStore.appLoading" class="loading-wrapper">
+    <!-- <div v-if="appStore.appLoading" class="loading-wrapper">
       <NSpin />
-    </div>
+    </div> -->
+    <AppLoading v-if="appStore.appLoading" />
 
     <component v-if="!appStore.appLoading" :is="activeLayout" />
     <!-- <router-view /> -->
@@ -14,6 +15,7 @@ import { computed, onBeforeMount, type Component } from 'vue'
 import { NSpin } from 'naive-ui'
 import Provider from '@/components/Provider.vue'
 import Default from '@/layouts/default.vue'
+import AppLoading from './components/AppLoading.vue'
 
 import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
