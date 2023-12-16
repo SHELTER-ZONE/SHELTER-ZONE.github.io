@@ -7,20 +7,25 @@
     <n-button
       text
       style="font-size: 18px"
+      class="flex items-center"
       :class="{
         'active-route': isCurRoute,
         'text-base': !isCurRoute,
       }"
     >
-      {{ get(routeData, 'meta.title') }}
+      <div class="f-row gap-[5px] font-medium items-center">
+        <n-icon v-if="get(routeData, 'meta.icon')"
+          ><component :is="get(routeData, 'meta.icon')"
+        /></n-icon>
+        <p>{{ get(routeData, 'meta.title') }}</p>
+      </div>
     </n-button>
   </RouterLink>
 </template>
 
 <script setup lang="ts">
-import { useRoute, type RouteRecordRaw } from 'vue-router'
-import { RouterLink } from 'vue-router'
-import { NButton } from 'naive-ui'
+import { RouterLink, useRoute, type RouteRecordRaw } from 'vue-router'
+import { NButton, NIcon } from 'naive-ui'
 import { get } from 'lodash-es'
 import { computed } from 'vue'
 

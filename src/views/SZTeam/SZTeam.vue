@@ -1,6 +1,5 @@
 <template>
   <main class="sz-team">
-    <!-- <StatusMask text="施工中" status="blocked" :iconSize="30"> -->
     <PageTitle>
       <div class="f-col-center gap-[10px]">
         <n-icon><Code /></n-icon>
@@ -17,29 +16,22 @@
     </section>
 
     <section class="teams-list">
-      <TeamBlock v-for="team in teams" :data="team" :key="team.name" :team="team.name" :techs="team.techs"
-        :type="team.type" />
+      <TeamBlock
+        v-for="team in teams"
+        :data="team"
+        :key="team.name"
+        :team="team.name"
+        :techs="team.techs"
+        :type="team.type"
+      />
     </section>
 
-    <AreaBlock class="w-full max-w-[800px] m-auto" color="var(--base)">
+    <SZBlockContainer class="w-full max-w-[800px] m-auto">
       <section class="w-full how-to-join">
-
         <h2 class="text-lg">加入 SZ 開發團隊</h2>
         <JoinTeamForm />
-
-        <!-- <AreaBlock style="padding: 0" color="var(--base)">
-          <a href="https://discordapp.com/users/149772971555160064" target="_blank" rel="noopener noreferrer">
-            <n-button secondary type="info" block>
-              <template #icon>
-                <MailAll />
-              </template>
-              聯絡 Proladon
-            </n-button>
-          </a>
-        </AreaBlock> -->
       </section>
-    </AreaBlock>
-    <!-- </StatusMask> -->
+    </SZBlockContainer>
   </main>
 </template>
 
@@ -47,8 +39,8 @@
 import TeamBlock from './components/TeamBlock.vue'
 import PageTitle from '@/components/Title/PageTitle.vue'
 import type { TeamData } from './types'
-import AreaBlock from '@/components/AreaBlock.vue'
 import JoinTeamForm from './components/JoinTeamForm.vue'
+import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { Code } from '@vicons/carbon'
 import { NIcon } from 'naive-ui'
 
