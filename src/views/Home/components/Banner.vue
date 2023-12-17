@@ -3,9 +3,16 @@
     <div class="sz-main-title">
       <div class="f-col-center gap-[7px]">
         <h1 class="sz-name">SHELTER ZONE</h1>
-        <h2 class="sub-title">a place your shelter</h2>
+        <h2 class="sub-title">your hub of technology.</h2>
       </div>
-      <n-button v-if="!dcUser" secondary type="primary" class="join-btn" @click="onSignin" :loading="loading">
+      <n-button
+        v-if="!dcUser"
+        secondary
+        type="primary"
+        class="join-btn"
+        @click="onSignin"
+        :loading="loading"
+      >
         加入成為避難者
       </n-button>
     </div>
@@ -43,14 +50,15 @@ onMounted(() => {
   anime({
     targets: '.banner-mask',
     opacity: [1, 0],
-    easing: 'easeOutSine',
-    duration: 8000,
-    delay: 500,
+    easing: 'easeOutElastic',
+    duration: 7500,
+    delay: 1500,
   })
   anime
     .timeline({
-      easing: 'easeInOutQuad',
-      duration: 6000,
+      easing: 'easeOutElastic',
+      duration: 7500,
+      delay: 1500,
     })
     .add({ targets: '.sz-name', color: '#DEDEDE' }, 0)
     .add({ targets: '.sub-title', color: '#DEDEDE' }, 0)
@@ -103,8 +111,10 @@ onMounted(() => {
 .banner-gradient {
   @apply w-full h-[200px];
   @apply absolute left-0 right-0 bottom-0;
-  background: linear-gradient(0deg,
-      var(--primary-bg) 0%,
-      rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    0deg,
+    var(--primary-bg) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 </style>

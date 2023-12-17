@@ -12,8 +12,8 @@
     <div class="f-row-center">
       <router-link :to="{ name: 'szteam' }">
         <n-button secondary type="info" class="text-lg p-1.5rem"
-          >瞭解更多</n-button
-        >
+          >瞭解更多
+        </n-button>
       </router-link>
     </div>
   </div>
@@ -31,7 +31,7 @@ const avatarUrl = (userId: string, avatarId: string): string => {
 
 const members = [
   {
-    name: 'Proladon#7525',
+    name: 'Proladon',
     tags: ['fullStack'],
     color: '#55B0F2',
     links: [
@@ -45,7 +45,7 @@ const members = [
     avatar: avatarUrl('149772971555160064', '7ab2f70347204922ec90612abc432b0a'),
   },
   {
-    name: 'Irvine#8850',
+    name: 'Irvine',
     tags: ['frontend', 'ops'],
     color: '#F2E355',
     links: [
@@ -58,7 +58,7 @@ const members = [
     avatar: avatarUrl('175464140825952256', 'a9cfcb8608c084ebeed2ccae18d284dd'),
   },
   {
-    name: '星曌#4316',
+    name: '星曌',
     tags: ['backend'],
     color: '#63E2B7',
     links: [
@@ -72,7 +72,7 @@ const members = [
   },
 
   {
-    name: 'Ariz#0288',
+    name: 'Ariz',
     tags: ['frontend'],
     color: '#F2E355',
     links: [
@@ -82,7 +82,7 @@ const members = [
         link: 'https://github.com/Lunari8546',
       },
     ],
-    avatar: avatarUrl('443715689291841536', '60b8abb9612012a3760a66f8aa619699'),
+    avatar: avatarUrl('443715689291841536', '6d5eff0633e13fd0cd9b212212cae3cc'),
   },
 ]
 </script>
@@ -91,6 +91,7 @@ const members = [
 .team-members {
   @apply flex flex-col gap-[40px];
 }
+
 .member-list {
   /* @apply grid gap-[40px]; */
   /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
