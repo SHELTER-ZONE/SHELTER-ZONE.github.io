@@ -27,22 +27,28 @@
         />
         <p v-show="!cooldown">發送 OTP 驗證碼</p>
       </n-button>
-      <n-button text class="underline">沒有收到驗證碼?</n-button>
+      <n-button text class="underline" @click="showHelpModal = !showHelpModal"
+        >沒有收到驗證碼?</n-button
+      >
     </section>
   </div>
+  <OTPHelpModal v-model:show="showHelpModal" @close="showHelpModal = false" />
 </template>
 
 <script setup lang="ts">
 import OTPInput from '@/components/OTPInput.vue'
-import { NButton, NCountdown, NIcon } from 'naive-ui'
+import { NButton, NCountdown, NIcon, useMessage } from 'naive-ui'
 import { ref, nextTick, type Ref } from 'vue'
 import { VerifyOTP, GenerateOTP } from '@/api/otp'
 import { useOauthStore } from '@/stores/oauth'
 import { get } from 'lodash-es'
 import { CharacterPatterns } from '@vicons/carbon'
+import OTPHelpModal from './OTPHelpModal.vue'
 
 const emits = defineEmits(['complete'])
 
+const message = useMessage()
+const showHelpModal = ref<boolean>(false)
 const otpCode = ref<(string | null)[]>([])
 const verifying = ref<boolean>(false)
 const generating = ref<boolean>(false)
@@ -58,9 +64,13 @@ const generateOTP = async () => {
   if (generating.value || cooldown.value) return
   cooldown.value = true
   generating.value = true
-  const dcUserId = get(user, 'discord.id')
+  const dcUserId = get(user, 'sz.discordId')
 
-  if (!dcUserId) return (generating.value = false)
+  if (!dcUserId) {
+    message.warning('查無使用者 user.sz.discordId')
+    generating.value = false
+    return
+  }
   const [, err]: any = await GenerateOTP(dcUserId)
   generating.value = false
   if (err) {
