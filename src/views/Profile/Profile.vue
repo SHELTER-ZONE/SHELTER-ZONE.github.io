@@ -2,7 +2,9 @@
   <main class="profile viewPx">
     <SZBlockContainer class="w-full max-w-[1980px]">
       <div class="f-col-center gap-[20px] py-[40px]">
-        <n-icon :size="50"><Campsite /></n-icon>
+        <n-icon :size="50">
+          <Campsite />
+        </n-icon>
         <p class="topic-title">Personal Shelter</p>
         <n-divider class="bg-primary-bg" />
 
@@ -19,7 +21,7 @@
 
 <script setup lang="ts">
 import { useOauthStore } from '@/stores/oauth'
-import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { NIcon, NDivider } from 'naive-ui'
 import { Campsite } from '@vicons/carbon'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
@@ -27,9 +29,8 @@ import NotAccess from './components/NotAccess.vue'
 import BaseInfoBlock from './components/BaseInfoBlock.vue'
 import DailyCheckRecordBlock from './components/DailyCheckRecordBlock.vue'
 
-const { szJoined, szUserProfile } = useOauthStore()
-
-onMounted(async () => {})
+const oauthStore = useOauthStore()
+const { szJoined, szUserProfile } = storeToRefs(oauthStore)
 </script>
 
 <style scoped lang="postcss">
@@ -46,6 +47,6 @@ onMounted(async () => {})
 
 .wrapper {
   @apply full flex flex-col justify-center items-center gap-[30px];
-  @apply tablet:(flex-row items-start );
+  @apply tablet:(flex-row items-start);
 }
 </style>
