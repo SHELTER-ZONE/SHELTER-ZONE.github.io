@@ -1,44 +1,29 @@
 <template>
   <div class="otp-verify">
-    <OTPInput
-      :inputCount="8"
-      :disabled="verifying"
-      :error="otpError"
-      v-model:value="otpCode"
-      :onVerify="verifyOTP"
-    />
+    <OTPInput :inputCount="8" :disabled="verifying" :error="otpError" v-model:value="otpCode" :onVerify="verifyOTP" />
     <p class="text-center text-sm">
-      <n-icon><CharacterPatterns /></n-icon>
+      <n-icon>
+        <CharacterPatterns />
+      </n-icon>
       英文將自動轉換為大寫
     </p>
 
     <section class="flex flex-col gap-15px">
-      <n-button
-        :disabled="cooldown"
-        :loading="verifying"
-        secondary
-        type="info"
-        @click="generateOTP"
-      >
-        <n-countdown
-          v-if="cooldown"
-          :duration="30000"
-          :on-finish="onCooldownFinish"
-        />
-        <p v-show="!cooldown">發送 OTP 驗證碼</p>
+      <n-button :disabled="cooldown" :loading="verifying" secondary type="info" @click="generateOTP">
+        <p>重新取得 OTP 驗證碼 <span v-if="cooldown">( <n-countdown :duration="30000" :on-finish="onCooldownFinish" /> )</span>
+        </p>
+
       </n-button>
-      <n-button text class="underline" @click="showHelpModal = !showHelpModal"
-        >沒有收到驗證碼?</n-button
-      >
+      <n-button text class="underline" @click="showHelpModal = !showHelpModal">沒有收到驗證碼?</n-button>
     </section>
   </div>
   <OTPHelpModal v-model:show="showHelpModal" @close="showHelpModal = false" />
 </template>
 
 <script setup lang="ts">
+import { ref, nextTick, onMounted, type Ref } from 'vue'
 import OTPInput from '@/components/OTPInput.vue'
 import { NButton, NCountdown, NIcon, useMessage } from 'naive-ui'
-import { ref, nextTick, type Ref } from 'vue'
 import { VerifyOTP, GenerateOTP } from '@/api/otp'
 import { useOauthStore } from '@/stores/oauth'
 import { get } from 'lodash-es'
@@ -96,6 +81,10 @@ const verifyOTP = async (inputRefs: Ref) => {
   }
   emits('complete', 'OTPVerify')
 }
+
+onMounted(async () => {
+  generateOTP()
+})
 </script>
 
 <style scoped lang="postcss">

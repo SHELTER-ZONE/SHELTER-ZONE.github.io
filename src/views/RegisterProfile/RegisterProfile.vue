@@ -1,31 +1,23 @@
 <template>
   <main class="register-profile">
     <SZBlockContainer class="w-full max-w-[500px] flex-1 m-auto">
-      <div
-        class="flex flex-col justify-center items-center gap-[20px] py-[20px]"
-      >
-        <n-icon size="50"><AirlineRapidBoard /></n-icon>
+      <div class="flex flex-col justify-center items-center gap-[20px] py-[20px]">
+        <n-icon size="50">
+          <AirlineRapidBoard />
+        </n-icon>
         <p class="topic-title">Shelter Verify</p>
       </div>
 
       <n-divider />
 
-      <section
-        v-if="curStage < stages.length - 2"
-        class="mb-[40px] flex justify-center"
-      >
+      <section v-if="curStage < stages.length - 2" class="mb-[40px] flex justify-center">
         <StepBar :cur-step="curStage" :steps="stages.length - 2" />
       </section>
 
       <section class="flex-1 grid">
         <!-- <KeepAlive> -->
-        <component
-          :is="stageCmps[curStage]"
-          v-model:form="formData"
-          :formData="formData"
-          @complete="onStageComplete"
-          @previous="onPreviousStage"
-        />
+        <component :is="stageCmps[curStage]" v-model:form="formData" :formData="formData" @complete="onStageComplete"
+          @previous="onPreviousStage" />
         <!-- </KeepAlive> -->
       </section>
     </SZBlockContainer>
@@ -78,7 +70,7 @@ onMounted(async () => {
 
 <style scoped lang="postcss">
 .register-profile {
-  @apply p-[50px] min-h-[600px];
-  @apply flex flex-col gap-[50px];
+  @apply p-[50px] grid h-full;
+  @apply gap-[50px];
 }
 </style>
