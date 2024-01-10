@@ -1,4 +1,4 @@
-import { discord, apiAuth } from './instance'
+import { discord, apiAuth } from '@/lib/axios'
 
 export const FindMeDCUser = async () => {
   return await discord({

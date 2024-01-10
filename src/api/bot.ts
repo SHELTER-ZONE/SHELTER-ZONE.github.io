@@ -1,4 +1,4 @@
-import { api } from './instance'
+import { api } from '@/lib/axios'
 import { getHost } from '@/utils/helper'
 import type { RESTPatchAPIGuildMemberJSONBody } from 'discord-api-types/v10'
 import { SZ_SERVER_ID } from '@/utils/variables'

@@ -1,4 +1,4 @@
-import { apiAuth } from './instance'
+import { apiAuth } from '@/lib/axios'
 
 export const GenerateOTP = async (discordUserId: string) => {
   return await apiAuth({

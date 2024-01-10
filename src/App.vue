@@ -22,6 +22,9 @@ import { useRoute } from 'vue-router'
 import { useOauthStore } from './stores/oauth'
 import { checkExpiresIn } from '@/router/guard'
 import { useSZGuild } from './stores/szGuild'
+import { initUnhead } from '@/lib/unhead'
+
+initUnhead()
 
 const route = useRoute()
 const appStore = useAppStore()

@@ -1,4 +1,4 @@
-import { apiAuth } from './instance'
+import { apiAuth } from '@/lib/axios'
 import type { APISZUserProfileCreate } from '@shelter-zone/sz-api-types/v3'
 
 export const RegisterSZUserProfile = async (

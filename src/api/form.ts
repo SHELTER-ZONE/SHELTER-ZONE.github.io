@@ -1,4 +1,4 @@
-import { api, apiAuth } from './instance'
+import { api, apiAuth } from '@/lib/axios'
 
 export const sendJoinSZTeamForm = async ({
   discordId,
