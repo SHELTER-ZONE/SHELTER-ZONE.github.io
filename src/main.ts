@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
+import { createHead } from '@unhead/vue'
 
 import App from './App.vue'
 import router from './router'
@@ -27,8 +28,11 @@ const i18n = createI18n({
 
 const app = createApp(App)
 
+const head = createHead()
+
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
+app.use(head)
 
 app.mount('#app')
