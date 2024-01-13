@@ -10,12 +10,13 @@
 
       <NotAccess v-if="!szUserProfile || !szJoined" />
 
-      <main>
+      <main class="f-col gap-[30px]">
         <BannerBlock />
         <div v-if="szUserProfile && szJoined" class="wrapper">
           <BaseInfoBlock />
           <DailyCheckRecordBlock />
         </div>
+        <ServerTagsBlock />
       </main>
     </div>
     <!-- </SZBlockContainer> -->
@@ -32,6 +33,7 @@ import NotAccess from './components/NotAccess.vue'
 import BaseInfoBlock from './components/BaseInfoBlock.vue'
 import DailyCheckRecordBlock from './components/DailyCheckRecordBlock.vue'
 import BannerBlock from './components/BannerBlock.vue'
+import ServerTagsBlock from './components/ServerTagsBlock.vue'
 
 const oauthStore = useOauthStore()
 const { szJoined, szUserProfile } = storeToRefs(oauthStore)

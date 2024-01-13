@@ -14,12 +14,19 @@ import { Edit } from '@vicons/carbon'
 
 <style scoped lang="postcss">
 .editable-block {
-  @apply p-[20px] relative border-primary border-1 rounded-normal;
+  @apply p-[20px] relative border-base border-1 border-solid rounded-normal;
+  @apply hover:(border-primary);
+}
+
+.editable-block:hover {
+  .edit-btn {
+    @apply bg-primary;
+  }
 }
 
 .edit-btn {
   @apply absolute top-0 right-0;
-  @apply bg-primary hover:(opacity-80);
+  @apply bg-base hover:(opacity-80);
   @apply px-[10px] py-[5px] rounded-bl-normal;
 }
 </style>

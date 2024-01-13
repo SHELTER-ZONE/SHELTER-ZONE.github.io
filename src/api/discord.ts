@@ -20,3 +20,10 @@ export const FindMeDCMember = async ({ discordId }: { discordId: string }) => {
     url: `/discord/guild/member/${discordId}`,
   })
 }
+
+export const GetServerRoles = async () => {
+  return await apiAuth({
+    method: 'GET',
+    url: `/discord/guild/roles`,
+  })
+}
