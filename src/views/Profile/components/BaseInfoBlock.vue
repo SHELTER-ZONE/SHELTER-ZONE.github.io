@@ -1,6 +1,6 @@
 <template>
   <main class="base-info-block">
-    <AreaBlock>
+    <EditableBlock>
       <div class="<tablet:(flex-col) f-row gap-[20px]">
         <img
           class="user-avatar"
@@ -31,12 +31,13 @@
           </div>
         </div>
       </div>
-    </AreaBlock>
+    </EditableBlock>
   </main>
 </template>
 
 <script setup lang="ts">
 import AreaBlock from '@/components/AreaBlock.vue'
+import EditableBlock from '@/components/EditableBlock.vue'
 import { useOauthStore } from '@/stores/oauth'
 import { dateFormat } from '@/utils/helper'
 import { computed, onBeforeMount } from 'vue'
