@@ -15,5 +15,8 @@ import { NModal } from 'naive-ui'
   @apply p-[15px] tablet:(p-[30px]);
   @apply rounded-normal;
   @apply bg-primary-bg text-base;
+  box-shadow: 10px 10px 29px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 10px 10px 29px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 10px 10px 29px 5px rgba(0, 0, 0, 0.4);
 }
 </style>

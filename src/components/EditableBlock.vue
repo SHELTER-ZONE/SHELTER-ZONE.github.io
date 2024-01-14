@@ -1,6 +1,6 @@
 <template>
   <div class="editable-block">
-    <button class="edit-btn">
+    <button class="edit-btn" @click="$emit('edit')">
       <n-icon color="var(--primary-bg)"><Edit /></n-icon>
     </button>
     <slot />

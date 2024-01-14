@@ -27,3 +27,17 @@ export const GetServerRoles = async () => {
     url: `/discord/guild/roles`,
   })
 }
+
+export const ChangeServerRoles = async ({
+  discordId,
+  roles,
+}: {
+  discordId: string
+  roles: string[]
+}) => {
+  return await apiAuth({
+    url: `/discord/guild/member/${discordId}/changeRoles`,
+    method: 'PUT',
+    data: { roles },
+  })
+}
