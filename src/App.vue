@@ -38,6 +38,7 @@ async function appInit() {
   const appStore = useAppStore()
   const szGuildStore = useSZGuild()
   await appStore.getApiEndPoint()
+  appStore.getServerRoles({ throwErr: false })
 
   if (!oauthStore.loggedIn) {
     oauthStore.clearUser()
@@ -47,6 +48,7 @@ async function appInit() {
       await oauthStore.findMeSZUser()
       await oauthStore.findMeGuilds()
       await oauthStore.findMeDCMember({ throwErr: false })
+
       // szGuildStore.getSZInfo()
       // szGuildStore.getAllSZChannel()
     } catch (error: any) {

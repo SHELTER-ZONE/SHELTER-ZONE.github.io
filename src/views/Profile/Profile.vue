@@ -1,21 +1,25 @@
 <template>
   <main class="profile viewPx">
-    <SZBlockContainer class="w-full max-w-[1980px]">
-      <div class="f-col-center gap-[20px] py-[40px]">
-        <n-icon :size="50">
-          <Campsite />
-        </n-icon>
-        <p class="topic-title">Personal Shelter</p>
-        <n-divider class="bg-primary-bg" />
+    <!-- <SZBlockContainer class="w-full max-w-[1980px]"> -->
+    <div class="f-col-center gap-[20px] py-[40px]">
+      <n-icon :size="50">
+        <Campsite />
+      </n-icon>
+      <p class="topic-title">Personal Shelter</p>
+      <n-divider class="bg-primary-bg" />
 
-        <NotAccess v-if="!szUserProfile || !szJoined" />
+      <NotAccess v-if="!szUserProfile || !szJoined" />
 
-        <div v-if="szUserProfile && szJoined" class="wrapper">
+      <main class="f-col gap-[30px]" v-if="szUserProfile && szJoined">
+        <BannerBlock />
+        <div class="wrapper">
           <BaseInfoBlock />
           <DailyCheckRecordBlock />
         </div>
-      </div>
-    </SZBlockContainer>
+        <ServerTagsBlock />
+      </main>
+    </div>
+    <!-- </SZBlockContainer> -->
   </main>
 </template>
 
@@ -28,6 +32,8 @@ import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import NotAccess from './components/NotAccess.vue'
 import BaseInfoBlock from './components/BaseInfoBlock.vue'
 import DailyCheckRecordBlock from './components/DailyCheckRecordBlock.vue'
+import BannerBlock from './components/BannerBlock.vue'
+import ServerTagsBlock from './components/ServerTagsBlock.vue'
 
 const oauthStore = useOauthStore()
 const { szJoined, szUserProfile } = storeToRefs(oauthStore)
