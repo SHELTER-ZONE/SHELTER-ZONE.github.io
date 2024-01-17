@@ -3,6 +3,8 @@ import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
 import { createHead } from '@unhead/vue'
 
+import VueHotjar from 'vue-hotjar-next'
+
 import App from './App.vue'
 import router from './router'
 import messages from './locale'
@@ -34,5 +36,11 @@ app.use(createPinia())
 app.use(router)
 app.use(i18n)
 app.use(head)
+
+app.use(VueHotjar, {
+  id: 3829652,
+  isProduction: !import.meta.env.DEV,
+  snippetVersion: 6,
+})
 
 app.mount('#app')
