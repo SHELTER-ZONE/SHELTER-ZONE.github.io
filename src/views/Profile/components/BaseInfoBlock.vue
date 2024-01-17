@@ -1,6 +1,6 @@
 <template>
   <main class="base-info-block">
-    <EditableBlock>
+    <EditableBlock @edit="onEdit">
       <div class="<tablet:(flex-col) f-row gap-[20px]">
         <img
           class="user-avatar"
@@ -41,13 +41,14 @@ import EditableBlock from '@/components/EditableBlock.vue'
 import { useOauthStore } from '@/stores/oauth'
 import { dateFormat } from '@/utils/helper'
 import { computed, onBeforeMount } from 'vue'
-import { NDivider } from 'naive-ui'
+import { NDivider, useMessage } from 'naive-ui'
 import InfoItem from './InfoItem.vue'
 import { UserRole, ConditionPoint, DirectLink } from '@vicons/carbon'
 import { get, omit, keys } from 'lodash-es'
 
 const oauthStore = useOauthStore()
 const { szUserProfile, user } = useOauthStore()
+const message = useMessage()
 const userAvatar = computed(() => oauthStore.userAvatar)
 
 const displayData = computed(() => {
@@ -82,6 +83,10 @@ const displayData = computed(() => {
 const lowerData = computed(() =>
   omit(displayData.value, ['name', 'createdAt', 'country']),
 )
+
+const onEdit = () => {
+  message.warning('抱歉，目前編輯功能開發中，尚未開放 :(,,ŏ ŏ ,,):')
+}
 </script>
 
 <style scoped lang="postcss">

@@ -10,9 +10,9 @@
 
       <NotAccess v-if="!szUserProfile || !szJoined" />
 
-      <main class="f-col gap-[30px]">
+      <main class="f-col gap-[30px]" v-if="szUserProfile && szJoined">
         <BannerBlock />
-        <div v-if="szUserProfile && szJoined" class="wrapper">
+        <div class="wrapper">
           <BaseInfoBlock />
           <DailyCheckRecordBlock />
         </div>

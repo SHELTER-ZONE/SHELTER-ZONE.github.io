@@ -37,8 +37,8 @@ async function appInit() {
   console.log('app init')
   const appStore = useAppStore()
   const szGuildStore = useSZGuild()
-  // await appStore.getApiEndPoint()
-  await appStore.getServerRoles({ throwErr: false })
+  await appStore.getApiEndPoint()
+  appStore.getServerRoles({ throwErr: false })
 
   if (!oauthStore.loggedIn) {
     oauthStore.clearUser()
