@@ -3,6 +3,7 @@
     title="避難者驗證"
     actionName="前往驗證"
     actionType="info"
+    color="var(--base)"
     @action="goVerify"
   >
     <template #icon><FingerprintRecognition /></template>

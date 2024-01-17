@@ -1,5 +1,5 @@
 <template>
-  <AreaBlock class="daily-check-record-block">
+  <AreaBlock class="daily-check-record-block" color="var(--base)">
     <div class="f-col gap-[5px]">
       <div class="f-row gap-[5px]">
         <n-icon size="18"><CheckmarkOutline /></n-icon>

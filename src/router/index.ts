@@ -26,13 +26,17 @@ const router = createRouter({
       name: 'error',
       component: () => import('@/views/Error/Error.vue'),
       meta: {
+        title: '錯誤',
         hidden: true,
       },
     },
     {
       path: '/discord/callback',
       name: 'discord callback',
-      meta: { hidden: true },
+      meta: {
+        title: '登入跳轉中',
+        hidden: true,
+      },
       component: () => import('@/views/Callback/Callback.vue'),
     },
     {
@@ -64,7 +68,7 @@ const router = createRouter({
       name: 'profile',
       meta: {
         hidden: true,
-        title: '個人資料',
+        title: '個人避難所',
         auth: true,
       },
       component: () => import('@/views/Profile/Profile.vue'),

@@ -1,4 +1,4 @@
-import { api } from '@/api/instance'
+import { api } from '@/lib/axios'
 import { getHost } from '@/utils/helper'
 
 export const GetDCAuthorizeUrl = async ({

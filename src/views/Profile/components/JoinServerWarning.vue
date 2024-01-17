@@ -3,6 +3,7 @@
     title="加入 SHELTER ZONE Discord 伺服器"
     actionName="Join Discord"
     actionType="info"
+    color="var(--base)"
     @action="joinDiscord"
   >
     <template #icon><LogoDiscord /></template>

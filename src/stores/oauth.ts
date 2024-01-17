@@ -100,7 +100,7 @@ export const useOauthStore = defineStore('oauth', () => {
   async function findMeDCMember({ throwErr } = { throwErr: true }) {
     const [, err, rawErr] = await fetchDataToValue(
       FindMeDCMember,
-      { discordId: get(user.discord, 'id') },
+      { discordId: get(user.discord, 'user.id') || get(user.discord, 'id') },
       { ref: user, path: 'discord' },
       null,
       { toastError: false },
