@@ -3,8 +3,6 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { _SZ_MICROSERVICES_TABLE } from '@/configs/urls'
 import { has } from 'lodash-es'
-import { useFetch } from '@/use/useFetch'
-import { GetServerRoles } from '@/api/discord'
 
 interface Signals {
   requestSignin: boolean
@@ -12,13 +10,8 @@ interface Signals {
 }
 
 export const useAppStore = defineStore('app', () => {
-  const { fetchDataToValue } = useFetch()
   const appLoading = ref<boolean>(true)
   const apiEndPoints = ref({})
-  const szServer = reactive({
-    roles: [],
-    channels: [],
-  })
 
   const signals = reactive<Signals>({
     requestSignin: false,
@@ -44,17 +37,6 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  const getServerRoles = async ({ throwErr } = { throwErr: true }) => {
-    const [, err, rawErr] = await fetchDataToValue(
-      GetServerRoles,
-      null,
-      { ref: szServer, path: 'roles' },
-      null,
-      { toastError: false },
-    )
-    if (err && throwErr) throw rawErr
-  }
-
   function setSignal(signal: keyof Signals, toggle: boolean) {
     if (!has(signals, signal)) return
     signals[signal] = toggle
@@ -66,7 +48,5 @@ export const useAppStore = defineStore('app', () => {
     apiEndPoints,
     signals,
     setSignal,
-    getServerRoles,
-    szServer,
   }
 })

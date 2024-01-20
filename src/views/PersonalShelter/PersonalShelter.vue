@@ -1,7 +1,7 @@
 <template>
   <main class="personal-shelter">
     <n-spin :show="loading">
-      <div class="f-col gap-[30px]">
+      <div class="f-col">
         <!-- <BannerBlock /> -->
         <div class="wrapper">
           <AreaBlock>
@@ -9,7 +9,9 @@
           </AreaBlock>
           <DailyCheckRecordBlock :sz-user="szUser" />
         </div>
-        <!-- <ServerTagsBlock /> -->
+        <AreaBlock>
+          <UserServerRolesBlock :dc-member="dcMember" />
+        </AreaBlock>
       </div>
     </n-spin>
   </main>
@@ -18,6 +20,7 @@
 <script setup lang="ts">
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
+import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
 import AreaBlock from '@/components/AreaBlock.vue'
 // import Loading from '@/components/Loading.vue'
 import { NSpin } from 'naive-ui'

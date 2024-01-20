@@ -1,6 +1,6 @@
 <template>
   <div class="editable-block">
-    <button class="edit-btn" @click="$emit('edit')">
+    <button class="edit-btn" @click="emits('edit')">
       <n-icon color="var(--primary-bg)"><Edit /></n-icon>
     </button>
     <slot />
@@ -10,6 +10,8 @@
 <script setup lang="ts">
 import { NIcon } from 'naive-ui'
 import { Edit } from '@vicons/carbon'
+
+const emits = defineEmits(['edit'])
 </script>
 
 <style scoped lang="postcss">

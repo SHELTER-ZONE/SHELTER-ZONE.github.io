@@ -1,6 +1,5 @@
 <template>
   <main class="profile viewPx">
-    <!-- <SZBlockContainer class="w-full max-w-[1980px]"> -->
     <div class="f-col-center gap-[20px] py-[40px]">
       <n-icon :size="50">
         <Campsite />
@@ -18,11 +17,21 @@
           </EditableBlock>
           <DailyCheckRecordBlock :sz-user="user.sz" />
         </div>
-        <ServerTagsBlock />
+        <EditableBlock @edit="editModal.serverRoles = true">
+          <UserServerRolesBlock
+            :dc-member="user.discordMember"
+            showOtherRoles
+          />
+        </EditableBlock>
       </main>
     </div>
-    <!-- </SZBlockContainer> -->
   </main>
+
+  <EditServerTagsModal
+    v-if="editModal.serverRoles"
+    :dc-member="user.discordMember"
+    @close="editModal.serverRoles = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -35,10 +44,16 @@ import NotAccess from './components/NotAccess.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import BannerBlock from './components/BannerBlock.vue'
-import ServerTagsBlock from './components/ServerTagsBlock.vue'
+import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
+import EditServerTagsModal from './components/EditServerTagsModal.vue'
+import { reactive } from 'vue'
 
 const oauthStore = useOauthStore()
 const { szJoined, szUserProfile, user } = storeToRefs(oauthStore)
+
+const editModal = reactive({
+  serverRoles: false,
+})
 </script>
 
 <style scoped lang="postcss">
