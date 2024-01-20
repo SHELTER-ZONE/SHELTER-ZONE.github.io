@@ -1,0 +1,38 @@
+.discord-message {
+  .d-emoji {
+   @apply inline-block w-1.5rem;
+ }
+
+ .d-mention {
+  @apply  text-primary font-bold rounded-normal cursor-pointer;
+  @apply px-[5px] py-[2px];
+  @apply hover:(opacity-90);
+  background-color: rgba(160, 229, 206, 0.3);
+ }
+ .fix {
+ }
+
+ a {
+  @apply text-primary hover:(opacity-90);
+ }
+
+ code {
+  white-space: break-spaces;
+ }
+
+ pre {
+  @apply w-fit bg-secondary-bg p-1rem rounded-normal;
+
+  .fix {
+    @apply text-warning;
+  }
+ }
+
+}
+
+
+.discord-attachments {
+  img {
+    @apply  pt-[20px] max-h-[500px];
+  }
+}

@@ -40,3 +40,8 @@ export const checkForm = async (formRef: any) => {
     })
   })
 }
+
+export const ellipsisText = (str: string, maxLength: number = 20): string => {
+  if (str.length <= maxLength) return str
+  return `${str.substring(0, maxLength)}...`
+}

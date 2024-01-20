@@ -3,6 +3,8 @@ import { defineStore } from 'pinia'
 import { _SZ_GUILD_CONFIG_URL } from '@/configs/urls'
 import { GetAllMembersCount, GetSZGuildInfo, GetAllSZChannel } from '@/api/bot'
 import { FindDiscordServerConfig } from '@/api/discordServerConfig'
+import { GetSZServerNews } from '@/api/server'
+
 import axios from 'axios'
 import { get } from 'lodash-es'
 import { useFetch } from '@/use/useFetch'
@@ -18,6 +20,7 @@ export const useSZGuild = defineStore('szGuild', () => {
   const serverConfig = ref({})
   const szInfo = ref({})
   const channels = ref([])
+  const serverNews = ref([])
   const statistic = reactive({
     members: 0,
   })
@@ -57,6 +60,9 @@ export const useSZGuild = defineStore('szGuild', () => {
   const getAllSZChannel = async () => {
     await fetchDataToValue(GetAllSZChannel, null, { ref: channels }, null)
   }
+  const getSZServerNews = async () => {
+    await fetchDataToValue(GetSZServerNews, null, { ref: serverNews }, null)
+  }
 
   const findDiscordServerConfig = async () => {
     await fetchDataToValue(
@@ -78,5 +84,7 @@ export const useSZGuild = defineStore('szGuild', () => {
     getAllSZChannel,
     findDiscordServerConfig,
     serverConfig,
+    serverNews,
+    getSZServerNews,
   }
 })

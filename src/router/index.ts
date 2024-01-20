@@ -6,6 +6,7 @@ import {
   Magnify,
   Code,
   Bookmark,
+  Rss,
   AppConnectivity,
 } from '@vicons/carbon'
 
@@ -38,6 +39,15 @@ const router = createRouter({
         hidden: true,
       },
       component: () => import('@/views/Callback/Callback.vue'),
+    },
+    {
+      path: '/news',
+      name: 'news',
+      meta: {
+        title: '最新公告',
+        icon: Rss,
+      },
+      component: () => import('@/views/News/News.vue'),
     },
     {
       path: '/about',
