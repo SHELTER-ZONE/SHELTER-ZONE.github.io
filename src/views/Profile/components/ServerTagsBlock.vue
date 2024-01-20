@@ -40,7 +40,8 @@ const displayRoles = computed(() => {
 })
 
 const onEdit = () => {
-  message.warning('抱歉，目前編輯功能開發中，尚未開放 :(,,ŏ ŏ ,,):')
+  showEditModal.value = true
+  // message.warning('抱歉，目前編輯功能開發中，尚未開放 :(,,ŏ ŏ ,,):')
 }
 </script>
 
