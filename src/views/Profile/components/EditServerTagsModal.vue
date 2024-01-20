@@ -1,20 +1,34 @@
 <template>
-  <BaseModal @update:show="onUpdateShow">
+  <BaseModal v-model:show="showModal" :on-update:show="updateModalShow">
     <div class="f-col gap-[20px] min-w-[300px]">
       <p class="modal-title">
         <n-icon><Edit /></n-icon>
-        編輯伺服器標籤
+        編輯伺服器身分標籤
       </p>
 
       <n-divider class="!m-0" />
 
       <main>
         <n-form :model="formData" ref="formRef" :rules="formRules">
-          <MainTechTagSelector v-model:formData="formData.mainTech" />
+          <ServerTagSelector
+            v-model:value="formData.mainRole"
+            title="主要身分"
+            :roles="mainRoles"
+            formItemPath="mainRole"
+            @change="onRoleSelect"
+          />
+
+          <ServerTagSelector
+            v-model:value="formData.otherRoles"
+            title="其他身分 (不顯示在 Profile 上)"
+            :roles="otherRoles"
+            :multiple="true"
+            @change="onRoleSelect"
+          />
         </n-form>
       </main>
 
-      <footer>
+      <footer class="flex justify-end">
         <n-button
           :loading="loading"
           secondary
@@ -29,42 +43,69 @@
 </template>
 
 <script setup lang="ts">
-import MainTechTagSelector from './MainTechTagSelector.vue'
-import { get } from 'lodash-es'
+import ServerTagSelector from './ServerTagSelector.vue'
+import { get, map, filter, find, intersection } from 'lodash-es'
 import { NButton, useMessage, NForm, NIcon, NDivider } from 'naive-ui'
 import { Edit } from '@vicons/carbon'
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed, onMounted } from 'vue'
 import { useFetch } from '@/use/useFetch'
 import { useSZUser } from '@/use/useSZUser'
 import { useForm } from '@/use/useForm'
+import { useModal } from '@/use/useModal'
 import { ChangeServerRoles } from '@/api/discord'
 import BaseModal from '@/components/Modal/BaseModal.vue'
 import notifyMessage from '@/configs/notifyMessage'
 import { useOauthStore } from '@/stores/oauth'
+import { useSZGuild } from '@/stores/szGuild'
+import { storeToRefs } from 'pinia'
+import { useAppStore } from '@/stores/app'
 
 const emits = defineEmits(['close'])
 
+const props = defineProps({
+  curRoles: { type: Array, default: () => [] },
+})
+
+const { updateModalShow, showModal } = useModal(emits)
+
 const { fetchData } = useFetch()
 const { userDCUser } = useSZUser()
-const { verifyForm } = useForm()
-const oauthStore = useOauthStore()
+const { verifyForm, clearFormvalidation } = useForm()
 const message = useMessage()
+
+const oauthStore = useOauthStore()
+
+const szGuildStore = useSZGuild()
+const { serverConfig } = storeToRefs(szGuildStore)
+
 const loading = ref<boolean>(false)
 const formRef = ref(null)
 
 const formData = reactive({
-  mainTech: null,
+  mainRole: null,
+  otherRoles: [],
 })
 
 const formRules = {
-  mainTech: {
+  mainRole: {
     required: true,
+    trigger: 'change',
   },
 }
 
-const onUpdateShow = (show: boolean) => {
-  if (!show) {
-    formData.mainTech = null
+const mainRoles = computed(() => get(serverConfig.value, 'roles.mainRoles'))
+const otherRoles = computed(() =>
+  get(serverConfig.value, 'roles.optionalRoles'),
+)
+
+const syncRoleData = (type: 'main' | 'optional') => {
+  if (type === 'main') {
+    const roles = intersection(map(mainRoles.value, 'id'), props.curRoles)
+    if (!roles?.length) return null
+    return get(roles, '[0]')
+  }
+  if (type === 'optional') {
+    return intersection(map(otherRoles.value, 'id'), props.curRoles)
   }
 }
 
@@ -82,7 +123,7 @@ const onConfirm = async () => {
     ChangeServerRoles,
     {
       discordId: get(userDCUser.value, 'id'),
-      roles: [formData.mainTech],
+      roles: [formData.mainRole, ...formData.otherRoles],
     },
     async () => {
       message.success(notifyMessage.updateSuccess)
@@ -98,6 +139,16 @@ const onConfirm = async () => {
   )
   loading.value = false
 }
+
+const onRoleSelect = () => {
+  clearFormvalidation(formRef)
+}
+
+onMounted(() => {
+  showModal.value = true
+  formData.mainRole = syncRoleData('main')
+  formData.otherRoles = syncRoleData('optional')
+})
 </script>
 
 <style scoped lang="postcss">

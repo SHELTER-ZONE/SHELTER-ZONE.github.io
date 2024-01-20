@@ -9,7 +9,8 @@
     <div v-else class="text-center">尚未擁有任何標籤</div>
   </EditableBlock>
   <EditServerTagsModal
-    v-model:show="showEditModal"
+    v-if="showEditModal"
+    :curRoles="dcMemberRoles"
     @close="showEditModal = false"
   />
 </template>
@@ -32,11 +33,13 @@ const { user } = storeToRefs(oauthStore)
 const { szServer } = storeToRefs(appStore)
 const showEditModal = ref<boolean>(false)
 
-const dcRoles = computed(() => get(user.value, 'discordMember.roles'))
+const dcMemberRoles = computed(() => get(user.value, 'discordMember.roles'))
 const serverRoles = computed(() => get(szServer.value, 'roles'))
 
 const displayRoles = computed(() => {
-  return filter(serverRoles.value, (role) => includes(dcRoles.value, role.id))
+  return filter(serverRoles.value, (role) =>
+    includes(dcMemberRoles.value, role.id),
+  )
 })
 
 const onEdit = () => {

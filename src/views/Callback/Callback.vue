@@ -15,6 +15,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { get } from 'lodash-es'
 import { useOauthStore } from '@/stores/oauth'
+import { useSZGuild } from '@/stores/szGuild'
 import { NSpin, useNotification } from 'naive-ui'
 import notifyMessage from '@/configs/notifyMessage'
 import dayjs from 'dayjs'
@@ -23,6 +24,7 @@ import { useErrorPage } from '@/use/useErrorPage'
 const router = useRouter()
 const route = useRoute()
 const oauthStore = useOauthStore()
+const szGuildStore = useSZGuild()
 const notification = useNotification()
 const { errorPageData } = useErrorPage()
 
@@ -62,10 +64,10 @@ const handleLogin = async () => {
     await userLogin(code)
     await getUserDCGuilds()
     await oauthStore.findMeDCMember({ throwErr: false })
+    szGuildStore.findDiscordServerConfig()
     notification.success({
       content: notifyMessage.loginSuccess,
     })
-
     router.push({ name: 'profile' })
   } catch (error) {
     console.log(error)
