@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { NIcon, NButton } from 'naive-ui'
+import { NIcon } from 'naive-ui'
 import { Edit } from '@vicons/carbon'
 </script>
 
