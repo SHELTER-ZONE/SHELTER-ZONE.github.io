@@ -2,7 +2,7 @@
   <main class="home">
     <Banner />
     <div class="page-wrapper">
-      <Statistic class="section-max-w" />
+      <!-- <Statistic class="section-max-w" /> -->
       <SZIntro class="section-max-w" />
       <Topic class="section-max-w" />
       <TeamIntro class="section-max-w" />
