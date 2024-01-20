@@ -2,6 +2,9 @@ import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { _SZ_GUILD_CONFIG_URL } from '@/configs/urls'
 import { GetAllMembersCount, GetSZGuildInfo, GetAllSZChannel } from '@/api/bot'
+import { FindDiscordServerConfig } from '@/api/discordServerConfig'
+import { GetSZServerNews } from '@/api/server'
+
 import axios from 'axios'
 import { get } from 'lodash-es'
 import { useFetch } from '@/use/useFetch'
@@ -14,8 +17,10 @@ export type SZOpenRole = {
 export const useSZGuild = defineStore('szGuild', () => {
   const { fetchDataToValue } = useFetch()
   const guildConfig = ref({})
+  const serverConfig = ref({})
   const szInfo = ref({})
   const channels = ref([])
+  const serverNews = ref([])
   const statistic = reactive({
     members: 0,
   })
@@ -55,6 +60,18 @@ export const useSZGuild = defineStore('szGuild', () => {
   const getAllSZChannel = async () => {
     await fetchDataToValue(GetAllSZChannel, null, { ref: channels }, null)
   }
+  const getSZServerNews = async () => {
+    await fetchDataToValue(GetSZServerNews, null, { ref: serverNews }, null)
+  }
+
+  const findDiscordServerConfig = async () => {
+    await fetchDataToValue(
+      FindDiscordServerConfig,
+      null,
+      { ref: serverConfig },
+      null,
+    )
+  }
 
   return {
     channels,
@@ -65,5 +82,9 @@ export const useSZGuild = defineStore('szGuild', () => {
     registeredRole,
     getAllMembersCount,
     getAllSZChannel,
+    findDiscordServerConfig,
+    serverConfig,
+    serverNews,
+    getSZServerNews,
   }
 })

@@ -7,17 +7,27 @@ import { useStorage } from '@vueuse/core'
 import { useFetch } from '@/use/useFetch'
 import { FindMeDCGuilds, FindMeDCMember, FindMeDCUser } from '@/api/discord'
 import localStoreKey from '@/configs/localStoreKey'
+import type { APIGuildMember, APIUser, APIGuild } from 'discord-api-types/v10'
+import { SZ_SERVER_ID } from '@/utils/variables'
 
 const discordAuthRedirectUrl = () =>
   `${location.protocol}//${location.host}/discord/callback`
 
+interface UserState {
+  discord: APIUser | null
+  discordMember: APIGuildMember | null
+  sz: any
+  guilds: APIGuild[]
+}
+
 export const useOauthStore = defineStore('oauth', () => {
   const { fetchDataToValue, fetchDataReturn, fetchData } = useFetch()
 
-  const user = reactive({
+  const user = reactive<UserState>({
     discord: null,
+    discordMember: null,
     sz: null,
-    guilds: useStorage(localStoreKey.userGuilds, []),
+    guilds: [],
   })
   const szUserToken = useStorage<string>(localStoreKey.szUserToken, '')
   const dcUserToken = useStorage<string>(localStoreKey.dcUserToken, '')
@@ -98,15 +108,16 @@ export const useOauthStore = defineStore('oauth', () => {
   }
 
   async function findMeDCMember({ throwErr } = { throwErr: true }) {
-    const [, err, rawErr] = await fetchDataToValue(
+    await fetchData(
       FindMeDCMember,
       { discordId: get(user.discord, 'user.id') || get(user.discord, 'id') },
-      { ref: user, path: 'discord' },
-      null,
-      { toastError: false },
+      (member: APIGuildMember) => {
+        if (member) user.discordMember = member
+      },
+      (err: any, rawErr: any) => {
+        if (throwErr) throw rawErr
+      },
     )
-
-    if (err && throwErr) throw rawErr
   }
 
   async function signin() {
@@ -132,7 +143,7 @@ export const useOauthStore = defineStore('oauth', () => {
     return szUserToken.value && dcUserToken.value
   })
   const szJoined = computed(() => {
-    return Boolean(find(user.guilds, { id: '445157253385814016' }))
+    return Boolean(find(user.guilds, { id: SZ_SERVER_ID }))
   })
   const szRegistered = computed(() => {
     return Boolean(get(user, 'sz'))

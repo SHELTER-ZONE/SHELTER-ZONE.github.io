@@ -36,8 +36,9 @@ import JoinServerWarning from './JoinServerWarning.vue'
 import RegisterProfileWarn from './RegisterProfileWarn.vue'
 import { useOauthStore } from '@/stores/oauth'
 import StatusMask from '@/components/StatusMask.vue'
-
-const { szJoined, szUserProfile } = useOauthStore()
+import { storeToRefs } from 'pinia'
+const oauthStore = useOauthStore()
+const { szJoined, szUserProfile } = storeToRefs(oauthStore)
 </script>
 
 <style scoped lang="postcss">

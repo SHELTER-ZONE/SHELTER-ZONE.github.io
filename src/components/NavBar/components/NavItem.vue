@@ -10,7 +10,7 @@
       class="flex items-center"
       :class="{
         'active-route': isCurRoute,
-        'text-base': !isCurRoute,
+        'text-gray-300': !isCurRoute,
       }"
     >
       <div class="f-row gap-[5px] font-medium items-center">
@@ -44,7 +44,7 @@ const isCurRoute = computed(() => {
 
 <style scoped lang="postcss">
 .nav-item {
-  @apply text-shadow-xl text-[20px];
+  @apply text-[20px];
   @apply font-medium;
 }
 

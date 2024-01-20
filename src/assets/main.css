@@ -1,4 +1,5 @@
 @import './base.css';
+@import './style/discord.css';
 
 #app {
   max-width: 1280px;

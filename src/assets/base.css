@@ -1,4 +1,5 @@
 @import url('./style/scrollbar.css');
+@import url('./style/discord.css');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Quicksand:wght@400;500;600&display=swap');
 
 :root {
@@ -21,4 +22,7 @@ html, body, #app, .n-config-provider, .layout {
   @apply tracking-wider;
 }
 
+* {
+  @apply text-shadow-lg;
+}
 

@@ -4,11 +4,15 @@ import { RouteBases } from 'discord-api-types/v10'
 
 //= > api-auth
 export const api = axios.create({
-  baseURL: 'https://service.shelterzone.net',
+  baseURL: import.meta.env.DEV
+    ? 'https://service-dev.shelterzone.net'
+    : 'https://service.shelterzone.net',
 })
 
 export const apiAuth = axios.create({
-  baseURL: 'https://service.shelterzone.net',
+  baseURL: import.meta.env.DEV
+    ? 'https://service-dev.shelterzone.net'
+    : 'https://service.shelterzone.net',
   headers: {
     Authorization: localStorage.getItem('szUserToken'),
   },

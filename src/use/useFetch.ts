@@ -17,7 +17,7 @@ export const useFetch = () => {
     apiMethod: Function,
     payload: P | null,
     onSuccess: Function,
-    onError?: Function,
+    onError: Function | null,
     options?: FetchDataOptions,
   ) => {
     options = defaultOptions(options)
