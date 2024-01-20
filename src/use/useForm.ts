@@ -29,5 +29,9 @@ export const useForm = () => {
     })
   }
 
-  return { fieldTypeComponent, verifyForm }
+  const clearFormvalidation = (formRef: Ref<FormInst | null | undefined>) => {
+    return formRef.value?.restoreValidation()
+  }
+
+  return { fieldTypeComponent, verifyForm, clearFormvalidation }
 }

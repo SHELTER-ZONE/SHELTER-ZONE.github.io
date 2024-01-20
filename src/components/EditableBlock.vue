@@ -15,7 +15,8 @@ import { Edit } from '@vicons/carbon'
 <style scoped lang="postcss">
 .editable-block {
   @apply p-[20px] relative border-base border-1 border-solid rounded-normal;
-  @apply hover:(border-primary);
+  @apply hover:(border-primary bg-secondary-bg);
+  @apply ease-in-out transition-all duration-300;
 }
 
 .editable-block:hover {
