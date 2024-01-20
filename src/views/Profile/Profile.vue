@@ -13,7 +13,9 @@
       <main class="f-col gap-[30px]" v-if="szUserProfile && szJoined">
         <BannerBlock />
         <div class="wrapper">
-          <BaseInfoBlock />
+          <EditableBlock>
+            <UserBaseInfoBlock :dc-user="user.discord" :sz-user="user.sz" />
+          </EditableBlock>
           <DailyCheckRecordBlock />
         </div>
         <ServerTagsBlock />
@@ -24,19 +26,19 @@
 </template>
 
 <script setup lang="ts">
+import EditableBlock from '@/components/EditableBlock.vue'
 import { useOauthStore } from '@/stores/oauth'
 import { storeToRefs } from 'pinia'
 import { NIcon, NDivider } from 'naive-ui'
 import { Campsite } from '@vicons/carbon'
-import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import NotAccess from './components/NotAccess.vue'
-import BaseInfoBlock from './components/BaseInfoBlock.vue'
+import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from './components/DailyCheckRecordBlock.vue'
 import BannerBlock from './components/BannerBlock.vue'
 import ServerTagsBlock from './components/ServerTagsBlock.vue'
 
 const oauthStore = useOauthStore()
-const { szJoined, szUserProfile } = storeToRefs(oauthStore)
+const { szJoined, szUserProfile, user } = storeToRefs(oauthStore)
 </script>
 
 <style scoped lang="postcss">

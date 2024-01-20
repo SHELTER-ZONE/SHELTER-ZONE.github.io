@@ -43,24 +43,24 @@ import { get, omit, keys } from 'lodash-es'
 import { discordUserAvatartUrl } from '@/utils/discord'
 
 export interface UserBaseInfoBlockProps {
-  editable: boolean
   dcUser: any
   szUser: any
-  szUserProfile: any
 }
 
 const props = defineProps<UserBaseInfoBlockProps>()
 
 const userAvatar = computed(() => discordUserAvatartUrl(props.dcUser))
 
+const szUserProfile = computed(() => get(props.szUser, 'UserProfile'))
+
 const displayData = computed(() => {
   return {
-    name: { icon: null, value: get(props.szUserProfile, 'name') },
+    name: { icon: null, value: get(szUserProfile.value, 'name') },
     createdAt: {
       icon: null,
-      value: dateFormat(get(props.szUserProfile, 'createdAt', '')),
+      value: dateFormat(get(szUserProfile.value, 'createdAt', '')),
     },
-    country: { icon: null, value: get(props.szUserProfile, 'country') },
+    country: { icon: null, value: get(szUserProfile.value, 'country') },
     role: {
       icon: UserRole,
       iconColor: 'var(--action)',
@@ -71,7 +71,7 @@ const displayData = computed(() => {
       icon: ConditionPoint,
       iconColor: 'var(--warning)',
       tipInfo: '聲望值',
-      value: get(props.szUserProfile, 'reputation'),
+      value: get(szUserProfile.value, 'reputation'),
     },
     contributes: {
       icon: DirectLink,
