@@ -16,7 +16,7 @@
           <EditableBlock>
             <UserBaseInfoBlock :dc-user="user.discord" :sz-user="user.sz" />
           </EditableBlock>
-          <DailyCheckRecordBlock />
+          <DailyCheckRecordBlock :sz-user="user.sz" />
         </div>
         <ServerTagsBlock />
       </main>
@@ -33,7 +33,7 @@ import { NIcon, NDivider } from 'naive-ui'
 import { Campsite } from '@vicons/carbon'
 import NotAccess from './components/NotAccess.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
-import DailyCheckRecordBlock from './components/DailyCheckRecordBlock.vue'
+import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import BannerBlock from './components/BannerBlock.vue'
 import ServerTagsBlock from './components/ServerTagsBlock.vue'
 
