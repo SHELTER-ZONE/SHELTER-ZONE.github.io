@@ -1,5 +1,8 @@
 <template>
-  <div class="navbar-mobile">
+  <div
+    class="navbar-mobile"
+    :style="toggle ? ` backdrop-filter: blur(5px);` : ''"
+  >
     <div
       :class="{
         'fade-in': toggle,
@@ -62,7 +65,7 @@ const toggle = ref(false)
   @apply viewPx py-[20px] pb-[40px];
   @apply backdrop-blur-[5px] relative;
   @apply flex flex-col gap-[20px];
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
 }
 
 .navbar-mobile-mask {

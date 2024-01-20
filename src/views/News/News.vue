@@ -1,6 +1,6 @@
 <template>
   <main class="server-news">
-    <AreaBlock class="w-300px">
+    <AreaBlock class="news-list-wrapper">
       <nav class="news-list">
         <div
           class="news-item"
@@ -14,6 +14,7 @@
       </nav>
     </AreaBlock>
 
+    <n-divider class="!m-0 tablet:(hidden)" />
     <AreaBlock class="w-full">
       <article v-if="selectNews">
         <DiscordContent :message="selectNews" />
@@ -23,12 +24,13 @@
 </template>
 
 <script setup lang="ts">
+import { NDivider } from 'naive-ui'
 import DiscordContent from '@/components/DiscordContent.vue'
 import AreaBlock from '@/components/AreaBlock.vue'
 import { useSZGuild } from '@/stores/szGuild'
 import { ellipsisText } from '@/utils/helper'
 import { computed, ref, watchEffect } from 'vue'
-import { get, map, find } from 'lodash-es'
+import { get, map, find, filter } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 
 const szGuildStore = useSZGuild()
@@ -43,7 +45,7 @@ const displayNewsList = computed(() => {
       title: ellipsisText(title),
     }
   })
-  return dataList
+  return filter(dataList, (news) => news.title)
 })
 
 const onSelectNews = (id: string) => {
@@ -60,10 +62,15 @@ watchEffect(() => {
   @apply viewPx viewPt viewMax h-full m-auto;
   @apply flex gap-[30px] justify-center;
   @apply relative;
+  @apply <tablet:(flex-col justify-start);
 }
 
+.news-list-wrapper {
+  @apply w-full;
+  @apply tablet:(w-[300px]);
+}
 .news-list {
-  @apply flex flex-col gap-[12px];
+  @apply flex flex-col  gap-[12px];
   @apply sticky top-[100px];
 }
 .news-item {
