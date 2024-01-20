@@ -1,5 +1,11 @@
 <template>
-  <div class="editable-block" :class="{ hide: hideEdit }">
+  <div
+    class="editable-block"
+    :class="{
+      hide: hideEdit,
+      'editable-block-hover-effect': !hideEdit,
+    }"
+  >
     <button
       class="edit-btn"
       @click="emits('edit')"
@@ -28,9 +34,13 @@ const emits = defineEmits(['edit'])
 <style scoped lang="postcss">
 .editable-block {
   @apply p-[20px] relative border-base border-1 border-solid rounded-normal;
-  @apply hover:(border-primary bg-secondary-bg);
+
   @apply ease-in-out transition-all duration-300;
   @apply overflow-hidden;
+}
+
+.editable-block-hover-effect {
+  @apply hover:(border-primary bg-secondary-bg);
 }
 
 .editable-block:hover {

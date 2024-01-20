@@ -5,7 +5,7 @@
     <div class="f-row gap-[12px]">
       <router-link :to="{ name: 'PersonalShelter', params: { discordId } }">
         <BaseButton type="info">
-          <template #icon><DataViewAlt /></template>
+          <template #icon><Campsite /></template>
           前往個人避難所
         </BaseButton>
       </router-link>
@@ -14,7 +14,9 @@
         :type="preview ? 'primary' : 'warning'"
         @click="preview = !preview"
       >
-        <template #icon><DataViewAlt /></template>
+        <template #icon
+          ><component :is="preview ? DataViewAlt : Edit"
+        /></template>
         模式: {{ preview ? '預覽' : '編輯' }}
       </BaseButton>
     </div>
@@ -60,7 +62,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import EditableBlock from '@/components/EditableBlock.vue'
 import { useOauthStore } from '@/stores/oauth'
 import { storeToRefs } from 'pinia'
-import { Campsite, DataViewAlt } from '@vicons/carbon'
+import { Campsite, DataViewAlt, Edit } from '@vicons/carbon'
 import NotAccess from './components/NotAccess.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
