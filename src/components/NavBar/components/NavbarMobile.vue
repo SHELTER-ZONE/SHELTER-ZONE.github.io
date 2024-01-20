@@ -25,7 +25,9 @@
             <UserOptions @close="toggle = false" />
           </div>
           <n-scrollbar>
-            <div class="flex flex-col items-center justify-center gap-[25px]">
+            <div
+              class="flex flex-col items-center justify-center gap-[25px] py-[5px]"
+            >
               <NavItem
                 v-for="route in displayRoutes"
                 :key="route.name"
@@ -57,7 +59,7 @@ const toggle = ref(false)
 
 <style scoped lang="postcss">
 .navbar-mobile {
-  @apply viewPx py-[20px];
+  @apply viewPx py-[20px] pb-[40px];
   @apply backdrop-blur-[5px] relative;
   @apply flex flex-col gap-[20px];
   backdrop-filter: blur(5px);
@@ -65,7 +67,7 @@ const toggle = ref(false)
 
 .navbar-mobile-mask {
   @apply absolute top-0 right-0 left-0 bottom-0;
-  @apply opacity-70;
+  @apply opacity-80;
 }
 
 .navbar-mobile-header {
@@ -74,8 +76,11 @@ const toggle = ref(false)
 }
 
 .fade-in {
-  @apply bg-primary-bg;
+  @apply bg-secondary-bg;
   animation: fadeIn 0.5s ease-in-out;
+  box-shadow: 10px 10px 29px 5px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 10px 10px 29px 5px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 10px 29px 5px rgba(0, 0, 0, 0.1);
 }
 .fade-out {
   animation: fadeOut 0.5s ease-in-out;
@@ -92,7 +97,7 @@ const toggle = ref(false)
 
 @keyframes fadeOut {
   from {
-    @apply opacity-70 bg-primary-bg;
+    @apply opacity-70 bg-secondary-bg;
   }
   to {
     @apply opacity-0;

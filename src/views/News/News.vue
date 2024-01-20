@@ -1,6 +1,6 @@
 <template>
   <main class="server-news">
-    <AreaBlock class="w-[20%]">
+    <AreaBlock class="w-300px">
       <nav class="news-list">
         <div
           class="news-item"
@@ -67,7 +67,7 @@ watchEffect(() => {
   @apply sticky top-[100px];
 }
 .news-item {
-  @apply text-base hover:(text-primary underline);
+  @apply truncate text-base hover:(text-primary underline);
   @apply cursor-pointer transition-all duration-400 ease-in-out;
 }
 
