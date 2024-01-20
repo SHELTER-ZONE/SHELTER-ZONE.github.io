@@ -1,11 +1,14 @@
 <template>
   <main class="base-info-block">
     <div class="<tablet:(flex-col) f-row gap-[20px]">
-      <img
-        class="user-avatar"
-        :src="`${userAvatar}?size=1024`"
-        alt="discord user avatar"
-      />
+      <div>
+        <n-image
+          class="user-avatar"
+          :src="`${userAvatar}?size=1024`"
+          alt="discord user avatar"
+          :fallback-src="ImagePlaceholder"
+        />
+      </div>
 
       <div class="base-info">
         <p class="user-name">
@@ -36,11 +39,12 @@
 <script setup lang="ts">
 import { dateFormat } from '@/utils/helper'
 import { computed } from 'vue'
-import { NDivider } from 'naive-ui'
+import { NDivider, NImage } from 'naive-ui'
 import IconInfoItem from '@/components/IconInfoItem.vue'
 import { UserRole, ConditionPoint, DirectLink } from '@vicons/carbon'
 import { get, omit, keys } from 'lodash-es'
 import { discordUserAvatartUrl } from '@/utils/discord'
+import ImagePlaceholder from '@/assets/default/image_placeholder.webp'
 
 export interface UserBaseInfoBlockProps {
   dcUser: any
@@ -55,12 +59,15 @@ const szUserProfile = computed(() => get(props.szUser, 'UserProfile'))
 
 const displayData = computed(() => {
   return {
-    name: { icon: null, value: get(szUserProfile.value, 'name') },
+    name: { icon: null, value: get(szUserProfile.value, 'name', '--------') },
     createdAt: {
       icon: null,
-      value: dateFormat(get(szUserProfile.value, 'createdAt', '')),
+      value: dateFormat(get(szUserProfile.value, 'createdAt', new Date())),
     },
-    country: { icon: null, value: get(szUserProfile.value, 'country') },
+    country: {
+      icon: null,
+      value: get(szUserProfile.value, 'country', '--------'),
+    },
     role: {
       icon: UserRole,
       iconColor: 'var(--action)',
