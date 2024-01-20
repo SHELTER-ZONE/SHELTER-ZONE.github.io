@@ -54,12 +54,12 @@ const options = computed(() => {
       key: 'user-profile',
       icon: !szUserProfile.value
         ? renderIcon(WarningFilled, { color: 'var(--warning)' })
-        : renderIcon(Campsite),
+        : renderIcon(Campsite, { color: 'var(--primary)' }),
     },
     {
       label: '登出',
       key: 'logout',
-      icon: renderIcon(Logout),
+      icon: renderIcon(Logout, { color: 'var(--danger)' }),
     },
   ]
   return options

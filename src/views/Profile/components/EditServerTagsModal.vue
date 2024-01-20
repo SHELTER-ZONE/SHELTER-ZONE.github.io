@@ -1,5 +1,10 @@
 <template>
-  <BaseModal v-model:show="showModal" :on-update:show="updateModalShow">
+  <BaseModal
+    v-model:show="showModal"
+    :on-update:show="updateModalShow"
+    :close-on-esc="false"
+    :mask-closable="false"
+  >
     <div class="f-col gap-[20px] min-w-[300px]">
       <p class="modal-title">
         <n-icon><Edit /></n-icon>
@@ -28,15 +33,11 @@
         </n-form>
       </main>
 
-      <footer class="flex justify-end">
-        <n-button
-          :loading="loading"
-          secondary
-          type="primary"
-          @click="onConfirm"
-        >
+      <footer class="grid grid-cols-2 gap-[10px]">
+        <BaseButton @click="updateModalShow(false)"> 取消 </BaseButton>
+        <BaseButton :loading="loading" type="primary" @click="onConfirm">
           更新
-        </n-button>
+        </BaseButton>
       </footer>
     </div>
   </BaseModal>
@@ -44,8 +45,8 @@
 
 <script setup lang="ts">
 import ServerTagSelector from './ServerTagSelector.vue'
-import { get, map, filter, find, intersection } from 'lodash-es'
-import { NButton, useMessage, NForm, NIcon, NDivider } from 'naive-ui'
+import { get, map, intersection } from 'lodash-es'
+import { useMessage, NForm, NIcon, NDivider } from 'naive-ui'
 import { Edit } from '@vicons/carbon'
 import { reactive, ref, computed, onMounted } from 'vue'
 import { useFetch } from '@/use/useFetch'
@@ -58,7 +59,7 @@ import notifyMessage from '@/configs/notifyMessage'
 import { useOauthStore } from '@/stores/oauth'
 import { useSZGuild } from '@/stores/szGuild'
 import { storeToRefs } from 'pinia'
-import { useAppStore } from '@/stores/app'
+import BaseButton from '@/components/BaseButton.vue'
 
 const emits = defineEmits(['close'])
 

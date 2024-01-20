@@ -1,15 +1,15 @@
 <template>
   <n-form-item :label="title" :path="formItemPath">
     <div class="grid grid-cols-3 gap-[10px] w-full">
-      <div
+      <BaseButton
         class="select-tag-item"
         v-for="role in displayRoles"
         :key="role.id"
         @click="onSelectRole(role)"
-        :class="{ active: roleActive(role) }"
+        :type="roleActive(role) ? 'primary' : 'default'"
       >
         {{ role.name }}
-      </div>
+      </BaseButton>
     </div>
   </n-form-item>
 </template>
@@ -21,6 +21,7 @@ import { computed } from 'vue'
 import { map, get, find, filter, pull, includes } from 'lodash-es'
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
+import BaseButton from '@/components/BaseButton.vue'
 
 interface MainTechTagSelectorProps {
   title: string
@@ -72,19 +73,14 @@ const onSelectRole = (role: any) => {
     else syncValue.value.push(role.id)
   }
 }
-
-const onrestore = (args) => {
-  console.log(args)
-}
 </script>
 
 <style scoped lang="postcss">
-.select-tag-item {
-  @apply border-base border-1 px-[10px] py-[5px] rounded-normal w-full cursor-pointer;
-  @apply font-medium;
+:deep(.n-form-item-label__text) {
+  @apply text-base;
 }
 
-.active {
-  @apply border-primary bg-primary text-primary-bg;
+.select-tag-item {
+  @apply !font-medium;
 }
 </style>
