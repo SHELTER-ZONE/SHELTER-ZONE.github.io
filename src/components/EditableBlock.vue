@@ -1,6 +1,10 @@
 <template>
-  <div class="editable-block">
-    <button class="edit-btn" @click="emits('edit')">
+  <div class="editable-block" :class="{ hide: hideEdit }">
+    <button
+      class="edit-btn"
+      @click="emits('edit')"
+      :style="hideEdit ? `opacity: 0` : ''"
+    >
       <n-icon color="var(--primary-bg)"><Edit /></n-icon>
     </button>
     <slot />
@@ -11,6 +15,13 @@
 import { NIcon } from 'naive-ui'
 import { Edit } from '@vicons/carbon'
 
+export interface EditableBlockProps {
+  hideEdit?: boolean
+  disabled?: boolean
+}
+
+defineProps<EditableBlockProps>()
+
 const emits = defineEmits(['edit'])
 </script>
 
@@ -19,6 +30,7 @@ const emits = defineEmits(['edit'])
   @apply p-[20px] relative border-base border-1 border-solid rounded-normal;
   @apply hover:(border-primary bg-secondary-bg);
   @apply ease-in-out transition-all duration-300;
+  @apply overflow-hidden;
 }
 
 .editable-block:hover {
@@ -31,5 +43,10 @@ const emits = defineEmits(['edit'])
   @apply absolute top-0 right-0;
   @apply bg-base hover:(opacity-80);
   @apply px-[10px] py-[5px] rounded-bl-normal;
+  @apply ease-in-out transition-all duration-300;
+}
+
+.hide {
+  @apply border-transparent;
 }
 </style>
