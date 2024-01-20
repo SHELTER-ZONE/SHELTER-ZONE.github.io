@@ -1,8 +1,12 @@
 <template>
   <div class="profile-not-access f-col-center">
-    <div class="f-col-center gap-[10px] mb-[20px]">
+    <div class="f-col-center gap-[10px]">
       <n-icon :size="30" color="var(--danger)"><Locked /></n-icon>
       <p class="text-danger text-lg font-bold">Access Denied</p>
+    </div>
+
+    <div class="discord-message">
+      <pre><code class="fix">Oops! 發現你尚有條件未達成，請依照下方指示完成步驟方可啟用個人避難所</code></pre>
     </div>
 
     <section class="f-col-center max-w-[600px] w-full gap-[30px]">
@@ -14,8 +18,6 @@
       >
         <JoinServerWarning />
       </StatusMask>
-
-      <!-- <n-divider /> -->
 
       <StatusMask
         :show="szUserProfile"
@@ -31,7 +33,8 @@
 
 <script setup lang="ts">
 import { Locked } from '@vicons/carbon'
-import { NIcon, NDivider } from 'naive-ui'
+import { NIcon } from 'naive-ui'
+import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import JoinServerWarning from './JoinServerWarning.vue'
 import RegisterProfileWarn from './RegisterProfileWarn.vue'
 import { useOauthStore } from '@/stores/oauth'
@@ -43,6 +46,6 @@ const { szJoined, szUserProfile } = storeToRefs(oauthStore)
 
 <style scoped lang="postcss">
 .profile-not-access {
-  @apply gap-[20px] py-[40px];
+  @apply gap-[20px];
 }
 </style>

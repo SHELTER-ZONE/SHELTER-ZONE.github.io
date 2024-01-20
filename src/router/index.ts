@@ -92,6 +92,15 @@ const router = createRouter({
       },
       component: () => import('@/views/RegisterProfile/RegisterProfile.vue'),
     },
+    {
+      path: '/shelter/:discordId',
+      name: 'PersonalShelter',
+      meta: {
+        hidden: true,
+        title: '避難所',
+      },
+      component: () => import('@/views/PersonalShelter/PersonalShelter.vue'),
+    },
   ],
 })
 

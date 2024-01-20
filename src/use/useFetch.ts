@@ -2,11 +2,13 @@ import { isRef, isReactive, type Ref, reactive } from 'vue'
 import { get, set } from 'lodash-es'
 
 interface FetchDataOptions {
+  throwError?: boolean
   toastError?: boolean
   consoleRes?: boolean
 }
 
 const defaultOptions = (options?: FetchDataOptions): FetchDataOptions => ({
+  throwError: false,
   toastError: true,
   consoleRes: true,
   ...options,
@@ -54,6 +56,7 @@ export const useFetch = () => {
     }
     if (err) {
       if (options?.toastError) window.$message.error(err.message)
+      if (options?.throwError) throw rawErr
     }
     return [res, err, rawErr]
   }

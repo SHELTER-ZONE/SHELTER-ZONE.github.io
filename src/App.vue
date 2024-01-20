@@ -39,7 +39,7 @@ async function appInit() {
   const szGuildStore = useSZGuild()
   await appStore.getApiEndPoint()
 
-  appStore.getServerRoles({ throwErr: false })
+  szGuildStore.getServerRoles({ throwErr: false })
   szGuildStore.getSZServerNews()
 
   if (!oauthStore.loggedIn) {

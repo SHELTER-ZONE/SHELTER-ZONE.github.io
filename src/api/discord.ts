@@ -14,7 +14,7 @@ export const FindMeDCGuilds = async () => {
   })
 }
 
-export const FindMeDCMember = async ({ discordId }: { discordId: string }) => {
+export const FindDCMember = async ({ discordId }: { discordId: string }) => {
   return await apiAuth({
     method: 'GET',
     url: `/discord/guild/member/${discordId}`,

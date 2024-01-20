@@ -22,6 +22,7 @@ import { map, get, find, filter, pull, includes } from 'lodash-es'
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 import BaseButton from '@/components/BaseButton.vue'
+import { useSZGuild } from '@/stores/szGuild'
 
 interface MainTechTagSelectorProps {
   title: string
@@ -38,12 +39,9 @@ const props = withDefaults(defineProps<MainTechTagSelectorProps>(), {
 })
 const emits = defineEmits(['update:value', 'change'])
 
-const appStore = useAppStore()
-const { szServer } = storeToRefs(appStore)
-
+const szGuildStore = useSZGuild()
+const { serverRoles } = storeToRefs(szGuildStore)
 const syncValue = useVModel(props, 'value', emits)
-
-const serverRoles = computed(() => get(szServer.value, 'roles'))
 
 const roleActive = computed(() => {
   return (role) => {

@@ -5,7 +5,7 @@ import { FindSZUser } from '@/api/szUser'
 import { get, find } from 'lodash-es'
 import { useStorage } from '@vueuse/core'
 import { useFetch } from '@/use/useFetch'
-import { FindMeDCGuilds, FindMeDCMember, FindMeDCUser } from '@/api/discord'
+import { FindMeDCGuilds, FindDCMember, FindMeDCUser } from '@/api/discord'
 import localStoreKey from '@/configs/localStoreKey'
 import type { APIGuildMember, APIUser, APIGuild } from 'discord-api-types/v10'
 import { SZ_SERVER_ID } from '@/utils/variables'
@@ -109,7 +109,7 @@ export const useOauthStore = defineStore('oauth', () => {
 
   async function findMeDCMember({ throwErr } = { throwErr: true }) {
     await fetchData(
-      FindMeDCMember,
+      FindDCMember,
       { discordId: get(user.discord, 'user.id') || get(user.discord, 'id') },
       (res) => {
         const member: APIGuildMember | null = res.data
