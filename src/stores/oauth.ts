@@ -111,7 +111,8 @@ export const useOauthStore = defineStore('oauth', () => {
     await fetchData(
       FindMeDCMember,
       { discordId: get(user.discord, 'user.id') || get(user.discord, 'id') },
-      (member: APIGuildMember) => {
+      (res) => {
+        const member: APIGuildMember | null = res.data
         if (member) user.discordMember = member
       },
       (err: any, rawErr: any) => {
