@@ -93,7 +93,7 @@ const router = createRouter({
       component: () => import('@/views/RegisterProfile/RegisterProfile.vue'),
     },
     {
-      path: '/personal-shelter/:szUserId',
+      path: '/shelter/:discordId',
       name: 'PersonalShelter',
       meta: {
         hidden: true,
