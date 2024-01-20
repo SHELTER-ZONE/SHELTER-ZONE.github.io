@@ -1,15 +1,12 @@
 <template>
-  <main class="profile viewPx">
-    <div class="f-col-center gap-[20px] py-[40px]">
-      <n-icon :size="50">
-        <Campsite />
-      </n-icon>
-      <p class="topic-title">Personal Shelter</p>
-      <n-divider class="bg-primary-bg" />
-
-      <NotAccess v-if="!szUserProfile || !szJoined" />
-
-      <main class="f-col gap-[30px]" v-if="szUserProfile && szJoined">
+  <main class="profile">
+    <PageTItle :icon="Campsite" title="Personal Shelter" />
+    <NotAccess v-if="!szUserProfile || !szJoined" />
+    <div
+      v-if="szUserProfile && szJoined"
+      class="f-col-center gap-[20px] pb-[40px] w-full"
+    >
+      <main class="f-col gap-[30px]">
         <BannerBlock />
         <div class="wrapper">
           <EditableBlock>
@@ -35,10 +32,10 @@
 </template>
 
 <script setup lang="ts">
+import PageTItle from '@/components/PageTitle.vue'
 import EditableBlock from '@/components/EditableBlock.vue'
 import { useOauthStore } from '@/stores/oauth'
 import { storeToRefs } from 'pinia'
-import { NIcon, NDivider } from 'naive-ui'
 import { Campsite } from '@vicons/carbon'
 import NotAccess from './components/NotAccess.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
@@ -58,6 +55,7 @@ const editModal = reactive({
 
 <style scoped lang="postcss">
 .profile {
+  @apply viewPx viewPt viewMax m-auto;
   @apply pt-[100px];
   @apply flex flex-col gap-[30px];
   @apply justify-center items-center;

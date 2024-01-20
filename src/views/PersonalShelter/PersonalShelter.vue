@@ -1,5 +1,6 @@
 <template>
   <main class="personal-shelter">
+    <PageTItle :icon="Campsite" title="Personal Shelter" />
     <n-spin :show="loading">
       <div class="f-col">
         <!-- <BannerBlock /> -->
@@ -18,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import PageTItle from '@/components/PageTitle.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
@@ -31,6 +33,7 @@ import { onBeforeMount, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { get } from 'lodash-es'
 import { useFetch } from '@/use/useFetch'
+import { Campsite } from '@vicons/carbon'
 
 const route = useRoute()
 const { fetchDataToValue } = useFetch()
@@ -68,7 +71,7 @@ onBeforeMount(async () => {
 
 <style scoped lang="postcss">
 .personal-shelter {
-  @apply viewPx viewPt;
+  @apply viewPx viewPt viewMax m-auto;
   @apply pt-[100px];
   @apply flex flex-col gap-[30px];
   @apply justify-center items-center;
