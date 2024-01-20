@@ -7,6 +7,7 @@ export default defineConfig({
     viewPt: 'pt-[80px] mb:(pt-[150px])',
     'w-fit': 'w-[fit-content]',
     'h-fit': 'h-[fit-content]',
+    viewMax: 'max-w-[1440px]',
   },
   theme: {
     extend: {

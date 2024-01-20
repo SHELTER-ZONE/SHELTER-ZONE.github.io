@@ -38,7 +38,9 @@ async function appInit() {
   const appStore = useAppStore()
   const szGuildStore = useSZGuild()
   await appStore.getApiEndPoint()
+
   appStore.getServerRoles({ throwErr: false })
+  szGuildStore.getSZServerNews()
 
   if (!oauthStore.loggedIn) {
     oauthStore.clearUser()

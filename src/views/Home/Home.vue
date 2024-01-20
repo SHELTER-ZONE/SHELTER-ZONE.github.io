@@ -17,8 +17,6 @@ import Statistic from './components/Statistic/Statistic.vue'
 import SZIntro from './components/SZIntro.vue'
 import Topic from './components/Topic/Topic.vue'
 import { useSeoMeta } from 'unhead'
-
-
 </script>
 
 <style lang="postcss" scoped>
