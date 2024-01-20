@@ -32,7 +32,7 @@ const { user } = storeToRefs(oauthStore)
 const { szServer } = storeToRefs(appStore)
 const showEditModal = ref<boolean>(false)
 
-const dcRoles = computed(() => get(user.value, 'discord.roles'))
+const dcRoles = computed(() => get(user.value, 'discordMember.roles'))
 const serverRoles = computed(() => get(szServer.value, 'roles'))
 
 const displayRoles = computed(() => {

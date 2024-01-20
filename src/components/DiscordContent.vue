@@ -25,7 +25,14 @@ interface DiscordContentProps {
 
 const props = defineProps<DiscordContentProps>()
 
-const htmlContent = computed(() => toHTML(get(props.message, 'content') || ''))
+const htmlContent = computed(() =>
+  toHTML(get(props.message, 'content') || '', {
+    discordCallback: {
+      user: (node) => `@${node.id}`,
+      channel: (node) => `#${node.id}`,
+    },
+  }),
+)
 </script>
 
 <style scoped lang="postcss"></style>
