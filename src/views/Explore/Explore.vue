@@ -4,7 +4,10 @@
     <div class="page-wrapper">
       <UserSearch @search="onSearch" />
       <n-spin :show="loading.search">
-        <SZUserList :user-list="matchedUsers" />
+        <SZUserList
+          :szUserList="matchedUsers"
+          :dcMemberList="userDiscordMemberData"
+        />
       </n-spin>
     </div>
   </main>
@@ -25,6 +28,7 @@ import { map } from 'lodash'
 
 const { fetchData } = useFetch()
 const matchedUsers = ref([])
+const userDiscordMemberData = ref([])
 const loading = reactive({
   search: false,
 })
@@ -36,7 +40,7 @@ const findDCMembersByIds = async (users) => {
     FindDCMembersByIds,
     { ids },
     (res) => {
-      console.log('FindDCMembersByIds', res.data)
+      userDiscordMemberData.value = res.data
     },
     (err) => {
       console.log(err)
@@ -53,6 +57,7 @@ const searchMemberData = useDebounceFn(
       async (res) => {
         matchedUsers.value = res.data
         await findDCMembersByIds(res.data)
+        loading.search = false
       },
       (err) => {
         console.log(err)

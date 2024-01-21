@@ -9,6 +9,7 @@
         <n-input
           v-model:value="formData.searchValue"
           class="w-full"
+          clearable
           :placeholder="searchPlaceholder"
           @input="
             emits('search', { searchType: formData.searchType, search: $event })
@@ -28,21 +29,21 @@ const emits = defineEmits(['search'])
 
 const formRef = ref(null)
 const formData = reactive({
-  searchType: 'dcId',
+  searchType: 'discordId',
   searchValue: null,
 })
 
 const searchTypeOptions = [
   // { label: 'Discord 使用者名稱', value: 'dcName' },
-  { label: 'Discord ID', value: 'discordId' },
+  { label: 'Discord User', value: 'discordId' },
   { label: 'SZUser', value: 'name' },
 ]
 
 const searchPlaceholder = computed(() => {
   const placeholder = {
     dcName: '請輸入 Discord 使用者名稱',
-    dcId: '請輸入 Discord ID',
-    szUserId: '請輸入 SZUser 名稱',
+    discordId: '請輸入 Discord ID',
+    name: '請輸入 SZUser 名稱',
   }
   return get(placeholder, formData.searchType)
 })
