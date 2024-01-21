@@ -1,6 +1,6 @@
 <template>
   <main class="server-news">
-    <PageTItle :icon="pageIcon" title="Personal Shelter" />
+    <PageTitle :icon="pageIcon" title="Personal Shelter" />
     <main class="page-wrapper">
       <AreaBlock class="news-list-wrapper">
         <nav class="news-list">
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import PageTItle from '@/components/PageTitle.vue'
+import PageTitle from '@/components/PageTitle.vue'
 import { NDivider } from 'naive-ui'
 import DiscordContent from '@/components/DiscordContent.vue'
 import AreaBlock from '@/components/AreaBlock.vue'

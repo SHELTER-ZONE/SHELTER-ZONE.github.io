@@ -1,6 +1,6 @@
 <template>
   <main class="explore">
-    <PageTItle :icon="Explore" title="Explore" />
+    <PageTitle :icon="Explore" title="Explore" />
     <div class="page-wrapper">
       <UserSearch />
     </div>
@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { Explore } from '@vicons/carbon'
-import PageTItle from '@/components/PageTItle.vue'
+import PageTitle from '@/components/PageTitle.vue'
 import UserSearch from './components/UserSearch.vue'
 </script>
 
