@@ -34,8 +34,8 @@ const formData = reactive({
 
 const searchTypeOptions = [
   // { label: 'Discord 使用者名稱', value: 'dcName' },
-  { label: 'Discord ID', value: 'dcId' },
-  { label: 'SZUser', value: 'szUserName' },
+  { label: 'Discord ID', value: 'discordId' },
+  { label: 'SZUser', value: 'name' },
 ]
 
 const searchPlaceholder = computed(() => {

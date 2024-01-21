@@ -28,42 +28,9 @@ const matchedUsers = ref([])
 const loading = reactive({
   search: false,
 })
-const searchByName = useDebounceFn(async (search: string) => {
-  loading.search = true
-  await fetchData(
-    GetSZUser,
-    { name: search, start: 0 },
-    (res) => {
-      matchedUsers.value = res.data
-    },
-    (err) => {
-      console.log(err)
-      loading.search = false
-    },
-  )
-  await findDCMembersByIds()
-  loading.search = false
-}, 800)
 
-const searchByDiscordId = useDebounceFn(async (search: string) => {
-  loading.search = true
-  await fetchData(
-    GetSZUser,
-    { discordId: search, start: 0 },
-    (res) => {
-      matchedUsers.value = res.data
-    },
-    (err) => {
-      console.log(err)
-      loading.search = false
-    },
-  )
-  await findDCMembersByIds()
-  loading.search = false
-}, 1000)
-
-const findDCMembersByIds = async () => {
-  const ids = map(matchedUsers.value, 'discordId')
+const findDCMembersByIds = async (users) => {
+  const ids = map(users, 'discordId')
   if (!ids.length) return
   await fetchData(
     FindDCMembersByIds,
@@ -77,6 +44,26 @@ const findDCMembersByIds = async () => {
   )
 }
 
+const searchMemberData = useDebounceFn(
+  async (searchType: string, search: string) => {
+    loading.search = true
+    await fetchData(
+      GetSZUser,
+      { [searchType]: search, start: 0 },
+      async (res) => {
+        matchedUsers.value = res.data
+        await findDCMembersByIds(res.data)
+      },
+      (err) => {
+        console.log(err)
+        loading.search = false
+      },
+    )
+    loading.search = false
+  },
+  1000,
+)
+
 const onSearch = async ({
   searchType,
   search,
@@ -84,16 +71,7 @@ const onSearch = async ({
   searchType: string
   search: string
 }) => {
-  switch (searchType) {
-    case 'dcId':
-      if (search.length < 18) return
-      searchByDiscordId(search)
-      break
-    case 'szUserName':
-      if (search.length < 1) return
-      searchByName(search)
-      break
-  }
+  searchMemberData(searchType, search)
 }
 </script>
 
