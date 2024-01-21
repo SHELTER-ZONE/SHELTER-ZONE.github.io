@@ -88,7 +88,6 @@ const preview = ref(false)
 <style scoped lang="postcss">
 .profile {
   @apply viewPx viewPt viewMax m-auto;
-  @apply pt-[100px];
   @apply flex flex-col gap-[30px];
   @apply justify-center items-center;
 }

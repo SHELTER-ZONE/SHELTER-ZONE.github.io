@@ -3,8 +3,8 @@ import { defineConfig } from 'windicss/helpers'
 export default defineConfig({
   shortcuts: {
     full: 'w-full h-full',
-    viewPx: 'px-[20px] mb:(px-[50px])',
-    viewPt: 'pt-[80px] mb:(pt-[150px])',
+    viewPx: 'px-[40px] <md:(px-[20px])',
+    viewPt: 'pt-[100px] <md:(pt-[70px])',
     'w-fit': 'w-[fit-content]',
     'h-fit': 'h-[fit-content]',
     viewMax: 'max-w-[1440px]',

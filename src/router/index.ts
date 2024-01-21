@@ -8,6 +8,7 @@ import {
   Bookmark,
   Rss,
   AppConnectivity,
+  Explore,
 } from '@vicons/carbon'
 
 const router = createRouter({
@@ -91,6 +92,15 @@ const router = createRouter({
         title: '避難者驗證',
       },
       component: () => import('@/views/RegisterProfile/RegisterProfile.vue'),
+    },
+    {
+      path: '/explore',
+      name: 'Explore',
+      meta: {
+        title: '探索避難所',
+        icon: Explore,
+      },
+      component: () => import('@/views/Explore/Explore.vue'),
     },
     {
       path: '/shelter/:discordId',

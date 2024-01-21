@@ -1,29 +1,33 @@
 <template>
   <main class="server-news">
-    <AreaBlock class="news-list-wrapper">
-      <nav class="news-list">
-        <div
-          class="news-item"
-          :class="{ 'active-news': news.id === selectNews.id }"
-          v-for="news in displayNewsList"
-          :key="news.id"
-          @click="onSelectNews(news.id)"
-        >
-          {{ news.title }}
-        </div>
-      </nav>
-    </AreaBlock>
+    <PageTItle :icon="pageIcon" title="Personal Shelter" />
+    <main class="page-wrapper">
+      <AreaBlock class="news-list-wrapper">
+        <nav class="news-list">
+          <div
+            class="news-item"
+            :class="{ 'active-news': news.id === selectNews.id }"
+            v-for="news in displayNewsList"
+            :key="news.id"
+            @click="onSelectNews(news.id)"
+          >
+            {{ news.title }}
+          </div>
+        </nav>
+      </AreaBlock>
 
-    <n-divider class="!m-0 tablet:(hidden)" />
-    <AreaBlock class="w-full">
-      <article v-if="selectNews">
-        <DiscordContent :message="selectNews" />
-      </article>
-    </AreaBlock>
+      <n-divider class="!m-0 tablet:(hidden)" />
+      <AreaBlock class="w-full">
+        <article v-if="selectNews">
+          <DiscordContent :message="selectNews" />
+        </article>
+      </AreaBlock>
+    </main>
   </main>
 </template>
 
 <script setup lang="ts">
+import PageTItle from '@/components/PageTitle.vue'
 import { NDivider } from 'naive-ui'
 import DiscordContent from '@/components/DiscordContent.vue'
 import AreaBlock from '@/components/AreaBlock.vue'
@@ -32,7 +36,9 @@ import { ellipsisText } from '@/utils/helper'
 import { computed, ref, watchEffect } from 'vue'
 import { get, map, find, filter } from 'lodash-es'
 import { storeToRefs } from 'pinia'
+import { usePage } from '@/use/usePage'
 
+const { pageIcon } = usePage()
 const szGuildStore = useSZGuild()
 const { serverNews } = storeToRefs(szGuildStore)
 const selectNews = ref(serverNews.value[0])
@@ -60,11 +66,13 @@ watchEffect(() => {
 <style scoped lang="postcss">
 .server-news {
   @apply viewPx viewPt viewMax h-full m-auto;
-  @apply flex gap-[30px] justify-center;
-  @apply relative;
   @apply <tablet:(flex-col justify-start);
 }
 
+.page-wrapper {
+  @apply flex gap-[30px] justify-center;
+  @apply <tablet:(flex-col justify-start);
+}
 .news-list-wrapper {
   @apply w-full;
   @apply tablet:(w-[300px]);

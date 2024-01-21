@@ -21,6 +21,7 @@
     "axios": "^1.6.2",
     "dayjs": "^1.11.10",
     "discord-markdown": "^2.5.1",
+    "lodash-es": "^4.17.21",
     "pinia": "^2.1.7",
     "vue": "^3.3.8",
     "vue-hotjar-next": "^2.0.1",
