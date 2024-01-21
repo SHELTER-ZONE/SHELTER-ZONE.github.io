@@ -10,7 +10,9 @@
           v-model:value="formData.searchValue"
           class="w-full"
           :placeholder="searchPlaceholder"
-          @input="onSearch"
+          @input="
+            emits('search', { searchType: formData.searchType, search: $event })
+          "
         />
       </div>
     </n-form-item>
@@ -20,12 +22,9 @@
 <script setup lang="ts">
 import { NForm, NFormItem, NSelect, NInput } from 'naive-ui'
 import { computed, reactive, ref } from 'vue'
-import { get, debounce } from 'lodash-es'
-import { GetSZUser } from '@/api/szUser'
-import { useFetch } from '@/use/useFetch'
-import { useDebounceFn } from '@vueuse/core'
+import { get } from 'lodash-es'
 
-const { fetchData } = useFetch()
+const emits = defineEmits(['search'])
 
 const formRef = ref(null)
 const formData = reactive({
@@ -47,44 +46,6 @@ const searchPlaceholder = computed(() => {
   }
   return get(placeholder, formData.searchType)
 })
-
-const searchByName = useDebounceFn((search: string) => {
-  fetchData(
-    GetSZUser,
-    { name: search, start: 0 },
-    (res) => {
-      console.log(res)
-    },
-    (err) => {
-      console.log(err)
-    },
-  )
-}, 1000)
-
-const searchByDiscordId = useDebounceFn((search: string) => {
-  fetchData(
-    GetSZUser,
-    { discordId: search, start: 0 },
-    (res) => {
-      console.log(res)
-    },
-    (err) => {
-      console.log(err)
-    },
-  )
-}, 1000)
-const onSearch = async (search: string) => {
-  switch (formData.searchType) {
-    case 'dcId':
-      if (search.length < 18) return
-      searchByDiscordId(search)
-      break
-    case 'szUserName':
-      if (search.length < 1) return
-      searchByName(search)
-      break
-  }
-}
 </script>
 
 <style scoped lang="postcss"></style>
