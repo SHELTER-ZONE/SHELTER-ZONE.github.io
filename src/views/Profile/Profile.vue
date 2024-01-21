@@ -1,6 +1,6 @@
 <template>
   <main class="profile">
-    <PageTItle :icon="Campsite" title="Personal Shelter" />
+    <PageTitle :icon="Campsite" title="Personal Shelter" />
     <NotAccess v-if="!szUserProfile || !szJoined" />
     <div class="f-row gap-[12px]">
       <router-link :to="{ name: 'PersonalShelter', params: { discordId } }">
@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import PageTItle from '@/components/PageTitle.vue'
+import PageTitle from '@/components/PageTitle.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import EditableBlock from '@/components/EditableBlock.vue'
 import { useOauthStore } from '@/stores/oauth'
@@ -88,7 +88,6 @@ const preview = ref(false)
 <style scoped lang="postcss">
 .profile {
   @apply viewPx viewPt viewMax m-auto;
-  @apply pt-[100px];
   @apply flex flex-col gap-[30px];
   @apply justify-center items-center;
 }

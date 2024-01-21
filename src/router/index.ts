@@ -8,6 +8,7 @@ import {
   Bookmark,
   Rss,
   AppConnectivity,
+  Explore,
 } from '@vicons/carbon'
 
 const router = createRouter({
@@ -67,12 +68,7 @@ const router = createRouter({
       },
       component: () => import('@/views/SZTeam/SZTeam.vue'),
     },
-    {
-      path: '/ecosystem',
-      name: 'ecosystem',
-      meta: { title: '生態與資源', icon: AppConnectivity },
-      component: () => import('@/views/Ecosystem/Ecosystem.vue'),
-    },
+
     {
       path: '/profile',
       name: 'profile',
@@ -93,6 +89,15 @@ const router = createRouter({
       component: () => import('@/views/RegisterProfile/RegisterProfile.vue'),
     },
     {
+      path: '/explore',
+      name: 'Explore',
+      meta: {
+        title: '探索避難所',
+        icon: Explore,
+      },
+      component: () => import('@/views/Explore/Explore.vue'),
+    },
+    {
       path: '/shelter/:discordId',
       name: 'PersonalShelter',
       meta: {
@@ -100,6 +105,12 @@ const router = createRouter({
         title: '避難所',
       },
       component: () => import('@/views/PersonalShelter/PersonalShelter.vue'),
+    },
+    {
+      path: '/ecosystem',
+      name: 'ecosystem',
+      meta: { title: '生態與資源', icon: AppConnectivity },
+      component: () => import('@/views/Ecosystem/Ecosystem.vue'),
     },
   ],
 })

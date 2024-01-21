@@ -1,4 +1,4 @@
-import { discord, apiAuth } from '@/lib/axios'
+import { discord, apiAuth, api } from '@/lib/axios'
 
 export const FindMeDCUser = async () => {
   return await discord({
@@ -15,9 +15,16 @@ export const FindMeDCGuilds = async () => {
 }
 
 export const FindDCMember = async ({ discordId }: { discordId: string }) => {
-  return await apiAuth({
+  return await api({
     method: 'GET',
     url: `/discord/guild/member/${discordId}`,
+  })
+}
+export const FindDCMembersByIds = async ({ ids }: { ids: string[] }) => {
+  return await api({
+    method: 'POST',
+    url: `/discord/guild/members/byIds`,
+    data: { ids },
   })
 }
 
