@@ -16,7 +16,7 @@
       </div>
     </section>
 
-    <RouterLink :to="{ name: 'profile' }">
+    <RouterLink :to="{ name: 'Profile' }">
       <n-button secondary type="info">前往個人避難所</n-button>
     </RouterLink>
   </div>

@@ -37,7 +37,7 @@ const emitError = (errorData: {
   [propName: string]: any
 }) => {
   errorPageData.value = errorData
-  router.replace({ name: 'error', query: { errorType: 'User Login Faild' } })
+  router.replace({ name: 'Error', query: { errorType: 'User Login Faild' } })
 }
 const verifyCode = (): string => {
   statusMessage.value = '驗證登入交換碼'
@@ -68,7 +68,7 @@ const handleLogin = async () => {
     notification.success({
       content: notifyMessage.loginSuccess,
     })
-    router.push({ name: 'profile' })
+    router.push({ name: 'Profile' })
   } catch (error) {
     console.log(error)
     const errorCode = get(error, 'data.code')

@@ -39,6 +39,8 @@ async function appInit() {
   const szGuildStore = useSZGuild()
   await appStore.getApiEndPoint()
 
+  appStore.initKeepAlivePages()
+
   szGuildStore.getServerRoles({ throwErr: false })
   szGuildStore.getSZServerNews()
   szGuildStore.findDiscordServerConfig()

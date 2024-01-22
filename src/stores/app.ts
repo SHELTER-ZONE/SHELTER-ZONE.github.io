@@ -1,8 +1,9 @@
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { _SZ_MICROSERVICES_TABLE } from '@/configs/urls'
-import { has } from 'lodash-es'
+import { has, get, set, map } from 'lodash-es'
+import { routes } from '@/router'
 
 interface Signals {
   requestSignin: boolean
@@ -12,13 +13,14 @@ interface Signals {
 export const useAppStore = defineStore('app', () => {
   const appLoading = ref<boolean>(true)
   const apiEndPoints = ref({})
+  const keepAlivePagesConfig = ref<Record<string, { enabled: boolean }>>({})
 
   const signals = reactive<Signals>({
     requestSignin: false,
     signoutConfirm: false,
   })
 
-  async function getApiEndPoint() {
+  const getApiEndPoint = async () => {
     try {
       const res = await axios({
         method: 'GET',
@@ -37,10 +39,26 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  function setSignal(signal: keyof Signals, toggle: boolean) {
+  const setSignal = (signal: keyof Signals, toggle: boolean) => {
     if (!has(signals, signal)) return
     signals[signal] = toggle
   }
+
+  const initKeepAlivePages = () => {
+    const pages = {}
+    for (const pageRoute of routes) {
+      if (get(pageRoute, 'meta.keepAlive')) {
+        set(pages, pageRoute.name, { enabled: true })
+      }
+    }
+    keepAlivePagesConfig.value = pages
+  }
+
+  const keepAlivePagesName = computed(() => {
+    return map(keepAlivePagesConfig.value, (page, key) => {
+      if (page.enabled) return key
+    })
+  })
 
   return {
     appLoading,
@@ -48,5 +66,7 @@ export const useAppStore = defineStore('app', () => {
     apiEndPoints,
     signals,
     setSignal,
+    initKeepAlivePages,
+    keepAlivePagesName,
   }
 })

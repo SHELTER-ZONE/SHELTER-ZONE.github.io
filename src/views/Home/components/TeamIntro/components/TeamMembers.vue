@@ -10,7 +10,7 @@
     </div>
 
     <div class="f-row-center">
-      <router-link :to="{ name: 'szteam' }">
+      <router-link :to="{ name: 'SZTeam' }">
         <n-button secondary type="info" class="text-lg p-1.5rem"
           >瞭解更多
         </n-button>

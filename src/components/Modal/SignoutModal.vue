@@ -51,7 +51,7 @@ const onSignout = async () => {
   loading.value = true
   clearUser()
   message.info('已成功登出！')
-  router.replace({ name: 'home' })
+  router.replace({ name: 'Home' })
   setSignal('signoutConfirm', false)
 }
 </script>
