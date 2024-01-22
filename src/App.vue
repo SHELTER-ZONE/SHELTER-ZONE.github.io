@@ -41,6 +41,7 @@ async function appInit() {
 
   szGuildStore.getServerRoles({ throwErr: false })
   szGuildStore.getSZServerNews()
+  szGuildStore.findDiscordServerConfig()
 
   if (!oauthStore.loggedIn) {
     oauthStore.clearUser()
@@ -51,7 +52,7 @@ async function appInit() {
       Promise.all([
         oauthStore.findMeGuilds(),
         oauthStore.findMeDCMember({ throwErr: false }),
-        szGuildStore.findDiscordServerConfig(),
+        // szGuildStore.findDiscordServerConfig(),
       ])
 
       // szGuildStore.getSZInfo()

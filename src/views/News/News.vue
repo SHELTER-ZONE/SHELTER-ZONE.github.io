@@ -1,6 +1,6 @@
 <template>
   <main class="server-news">
-    <PageTitle :icon="pageIcon" title="Personal Shelter" />
+    <PageTitle :icon="pageIcon" title="Announcements" />
     <main class="page-wrapper">
       <AreaBlock class="news-list-wrapper">
         <nav class="news-list">

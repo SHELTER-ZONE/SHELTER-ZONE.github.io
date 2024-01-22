@@ -6,6 +6,7 @@
         :src="`${user.avatartUrl}?size=128`"
         alt="discord user avatar"
         :fallback-src="ImagePlaceholder"
+        preview-disabled
       />
       <header class="f-col gap-[12px] justify-between">
         <n-tooltip trigger="hover">

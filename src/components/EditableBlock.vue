@@ -8,8 +8,8 @@
   >
     <button
       class="edit-btn"
-      @click="emits('edit')"
-      :style="hideEdit ? `opacity: 0` : ''"
+      @click="onEdit"
+      :style="hideEdit ? `opacity: 0; cursor: default` : ''"
     >
       <n-icon color="var(--primary-bg)"><Edit /></n-icon>
     </button>
@@ -26,9 +26,14 @@ export interface EditableBlockProps {
   disabled?: boolean
 }
 
-defineProps<EditableBlockProps>()
+const props = defineProps<EditableBlockProps>()
 
 const emits = defineEmits(['edit'])
+
+const onEdit = () => {
+  if (props.hideEdit) return
+  emits('edit')
+}
 </script>
 
 <style scoped lang="postcss">
@@ -58,5 +63,9 @@ const emits = defineEmits(['edit'])
 
 .hide {
   @apply border-transparent;
+}
+
+.hide-edit {
+  @apply cursor-default;
 }
 </style>
