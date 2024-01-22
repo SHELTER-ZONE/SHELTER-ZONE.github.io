@@ -2,7 +2,7 @@
   <main class="explore">
     <PageTitle :icon="Explore" title="Explore" />
     <div class="page-wrapper">
-      <UserSearch @search="onSearch" />
+      <UserSearch @search="onSearch" :disabled="loading.search" />
       <n-spin :show="loading.search">
         <SZUserList
           :szUserList="matchedUsers"
@@ -66,7 +66,7 @@ const searchMemberData = useDebounceFn(
     )
     loading.search = false
   },
-  1000,
+  500,
 )
 
 const onSearch = async ({
@@ -86,6 +86,7 @@ const onSearch = async ({
 }
 
 .page-wrapper {
-  @apply flex flex-col items-center w-full;
+  @apply pt-[20px];
+  @apply flex flex-col items-center w-full gap-[40px];
 }
 </style>
