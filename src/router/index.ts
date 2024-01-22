@@ -101,7 +101,7 @@ export const routes = [
     path: '/shelter/:discordId',
     name: 'PersonalShelter',
     meta: {
-      title: '個人避難所',
+      title: '避難所',
       hidden: true,
       keepAlive: true,
     },
