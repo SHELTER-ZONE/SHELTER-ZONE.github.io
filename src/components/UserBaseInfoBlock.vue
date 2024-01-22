@@ -72,7 +72,7 @@ const displayData = computed(() => {
       icon: UserRole,
       iconColor: 'var(--action)',
       tipInfo: '在 SZ 中的權限身分',
-      value: get(props.szUser, 'sz.Role.name'),
+      value: get(props.szUser, 'Role.name'),
     },
     rep: {
       icon: ConditionPoint,
