@@ -29,11 +29,12 @@ import { NSpin } from 'naive-ui'
 import { FindSZUser } from '@/api/szUser'
 import { FindDCMember } from '@/api/discord'
 
-import { onBeforeMount, ref, computed } from 'vue'
+import { onBeforeMount, ref, computed, watchEffect, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { get } from 'lodash-es'
 import { useFetch } from '@/use/useFetch'
 import { Campsite } from '@vicons/carbon'
+import dayjs from 'dayjs'
 
 const route = useRoute()
 const { fetchDataToValue } = useFetch()
@@ -43,9 +44,30 @@ const szUser = ref(null)
 const dcMember = ref(null)
 const dcUser = computed(() => get(dcMember.value, 'user'))
 const discordId = computed(() => get(route.params, 'discordId'))
+const lastUser = reactive({
+  id: null,
+  timeStamp: null,
+})
 
-onBeforeMount(async () => {
+const recordLastUser = () => {
+  lastUser.id = discordId.value
+  lastUser.timeStamp = new Date()
+}
+
+const stillCachedUser = () => {
+  if (lastUser.id === discordId.value) {
+    if (dayjs(lastUser.timeStamp).add(5, 'minutes').isAfter(dayjs(), 'seconds'))
+      return true
+  }
+  return false
+}
+
+watchEffect(async () => {
+  if (!discordId.value) return
+  if (stillCachedUser()) return
+  loading.value = true
   try {
+    recordLastUser()
     await Promise.all([
       fetchDataToValue(
         FindSZUser,
@@ -67,6 +89,30 @@ onBeforeMount(async () => {
     loading.value = false
   }
 })
+
+// onBeforeMount(async () => {
+//   try {
+//     await Promise.all([
+//       fetchDataToValue(
+//         FindSZUser,
+//         { discordId: discordId.value },
+//         { ref: szUser },
+//         null,
+//         { throwError: true },
+//       ),
+//       fetchDataToValue(
+//         FindDCMember,
+//         { discordId: discordId.value },
+//         { ref: dcMember },
+//         null,
+//         { throwError: true },
+//       ),
+//     ])
+//     loading.value = false
+//   } catch (error) {
+//     loading.value = false
+//   }
+// })
 </script>
 
 <style scoped lang="postcss">

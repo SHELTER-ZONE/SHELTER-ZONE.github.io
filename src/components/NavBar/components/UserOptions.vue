@@ -68,7 +68,7 @@ const options = computed(() => {
 const onOptionSelect = (key: string) => {
   switch (key) {
     case 'user-profile':
-      router.push({ name: 'profile' })
+      router.push({ name: 'Profile' })
       break
     case 'logout':
       logout()

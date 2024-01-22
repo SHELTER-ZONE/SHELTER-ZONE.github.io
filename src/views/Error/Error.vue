@@ -50,7 +50,7 @@
             Report Error
           </n-button>
 
-          <router-link :to="{ name: 'home' }" @click="resetErrorPageData">
+          <router-link :to="{ name: 'Home' }" @click="resetErrorPageData">
             <n-button class="w-full" secondary type="primary">
               <template #icon>
                 <n-icon><Home /> </n-icon>
