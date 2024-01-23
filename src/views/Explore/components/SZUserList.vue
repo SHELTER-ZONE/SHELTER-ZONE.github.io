@@ -25,18 +25,20 @@ import { discordUserAvatartUrl } from '@/utils/discord'
 export interface SZUserListProps {
   szUserList: any[]
   dcMemberList: APIGuildMember[]
+  sheltersList: any[]
 }
 
 const props = withDefaults(defineProps<SZUserListProps>(), {
   szUserList: () => [],
   dcMemberList: () => [],
+  sheltersList: () => [],
 })
 
 const { filterMainRoles } = useServerRole()
 
 const displayData = computed(() => {
-  return map(props.szUserList, (user) => {
-    const member = find(props.dcMemberList, { user: { id: user.discordId } })
+  return map(props.sheltersList, (user) => {
+    const member = get(user, 'DiscordMember')
     return {
       id: user.id,
       name: user.name,
