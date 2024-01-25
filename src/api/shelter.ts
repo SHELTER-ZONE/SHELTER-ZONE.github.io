@@ -46,3 +46,15 @@ export const FindShelter = async ({ discordId }: { discordId: string }) => {
     url: `/website/shelter/${discordId}`,
   })
 }
+
+export const GetShelterByDiscordIds = async ({
+  discordIds,
+}: {
+  discordIds: string[]
+}) => {
+  return await api({
+    method: 'POST',
+    url: `/website/shelter/byDiscordIds`,
+    data: { discordIds },
+  })
+}

@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { _SZ_GUILD_CONFIG_URL } from '@/configs/urls'
 import { GetAllMembersCount, GetSZGuildInfo, GetAllSZChannel } from '@/api/bot'
 import { FindDiscordServerConfig } from '@/api/discordServerConfig'
+
 import { GetSZServerNews } from '@/api/server'
 
 import axios from 'axios'
@@ -20,6 +21,9 @@ export const useSZGuild = defineStore('szGuild', () => {
   const guildConfig = ref({})
   const serverConfig = ref({})
   const szInfo = ref({})
+  const szTeamMembers = reactive({
+    shelter: [],
+  })
   const channels = ref([])
   const roles = ref([])
   const serverNews = ref([])
@@ -96,5 +100,6 @@ export const useSZGuild = defineStore('szGuild', () => {
     serverNews,
     getSZServerNews,
     getServerRoles,
+    szTeamMembers,
   }
 })
