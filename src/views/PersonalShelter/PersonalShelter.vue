@@ -6,12 +6,12 @@
         <!-- <BannerBlock /> -->
         <div class="wrapper">
           <AreaBlock>
-            <UserBaseInfoBlock :sz-user="szUser" :dc-user="dcUser" />
+            <UserBaseInfoBlock :sz-user="displayData.szUser" :dc-user="displayData.dcUser" />
           </AreaBlock>
-          <DailyCheckRecordBlock :sz-user="szUser" />
+          <DailyCheckRecordBlock :sz-user="displayData.szUser" />
         </div>
         <AreaBlock>
-          <UserServerRolesBlock :dc-member="dcMember" />
+          <UserServerRolesBlock :dc-member="displayData.dcMember" />
         </AreaBlock>
       </div>
     </n-spin>
@@ -25,47 +25,43 @@ import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
 import AreaBlock from '@/components/AreaBlock.vue'
 // import Loading from '@/components/Loading.vue'
-import { NSpin } from 'naive-ui'
-import { FindSZUser } from '@/api/szUser'
-import { FindDCMember } from '@/api/discord'
+import { NSpin, useMessage } from 'naive-ui'
+import { FindShelter } from '@/api/shelter'
 
 import { onBeforeMount, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { get } from 'lodash-es'
-import { useFetch } from '@/use/useFetch'
+import { get, omit } from 'lodash-es'
 import { Campsite } from '@vicons/carbon'
 
 const route = useRoute()
-const { fetchDataToValue } = useFetch()
-
+const message = useMessage()
 const loading = ref(true)
-const szUser = ref(null)
-const dcMember = ref(null)
-const dcUser = computed(() => get(dcMember.value, 'user'))
+const shelterData = ref({
+  szUser: null,
+  dcMember: null,
+  dcUser: null,
+})
 const discordId = computed(() => get(route.params, 'discordId'))
 
-onBeforeMount(async () => {
-  try {
-    await Promise.all([
-      fetchDataToValue(
-        FindSZUser,
-        { discordId: discordId.value },
-        { ref: szUser },
-        null,
-        { throwError: true },
-      ),
-      fetchDataToValue(
-        FindDCMember,
-        { discordId: discordId.value },
-        { ref: dcMember },
-        null,
-        { throwError: true },
-      ),
-    ])
-    loading.value = false
-  } catch (error) {
-    loading.value = false
+const displayData = computed(() => {
+  return {
+    szUser: omit(shelterData.value, 'DiscordMember') || null,
+    dcMember: get(shelterData.value, 'DiscordMember') || null,
+    dcUser: get(shelterData.value, 'DiscordMember.user') || null,
   }
+})
+
+onBeforeMount(async () => {
+  if (!discordId.value) {
+    return
+  }
+  const [shelter, err]: any = await FindShelter({ discordId: discordId.value as string })
+  if (err) {
+    message.error(err.message)
+    return
+  }
+  shelterData.value = shelter.data
+  loading.value = false
 })
 </script>
 

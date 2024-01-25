@@ -52,7 +52,10 @@ const getSzTeamMembersShelter = async () => {
 }
 
 onMounted(async () => {
-  if (szTeamMembers.value.shelter.length) return
+  if (szTeamMembers.value.shelter.length) {
+    loading.value = false
+    return
+  }
   getSzTeamMembersShelter()
 })
 </script>
