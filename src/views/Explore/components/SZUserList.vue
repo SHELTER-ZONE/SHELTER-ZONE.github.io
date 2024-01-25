@@ -1,13 +1,9 @@
 <template>
   <main class="sz-user-list">
-    <router-link
-      v-for="user in displayData"
-      :key="user.id"
-      :to="{
-        name: 'PersonalShelter',
-        params: { discordId: user.discordId },
-      }"
-    >
+    <router-link v-for="user in displayData" :key="user.id" :to="{
+      name: 'PersonalShelter',
+      params: { discordId: user.discordId },
+    }">
       <ExploreUserItem :user="user" />
     </router-link>
   </main>
@@ -23,20 +19,18 @@ import { useServerRole } from '@/use/useServerRole'
 import { discordUserAvatartUrl } from '@/utils/discord'
 
 export interface SZUserListProps {
-  szUserList: any[]
-  dcMemberList: APIGuildMember[]
+  sheltersList: any[]
 }
 
 const props = withDefaults(defineProps<SZUserListProps>(), {
-  szUserList: () => [],
-  dcMemberList: () => [],
+  sheltersList: () => [],
 })
 
 const { filterMainRoles } = useServerRole()
 
 const displayData = computed(() => {
-  return map(props.szUserList, (user) => {
-    const member = find(props.dcMemberList, { user: { id: user.discordId } })
+  return map(props.sheltersList, (user) => {
+    const member = get(user, 'DiscordMember')
     return {
       id: user.id,
       name: user.name,
@@ -51,6 +45,8 @@ const displayData = computed(() => {
 
 <style scoped lang="postcss">
 .sz-user-list {
-  @apply flex flex-wrap gap-[40px];
+  @apply grid grid-cols-3 gap-[40px];
+  @apply <tablet:(gap-[20px]);
+  @apply <md:(grid-cols-2);
 }
 </style>
