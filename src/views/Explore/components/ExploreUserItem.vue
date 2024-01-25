@@ -1,13 +1,8 @@
 <template>
-  <SZBlockContainer class="h-full">
-    <article class="explore-user-item">
-      <n-image
-        class="user-avatar"
-        :src="`${user.avatartUrl}?size=128`"
-        alt="discord user avatar"
-        :fallback-src="ImagePlaceholder"
-        preview-disabled
-      />
+  <article class="explore-user-item">
+    <SZBlockContainer class="full">
+      <n-image class="user-avatar" width="100%" :src="`${user.avatartUrl}?size=128`" alt="discord user avatar"
+        :fallback-src="ImagePlaceholder" preview-disabled />
       <header class="f-col gap-[12px] justify-between">
         <n-tooltip trigger="hover">
           <template #trigger>
@@ -22,8 +17,8 @@
           </BaseTag>
         </div>
       </header>
-    </article>
-  </SZBlockContainer>
+    </SZBlockContainer>
+  </article>
 </template>
 
 <script setup lang="ts">
@@ -41,8 +36,9 @@ const props = defineProps<ExploreUserItem>()
 
 <style scoped lang="postcss">
 .explore-user-item {
-  @apply w-[130px] overflow-hidden;
+  @apply w-[180px] overflow-hidden;
 }
+
 .user-name {
   @apply truncate text-md font-medium;
 }

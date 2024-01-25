@@ -2,22 +2,14 @@
   <main class="explore">
     <PageTitle :icon="Explore" title="Explore" />
     <div class="page-wrapper">
-      <UserSearch @search="onSearch" :disabled="loading.search" />
+      <UserSearch v-model:search="search" @search="onSearch" :disabled="loading.search" />
       <n-spin :show="loading.search">
-        <SZUserList
-          :szUserList="matchedUsers"
-          :dcMemberList="userDiscordMemberData"
-          :sheltersList="sheltersList"
-        />
-
-        <section class="flex justify-center pt-[30px]">
-          <NPagination
-            v-model:page="paginationData.page"
-            :item-count="paginationData.totalData"
-            :page-size="paginationData.limit"
-          />
-        </section>
+        <SZUserList :sheltersList="sheltersList" />
       </n-spin>
+      <section class="flex justify-center ">
+        <NPagination v-model:page="paginationData.curPage" :item-count="paginationData.totalData"
+          :page-size="paginationData.limit" @update:page="onPageChange" />
+      </section>
     </div>
   </main>
 </template>
@@ -29,42 +21,21 @@ import PageTitle from '@/components/PageTitle.vue'
 import UserSearch from './components/UserSearch.vue'
 import SZUserList from './components/SZUserList.vue'
 import { useDebounceFn } from '@vueuse/core'
-import { useFetch } from '@/use/useFetch'
 import { NSpin, NPagination, useMessage } from 'naive-ui'
-import { GetSZUser } from '@/api/szUser'
-import { FindDCMembersByIds } from '@/api/discord'
 import { GetShelter, GetShelterCount } from '@/api/shelter'
-import { map } from 'lodash'
+import { usePagination } from '@/use/usePagination'
 
 const message = useMessage()
-const { fetchData } = useFetch()
-const matchedUsers = ref([])
+const { paginationData, pageStartIndex } = usePagination({ limit: 1 })
 const sheltersList = ref([])
-const userDiscordMemberData = ref([])
 const loading = reactive({
   search: false,
 })
 
-const paginationData = reactive({
-  totalData: 0,
-  limit: 20,
-  page: 1,
+const search = reactive({
+  searchType: 'name',
+  searchValue: null,
 })
-
-const findDCMembersByIds = async (users) => {
-  const ids = map(users, 'discordId')
-  if (!ids.length) return
-  await fetchData(
-    FindDCMembersByIds,
-    { ids },
-    (res) => {
-      userDiscordMemberData.value = res.data
-    },
-    (err) => {
-      console.log(err)
-    },
-  )
-}
 
 const searchMemberData = useDebounceFn(
   async (searchType: string, search: string) => {
@@ -83,7 +54,6 @@ const searchMemberData = useDebounceFn(
         start: 0,
         limit: paginationData.limit,
       })
-      console.log(shelters)
 
       sheltersList.value = shelters.data
       loading.search = false
@@ -92,24 +62,26 @@ const searchMemberData = useDebounceFn(
       loading.search = false
     }
 
-    // await fetchData(
-    //   GetShelter,
-    //   { [searchType]: search, start: 0 },
-    //   async (res) => {
-    //     matchedUsers.value = res.data
-    //     console.log(res)
-    //     // await findDCMembersByIds(res.data)
-    //     loading.search = false
-    //   },
-    //   (err) => {
-    //     console.log(err)
-    //     loading.search = false
-    //   },
-    // )
     loading.search = false
   },
   500,
 )
+
+const onPageChange = async () => {
+  loading.search = true
+  const [shelters, err]: any = await GetShelter({
+    [search.searchType]: search.searchValue,
+    start: pageStartIndex.value,
+    limit: paginationData.limit,
+  })
+  loading.search = false
+  if (err) {
+    console.log(err)
+    message.error(err.message)
+    return
+  }
+  sheltersList.value = shelters.data
+}
 
 const onSearch = async ({
   searchType,
@@ -124,7 +96,7 @@ const onSearch = async ({
 
 <style scoped lang="postcss">
 .explore {
-  @apply viewPx viewPt viewMax;
+  @apply viewPx viewPt viewMax m-auto;
 }
 
 .page-wrapper {
