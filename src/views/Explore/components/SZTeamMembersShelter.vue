@@ -1,12 +1,9 @@
 <template>
-  <article>
-    <h2>SZ Dev Team</h2>
-    <n-spin :show="loading">
-      <section>
-        <ExploreUserItem v-for="user in displayData" :key="user.id" :user="user" />
-      </section>
-    </n-spin>
-  </article>
+  <n-spin :show="loading">
+    <section>
+      <ExploreUserItem v-for="user in displayData" :key="user.id" :user="user" />
+    </section>
+  </n-spin>
 </template>
 
 <script setup lang="ts">

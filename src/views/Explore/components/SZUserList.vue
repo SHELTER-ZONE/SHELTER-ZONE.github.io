@@ -38,7 +38,7 @@ const displayData = computed(() => {
 
 <style scoped lang="postcss">
 .sz-user-list {
-  @apply max-w-[900px] w-full;
+  @apply w-full;
   @apply grid gap-[20px] justify-items-center;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   /* @apply grid grid-cols-5 gap-[40px];
