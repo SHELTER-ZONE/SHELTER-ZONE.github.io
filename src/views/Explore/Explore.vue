@@ -18,7 +18,10 @@
         </section>
 
         <n-spin :show="loading.search">
-          <SZUserList :sheltersList="sheltersList" />
+          <SZUserList
+            :sheltersList="sheltersList"
+            :search="search.searchValue"
+          />
         </n-spin>
 
         <section class="pagination-container">

@@ -9,9 +9,15 @@
     </section>
   </NCollapseTransition>
 
-  <NCollapseTransition :show="!displayData.length">
+  <NCollapseTransition :show="!displayData.length && !search">
     <section class="user-list-container">
       <ExploreUserItemSkeleton v-for="idx in 8" :key="idx" />
+    </section>
+  </NCollapseTransition>
+
+  <NCollapseTransition :show="!displayData.length && !!search">
+    <section class="py-[40px]">
+      <p class="text-warning text-center">Oops, No User Found (x __ x) !</p>
     </section>
   </NCollapseTransition>
 </template>
@@ -19,7 +25,7 @@
 <script setup lang="ts">
 import ExploreUserItem from './ExploreUserItem.vue'
 import ExploreUserItemSkeleton from './ExploreUserItemSkeleton.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { get, map } from 'lodash-es'
 import { useServerRole } from '@/use/useServerRole'
 import { discordUserAvatartUrl } from '@/utils/discord'
@@ -27,6 +33,7 @@ import { NCollapseTransition } from 'naive-ui'
 
 export interface SZUserListProps {
   sheltersList: any[]
+  search?: string | null
 }
 
 const props = withDefaults(defineProps<SZUserListProps>(), {
@@ -34,6 +41,7 @@ const props = withDefaults(defineProps<SZUserListProps>(), {
 })
 
 const { excludeOptionalRoles } = useServerRole()
+const loaded = ref(false)
 
 const displayData = computed(() => {
   return map(props.sheltersList, (user) => {
