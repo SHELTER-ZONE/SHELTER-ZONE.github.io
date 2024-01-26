@@ -6,7 +6,10 @@
         <!-- <BannerBlock /> -->
         <div class="wrapper">
           <AreaBlock>
-            <UserBaseInfoBlock :sz-user="displayData.szUser" :dc-user="displayData.dcUser" />
+            <UserBaseInfoBlock
+              :sz-user="displayData.szUser"
+              :dc-user="displayData.dcUser"
+            />
           </AreaBlock>
           <DailyCheckRecordBlock :sz-user="displayData.szUser" />
         </div>
@@ -28,14 +31,17 @@ import AreaBlock from '@/components/AreaBlock.vue'
 import { NSpin, useMessage } from 'naive-ui'
 import { FindShelter } from '@/api/shelter'
 
-import { onBeforeMount, ref, computed, watchEffect, reactive, onActivated } from 'vue'
-import { useRoute, onBeforeRouteUpdate, onBeforeRouteLeave } from 'vue-router'
+import { onBeforeMount, ref, computed, watchEffect, reactive } from 'vue'
+import { useRoute } from 'vue-router'
 import { get, omit } from 'lodash-es'
 import { Campsite } from '@vicons/carbon'
 import dayjs from 'dayjs'
+import { onActivated } from 'vue'
+import { useAppStore } from '@/stores/app'
 
 const route = useRoute()
 const message = useMessage()
+const { setPageKeepAlive } = useAppStore()
 const loading = ref(true)
 const shelterData = ref({
   szUser: null,
@@ -76,7 +82,9 @@ watchEffect(async () => {
   loading.value = true
   try {
     recordLastUser()
-    const [shelter, err]: any = await FindShelter({ discordId: discordId.value as string })
+    const [shelter, err]: any = await FindShelter({
+      discordId: discordId.value as string,
+    })
     loading.value = false
     if (err) {
       message.error(err.message)
@@ -97,11 +105,14 @@ const displayData = computed(() => {
 })
 
 onBeforeMount(async () => {
+  setPageKeepAlive(route.name as string, true)
   if (!discordId.value) {
     return
   }
 
-  const [shelter, err]: any = await FindShelter({ discordId: discordId.value as string })
+  const [shelter, err]: any = await FindShelter({
+    discordId: discordId.value as string,
+  })
   if (err) {
     message.error(err.message)
     return
@@ -110,19 +121,9 @@ onBeforeMount(async () => {
   loading.value = false
 })
 
-onBeforeRouteLeave((to, from, next) => {
-  console.log('onBeforeRouteLeave')
-  next()
-})
-onBeforeRouteUpdate((to, from, next) => {
-  console.log('onBeforeRouteUpdate')
-  next()
-})
-
 onActivated(() => {
-  console.log('onActivated')
+  setPageKeepAlive(route.name as string, true)
 })
-
 </script>
 
 <style scoped lang="postcss">

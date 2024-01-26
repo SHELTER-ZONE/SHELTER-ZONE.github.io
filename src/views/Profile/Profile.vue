@@ -3,23 +3,29 @@
     <PageTitle :icon="Campsite" title="Personal Shelter" />
     <NotAccess v-if="!szUserProfile || !szJoined" />
     <div class="f-row gap-[12px]">
-      <router-link :to="{ name: 'PersonalShelter', params: { discordId } }">
-        <BaseButton type="info">
-          <template #icon>
-            <Campsite />
-          </template>
-          前往個人避難所
-        </BaseButton>
-      </router-link>
+      <!-- <router-link :to="{ name: 'PersonalShelter', params: { discordId } }"> -->
+      <BaseButton type="info" @click="goToShelter">
+        <template #icon>
+          <Campsite />
+        </template>
+        前往個人避難所
+      </BaseButton>
+      <!-- </router-link> -->
 
-      <BaseButton :type="preview ? 'primary' : 'warning'" @click="preview = !preview">
+      <BaseButton
+        :type="preview ? 'primary' : 'warning'"
+        @click="preview = !preview"
+      >
         <template #icon>
           <component :is="preview ? DataViewAlt : Edit" />
         </template>
         模式: {{ preview ? '預覽' : '編輯' }}
       </BaseButton>
     </div>
-    <article v-if="szUserProfile && szJoined" class="f-col-center gap-[20px] pb-[40px] w-full">
+    <article
+      v-if="szUserProfile && szJoined"
+      class="f-col-center gap-[20px] pb-[40px] w-full"
+    >
       <main class="f-col" :class="{ 'gap-[30px]': !preview }">
         <section>
           <n-collapse-transition :show="!preview">
@@ -32,15 +38,24 @@
           </EditableBlock>
           <DailyCheckRecordBlock :sz-user="user.sz" />
         </div>
-        <EditableBlock :hide-edit="preview" @edit="editModal.serverRoles = true">
-          <UserServerRolesBlock :dc-member="user.discordMember" :showOtherRoles="!preview" />
+        <EditableBlock
+          :hide-edit="preview"
+          @edit="editModal.serverRoles = true"
+        >
+          <UserServerRolesBlock
+            :dc-member="user.discordMember"
+            :showOtherRoles="!preview"
+          />
         </EditableBlock>
       </main>
     </article>
   </main>
 
-  <EditServerTagsModal v-if="editModal.serverRoles" :dc-member="user.discordMember"
-    @close="editModal.serverRoles = false" />
+  <EditServerTagsModal
+    v-if="editModal.serverRoles"
+    :dc-member="user.discordMember"
+    @close="editModal.serverRoles = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -57,10 +72,14 @@ import BannerBlock from './components/BannerBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
 import EditServerTagsModal from './components/EditServerTagsModal.vue'
 import { reactive, computed, ref } from 'vue'
-import { get } from 'lodash-es'
-import { RouterLink } from 'vue-router'
+import { get, set } from 'lodash-es'
+import { useRoute, useRouter } from 'vue-router'
 import { NCollapseTransition } from 'naive-ui'
+import { useAppStore } from '@/stores/app'
 
+const router = useRouter()
+const route = useRoute()
+const appStore = useAppStore()
 const oauthStore = useOauthStore()
 const { szJoined, szUserProfile, user } = storeToRefs(oauthStore)
 
@@ -70,6 +89,15 @@ const editModal = reactive({
   serverRoles: false,
 })
 const preview = ref(false)
+
+const goToShelter = () => {
+  appStore.setPageKeepAlive('PersonalShelter', false)
+
+  router.push({
+    name: 'PersonalShelter',
+    params: { discordId: discordId.value },
+  })
+}
 </script>
 
 <style scoped lang="postcss">
