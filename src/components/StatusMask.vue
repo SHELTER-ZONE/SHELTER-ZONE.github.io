@@ -31,7 +31,7 @@ import { get } from 'lodash-es'
 
 export interface StatusMaskProps {
   status: string
-  iconSize: number
+  iconSize?: number
   text?: string
   show?: boolean
 }

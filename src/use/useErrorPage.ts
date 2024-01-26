@@ -15,7 +15,7 @@ export const useErrorPage = () => {
   }>(localStoreKey.errorPageData, {}, sessionStorage)
 
   const routeToErrorPage = (errorType?: string) => {
-    router.replace({ name: 'error', query: { errorType } })
+    router.replace({ name: 'Error', query: { errorType } })
   }
 
   const rawErrorDataFormat = (rawErr: Error) => {

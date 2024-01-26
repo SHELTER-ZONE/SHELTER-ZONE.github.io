@@ -11,14 +11,14 @@
       class="navbar-mobile-mask"
     />
     <section class="navbar-mobile-header">
-      <!-- <router-link :to="{ name: 'home' }">
+      <!-- <router-link :to="{ name: 'Home' }">
         <h2 class="navbar-icon">SZ</h2>
       </router-link> -->
       <n-icon v-if="!toggle" size="30" @click="toggle = true"><Menu /></n-icon>
       <n-icon v-if="toggle" size="30" @click="toggle = false"><Close /></n-icon>
     </section>
 
-    <n-collapse-transition :show="toggle">
+    <NCollapseTransition :show="toggle">
       <div class="flex flex-col gap-[20px]">
         <Divider size="1" />
 
@@ -41,7 +41,7 @@
           </n-scrollbar>
         </section>
       </div>
-    </n-collapse-transition>
+    </NCollapseTransition>
   </div>
 </template>
 

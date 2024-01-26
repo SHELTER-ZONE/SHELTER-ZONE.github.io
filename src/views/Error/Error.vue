@@ -17,7 +17,7 @@
           </n-button>
         </section>
 
-        <n-collapse-transition :show="show">
+        <NCollapseTransition :show="show">
           <n-divider />
           <n-scrollbar
             trigger="none"
@@ -32,7 +32,7 @@
               <InfoList :data="errorPageData" class="<mb:(text-sm)" />
             </div>
           </n-scrollbar>
-        </n-collapse-transition>
+        </NCollapseTransition>
 
         <n-divider />
 
@@ -50,7 +50,7 @@
             Report Error
           </n-button>
 
-          <router-link :to="{ name: 'home' }" @click="resetErrorPageData">
+          <router-link :to="{ name: 'Home' }" @click="resetErrorPageData">
             <n-button class="w-full" secondary type="primary">
               <template #icon>
                 <n-icon><Home /> </n-icon>

@@ -9,8 +9,10 @@
           @leave="pageLeave"
           :css="false"
           mode="out-in"
-        > -->
-        <component :is="Component" />
+          > -->
+        <keep-alive :include="(keepAlivePagesName as string[])">
+          <component :is="Component" />
+        </keep-alive>
         <!-- </transition> -->
       </router-view>
     </div>
@@ -31,8 +33,12 @@ import { RouterView } from 'vue-router'
 import { includes } from 'lodash-es'
 import { onMounted } from 'vue'
 import { useMessage } from 'naive-ui'
+import { useAppStore } from '@/stores/app'
+import { storeToRefs } from 'pinia'
 
 const navBarBlockList = ['RegisterProfile', 'discord callback']
+const appStore = useAppStore()
+const { keepAlivePagesName } = storeToRefs(appStore)
 const message = useMessage()
 
 onMounted(() => {

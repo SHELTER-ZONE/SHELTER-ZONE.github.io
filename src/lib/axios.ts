@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios'
-import { get } from 'lodash'
+import { get, toNumber } from 'lodash'
 import { RouteBases } from 'discord-api-types/v10'
 
 //= > api-auth
@@ -38,10 +38,18 @@ discord.interceptors.request.use((config) => {
 const formatResponse = (response: AxiosResponse) => {
   const data = response.data
 
+  const status = get(data, 'status') || response.status
+  let code = get(data, 'code')
+  let message = get(data, 'message')
+  if (toNumber(status) === 429) {
+    message = '429: Too Many Requests'
+    code = 'TOO_MANY_REQUESTS'
+  }
+
   return {
-    status: get(data, 'status') || response.status,
-    code: get(data, 'code'),
-    message: get(data, 'message'),
+    status,
+    code,
+    message,
     data: get(data, 'data') || data,
   }
 }

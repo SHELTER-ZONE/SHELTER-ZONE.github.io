@@ -11,8 +11,8 @@ export const registerRouterGuard = (router: Router) => {
     useFormatSeoMeta({ title: '載入中', description: '載入中' })
     const { loggedIn, szRegistered } = useOauthStore()
     // checkExpiresIn() // 檢查登入是否已過期
-    // if (to.meta.registeredBlock && szRegistered) return next({ name: 'home' })
-    // if (to.meta.szRegistered && !szRegistered) return next({ name: 'home' })
+    // if (to.meta.registeredBlock && szRegistered) return next({ name: 'Home' })
+    // if (to.meta.szRegistered && !szRegistered) return next({ name: 'Home' })
     if (!to.meta.auth) return next() // 無須登入頁，直接前往
     const { setSignal } = useAppStore()
     if (!loggedIn) return setSignal('requestSignin', true)

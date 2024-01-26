@@ -1,10 +1,9 @@
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { _SZ_MICROSERVICES_TABLE } from '@/configs/urls'
-import { has } from 'lodash-es'
-import { useFetch } from '@/use/useFetch'
-import { GetServerRoles } from '@/api/discord'
+import { has, get, set, map } from 'lodash-es'
+import { routes } from '@/router'
 
 interface Signals {
   requestSignin: boolean
@@ -12,20 +11,16 @@ interface Signals {
 }
 
 export const useAppStore = defineStore('app', () => {
-  const { fetchDataToValue } = useFetch()
   const appLoading = ref<boolean>(true)
   const apiEndPoints = ref({})
-  const szServer = reactive({
-    roles: [],
-    channels: [],
-  })
+  const keepAlivePagesConfig = ref<Record<string, { enabled: boolean }>>({})
 
   const signals = reactive<Signals>({
     requestSignin: false,
     signoutConfirm: false,
   })
 
-  async function getApiEndPoint() {
+  const getApiEndPoint = async () => {
     try {
       const res = await axios({
         method: 'GET',
@@ -44,21 +39,30 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  const getServerRoles = async ({ throwErr } = { throwErr: true }) => {
-    const [, err, rawErr] = await fetchDataToValue(
-      GetServerRoles,
-      null,
-      { ref: szServer, path: 'roles' },
-      null,
-      { toastError: false },
-    )
-    if (err && throwErr) throw rawErr
-  }
-
-  function setSignal(signal: keyof Signals, toggle: boolean) {
+  const setSignal = (signal: keyof Signals, toggle: boolean) => {
     if (!has(signals, signal)) return
     signals[signal] = toggle
   }
+
+  const initKeepAlivePages = () => {
+    const pages = {}
+    for (const pageRoute of routes) {
+      if (get(pageRoute, 'meta.keepAlive')) {
+        set(pages, pageRoute.name, { enabled: true })
+      }
+    }
+    keepAlivePagesConfig.value = pages
+  }
+
+  const setPageKeepAlive = (pageName: string, toggle: boolean) => {
+    set(keepAlivePagesConfig.value, `${pageName}.enabled`, toggle)
+  }
+
+  const keepAlivePagesName = computed(() => {
+    return map(keepAlivePagesConfig.value, (page, key) => {
+      if (page.enabled) return key
+    })
+  })
 
   return {
     appLoading,
@@ -66,7 +70,9 @@ export const useAppStore = defineStore('app', () => {
     apiEndPoints,
     signals,
     setSignal,
-    getServerRoles,
-    szServer,
+    initKeepAlivePages,
+    keepAlivePagesName,
+    keepAlivePagesConfig,
+    setPageKeepAlive,
   }
 })

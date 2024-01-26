@@ -3,11 +3,13 @@ import { defineStore } from 'pinia'
 import { _SZ_GUILD_CONFIG_URL } from '@/configs/urls'
 import { GetAllMembersCount, GetSZGuildInfo, GetAllSZChannel } from '@/api/bot'
 import { FindDiscordServerConfig } from '@/api/discordServerConfig'
+
 import { GetSZServerNews } from '@/api/server'
 
 import axios from 'axios'
 import { get } from 'lodash-es'
 import { useFetch } from '@/use/useFetch'
+import { GetServerRoles } from '@/api/discord'
 
 export type SZOpenRole = {
   name: string
@@ -19,7 +21,11 @@ export const useSZGuild = defineStore('szGuild', () => {
   const guildConfig = ref({})
   const serverConfig = ref({})
   const szInfo = ref({})
+  const szTeamMembers = reactive({
+    shelter: [],
+  })
   const channels = ref([])
+  const roles = ref([])
   const serverNews = ref([])
   const statistic = reactive({
     members: 0,
@@ -63,6 +69,12 @@ export const useSZGuild = defineStore('szGuild', () => {
   const getSZServerNews = async () => {
     await fetchDataToValue(GetSZServerNews, null, { ref: serverNews }, null)
   }
+  const getServerRoles = async ({ throwErr } = { throwErr: true }) => {
+    await fetchDataToValue(GetServerRoles, null, { ref: roles }, null, {
+      toastError: false,
+      throwError: throwErr,
+    })
+  }
 
   const findDiscordServerConfig = async () => {
     await fetchDataToValue(
@@ -74,6 +86,7 @@ export const useSZGuild = defineStore('szGuild', () => {
   }
 
   return {
+    serverRoles: roles,
     channels,
     statistic,
     openRoles,
@@ -86,5 +99,7 @@ export const useSZGuild = defineStore('szGuild', () => {
     serverConfig,
     serverNews,
     getSZServerNews,
+    getServerRoles,
+    szTeamMembers,
   }
 })

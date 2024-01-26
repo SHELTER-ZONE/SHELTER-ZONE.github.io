@@ -60,12 +60,15 @@ import { useOauthStore } from '@/stores/oauth'
 import { useSZGuild } from '@/stores/szGuild'
 import { storeToRefs } from 'pinia'
 import BaseButton from '@/components/BaseButton.vue'
+import type { APIGuildMember } from 'discord-api-types/v10'
 
 const emits = defineEmits(['close'])
 
-const props = defineProps({
-  curRoles: { type: Array, default: () => [] },
-})
+export interface EditServerTagsModalProps {
+  dcMember: APIGuildMember | null
+}
+
+const props = defineProps<EditServerTagsModalProps>()
 
 const { updateModalShow, showModal } = useModal(emits)
 
@@ -75,6 +78,7 @@ const { verifyForm, clearFormvalidation } = useForm()
 const message = useMessage()
 
 const oauthStore = useOauthStore()
+const curMemberRoles = computed(() => get(props.dcMember, 'roles'))
 
 const szGuildStore = useSZGuild()
 const { serverConfig } = storeToRefs(szGuildStore)
@@ -101,12 +105,12 @@ const otherRoles = computed(() =>
 
 const syncRoleData = (type: 'main' | 'optional') => {
   if (type === 'main') {
-    const roles = intersection(map(mainRoles.value, 'id'), props.curRoles)
+    const roles = intersection(map(mainRoles.value, 'id'), curMemberRoles.value)
     if (!roles?.length) return null
     return get(roles, '[0]')
   }
   if (type === 'optional') {
-    return intersection(map(otherRoles.value, 'id'), props.curRoles)
+    return intersection(map(otherRoles.value, 'id'), curMemberRoles.value)
   }
 }
 
@@ -133,9 +137,9 @@ const onConfirm = async () => {
       } catch (error: any) {
         message.error(error)
       }
-      emits('close')
+      updateModalShow(false)
     },
-    undefined,
+    null,
     { toastError: true },
   )
   loading.value = false
