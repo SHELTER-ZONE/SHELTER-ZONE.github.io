@@ -28,8 +28,8 @@ import AreaBlock from '@/components/AreaBlock.vue'
 import { NSpin, useMessage } from 'naive-ui'
 import { FindShelter } from '@/api/shelter'
 
-import { onBeforeMount, ref, computed, watchEffect, reactive } from 'vue'
-import { useRoute } from 'vue-router'
+import { onBeforeMount, ref, computed, watchEffect, reactive, onActivated } from 'vue'
+import { useRoute, onBeforeRouteUpdate, onBeforeRouteLeave } from 'vue-router'
 import { get, omit } from 'lodash-es'
 import { Campsite } from '@vicons/carbon'
 import dayjs from 'dayjs'
@@ -108,6 +108,19 @@ onBeforeMount(async () => {
   }
   shelterData.value = shelter.data
   loading.value = false
+})
+
+onBeforeRouteLeave((to, from, next) => {
+  console.log('onBeforeRouteLeave')
+  next()
+})
+onBeforeRouteUpdate((to, from, next) => {
+  console.log('onBeforeRouteUpdate')
+  next()
+})
+
+onActivated(() => {
+  console.log('onActivated')
 })
 
 </script>

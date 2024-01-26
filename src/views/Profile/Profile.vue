@@ -5,26 +5,22 @@
     <div class="f-row gap-[12px]">
       <router-link :to="{ name: 'PersonalShelter', params: { discordId } }">
         <BaseButton type="info">
-          <template #icon><Campsite /></template>
+          <template #icon>
+            <Campsite />
+          </template>
           前往個人避難所
         </BaseButton>
       </router-link>
 
-      <BaseButton
-        :type="preview ? 'primary' : 'warning'"
-        @click="preview = !preview"
-      >
-        <template #icon
-          ><component :is="preview ? DataViewAlt : Edit"
-        /></template>
+      <BaseButton :type="preview ? 'primary' : 'warning'" @click="preview = !preview">
+        <template #icon>
+          <component :is="preview ? DataViewAlt : Edit" />
+        </template>
         模式: {{ preview ? '預覽' : '編輯' }}
       </BaseButton>
     </div>
-    <article
-      v-if="szUserProfile && szJoined"
-      class="f-col-center gap-[20px] pb-[40px] w-full"
-    >
-      <main class="f-col gap-[30px]">
+    <article v-if="szUserProfile && szJoined" class="f-col-center gap-[20px] pb-[40px] w-full">
+      <main class="f-col" :class="{ 'gap-[30px]': !preview }">
         <section>
           <n-collapse-transition :show="!preview">
             <BannerBlock />
@@ -36,24 +32,15 @@
           </EditableBlock>
           <DailyCheckRecordBlock :sz-user="user.sz" />
         </div>
-        <EditableBlock
-          :hide-edit="preview"
-          @edit="editModal.serverRoles = true"
-        >
-          <UserServerRolesBlock
-            :dc-member="user.discordMember"
-            showOtherRoles
-          />
+        <EditableBlock :hide-edit="preview" @edit="editModal.serverRoles = true">
+          <UserServerRolesBlock :dc-member="user.discordMember" :showOtherRoles="!preview" />
         </EditableBlock>
       </main>
     </article>
   </main>
 
-  <EditServerTagsModal
-    v-if="editModal.serverRoles"
-    :dc-member="user.discordMember"
-    @close="editModal.serverRoles = false"
-  />
+  <EditServerTagsModal v-if="editModal.serverRoles" :dc-member="user.discordMember"
+    @close="editModal.serverRoles = false" />
 </template>
 
 <script setup lang="ts">

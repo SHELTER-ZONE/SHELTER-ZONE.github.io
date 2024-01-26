@@ -29,6 +29,10 @@ export const useServerRole = () => {
     return (role: APIRole) => includes(devTeamRoleIds.value, role.id)
   })
 
+  const isOptionalRole = computed(() => {
+    return (role: APIRole) => includes(optionalRoleIds.value, role.id)
+  })
+
   const haveDevTeamRole = (memberRoleIds: string[]) => {
     const matchs = intersection(devTeamRoleIds.value, memberRoleIds)
     if (!matchs || !matchs.length) return false
@@ -64,5 +68,6 @@ export const useServerRole = () => {
     isDevTeamRole,
     haveDevTeamRole,
     excludeOptionalRoles,
+    isOptionalRole,
   }
 }
