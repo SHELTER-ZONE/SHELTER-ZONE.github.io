@@ -2,16 +2,34 @@
   <main class="explore">
     <PageTitle :icon="Explore" title="Explore" />
     <div class="page-wrapper">
-      <SZTeamMembersShelter />
-      <!-- <n-divider /> -->
-      <UserSearch v-model:search="search" @search="onSearch" :disabled="loading.search" />
-      <n-spin :show="loading.search">
-        <SZUserList :sheltersList="sheltersList" />
-      </n-spin>
-      <section class="flex justify-center ">
-        <NPagination v-model:page="paginationData.curPage" :item-count="paginationData.totalData"
-          :page-size="paginationData.limit" @update:page="onPageChange" />
-      </section>
+      <div class="explore-dev-team-area">
+        <h2 class="section-title">🔰 SZ Dev Team</h2>
+        <SZTeamMembersShelter />
+      </div>
+
+      <div class="explore-szuser-area">
+        <section class="f-row justify-between">
+          <h2 class="section-title">🔭 Explore SZUser</h2>
+          <UserSearch
+            v-model:search="search"
+            @search="onSearch"
+            :disabled="loading.search"
+          />
+        </section>
+
+        <n-spin :show="loading.search">
+          <SZUserList :sheltersList="sheltersList" />
+        </n-spin>
+
+        <section class="pagination-container">
+          <NPagination
+            v-model:page="paginationData.curPage"
+            :item-count="paginationData.totalData"
+            :page-size="paginationData.limit"
+            @update:page="onPageChange"
+          />
+        </section>
+      </div>
     </div>
   </main>
 </template>
@@ -23,7 +41,7 @@ import PageTitle from '@/components/PageTitle.vue'
 import UserSearch from './components/UserSearch.vue'
 import SZUserList from './components/SZUserList.vue'
 import { useDebounceFn } from '@vueuse/core'
-import { NSpin, NPagination, useMessage, NDivider } from 'naive-ui'
+import { NSpin, NPagination, useMessage } from 'naive-ui'
 import { GetShelter, GetShelterCount } from '@/api/shelter'
 import SZTeamMembersShelter from './components/SZTeamMembersShelter.vue'
 import { usePagination } from '@/use/usePagination'
@@ -67,7 +85,7 @@ const searchMemberData = useDebounceFn(
 
     loading.search = false
   },
-  500,
+  200,
 )
 
 const onPageChange = async () => {
@@ -108,6 +126,19 @@ onMounted(async () => {
 
 .page-wrapper {
   @apply pt-[20px];
-  @apply flex flex-col items-center w-full gap-[40px];
+  @apply flex flex-col items-center w-full gap-[100px];
+}
+
+.explore-dev-team-area {
+  @apply flex flex-col justify-center items-center gap-[20px];
+  @apply max-w-[900px] w-full;
+}
+
+.explore-szuser-area {
+  @apply flex flex-col gap-[20px] w-full max-w-[900px];
+}
+
+.pagination-container {
+  @apply flex justify-center pt-[20px];
 }
 </style>

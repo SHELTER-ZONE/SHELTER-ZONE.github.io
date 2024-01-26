@@ -29,6 +29,10 @@ export const useServerRole = () => {
     return (role: APIRole) => includes(devTeamRoleIds.value, role.id)
   })
 
+  const isOptionalRole = computed(() => {
+    return (role: APIRole) => includes(optionalRoleIds.value, role.id)
+  })
+
   const haveDevTeamRole = (memberRoleIds: string[]) => {
     const matchs = intersection(devTeamRoleIds.value, memberRoleIds)
     if (!matchs || !matchs.length) return false
@@ -55,6 +59,14 @@ export const useServerRole = () => {
     return matchedRoles
   }
 
+  const roleTagTyping = computed(() => {
+    return (role: APIRole) => {
+      if (isMainRole.value(role)) return 'success'
+      else if (isDevTeamRole.value(role)) return 'warning'
+      return 'info'
+    }
+  })
+
   return {
     mainRolesConfig,
     devTeamRolesConfig,
@@ -64,5 +76,7 @@ export const useServerRole = () => {
     isDevTeamRole,
     haveDevTeamRole,
     excludeOptionalRoles,
+    isOptionalRole,
+    roleTagTyping,
   }
 }

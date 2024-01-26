@@ -54,6 +54,10 @@ export const useAppStore = defineStore('app', () => {
     keepAlivePagesConfig.value = pages
   }
 
+  const setPageKeepAlive = (pageName: string, toggle: boolean) => {
+    set(keepAlivePagesConfig.value, `${pageName}.enabled`, toggle)
+  }
+
   const keepAlivePagesName = computed(() => {
     return map(keepAlivePagesConfig.value, (page, key) => {
       if (page.enabled) return key
@@ -68,5 +72,7 @@ export const useAppStore = defineStore('app', () => {
     setSignal,
     initKeepAlivePages,
     keepAlivePagesName,
+    keepAlivePagesConfig,
+    setPageKeepAlive,
   }
 })

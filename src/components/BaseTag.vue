@@ -1,5 +1,9 @@
 <template>
-  <n-tag class="base-tag" v-bind="$attrs">
+  <n-tag
+    class="base-tag"
+    :class="{ 'optional-tag': $attrs.type === 'base' }"
+    v-bind="$attrs"
+  >
     <template
       v-for="(slot, index) of Object.keys($slots)"
       :key="index"
@@ -17,5 +21,9 @@ import { NTag } from 'naive-ui'
 <style scoped lang="postcss">
 .base-tag {
   @apply rounded-normal;
+}
+
+.optional-tag {
+  @apply bg-base text-white;
 }
 </style>

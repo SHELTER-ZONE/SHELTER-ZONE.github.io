@@ -1,15 +1,24 @@
 <template>
-  <router-link :to="{
-    name: 'PersonalShelter',
-    params: { discordId: user.discordId },
-  }">
-    <article class="explore-user-item" :class="{ 'dev-team-member': isDevTeam }">
-      <div class="dev-team-deco" v-if="isDevTeam">
-        🔰 SZ Team
-      </div>
+  <router-link
+    :to="{
+      name: 'PersonalShelter',
+      params: { discordId: user.discordId },
+    }"
+  >
+    <article
+      class="explore-user-item"
+      :class="{ 'dev-team-member': isDevTeam }"
+    >
+      <div class="dev-team-deco" v-if="isDevTeam">🔰 SZ Team</div>
       <SZBlockContainer class="full">
-        <n-image class="user-avatar" width="100%" :src="`${user.avatartUrl}?size=128`" alt="discord user avatar"
-          :fallback-src="ImagePlaceholder" preview-disabled />
+        <n-image
+          class="user-avatar"
+          width="100%"
+          :src="`${user.avatartUrl}?size=128`"
+          alt="discord user avatar"
+          :fallback-src="ImagePlaceholder"
+          preview-disabled
+        />
         <header class="f-col gap-[12px] justify-between">
           <n-tooltip trigger="hover">
             <template #trigger>
@@ -19,8 +28,13 @@
           </n-tooltip>
 
           <div class="tags">
-            <BaseTag v-for="role in user.displayRoles" :key="role.id" :type="isDevTeamRole(role) ? 'warning' : 'primary'"
-              :bordered="false" size="small">
+            <BaseTag
+              v-for="role in user.displayRoles"
+              :key="role.id"
+              :type="roleTagTyping(role)"
+              :bordered="false"
+              size="small"
+            >
               {{ role.name }}
             </BaseTag>
           </div>
@@ -46,8 +60,10 @@ export interface ExploreUserItem {
 
 const props = defineProps<ExploreUserItem>()
 
-const { haveDevTeamRole, isDevTeamRole } = useServerRole()
-const isDevTeam = computed(() => haveDevTeamRole(get(props.user, 'member.roles')))
+const { haveDevTeamRole, roleTagTyping } = useServerRole()
+const isDevTeam = computed(() =>
+  haveDevTeamRole(get(props.user, 'member.roles')),
+)
 </script>
 
 <style scoped lang="postcss">
@@ -63,8 +79,6 @@ const isDevTeam = computed(() => haveDevTeamRole(get(props.user, 'member.roles')
 .user-avatar {
   @apply w-full rounded-lg;
 }
-
-
 
 .tags {
   @apply flex flex-wrap gap-[7px] pb-[10px];
