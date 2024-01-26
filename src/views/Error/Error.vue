@@ -17,7 +17,7 @@
           </n-button>
         </section>
 
-        <n-collapse-transition :show="show">
+        <NCollapseTransition :show="show">
           <n-divider />
           <n-scrollbar
             trigger="none"
@@ -32,7 +32,7 @@
               <InfoList :data="errorPageData" class="<mb:(text-sm)" />
             </div>
           </n-scrollbar>
-        </n-collapse-transition>
+        </NCollapseTransition>
 
         <n-divider />
 

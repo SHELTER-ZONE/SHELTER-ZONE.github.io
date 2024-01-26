@@ -28,9 +28,9 @@
     >
       <main class="f-col" :class="{ 'gap-[30px]': !preview }">
         <section>
-          <n-collapse-transition :show="!preview">
+          <NCollapseTransition :show="!preview">
             <BannerBlock />
-          </n-collapse-transition>
+          </NCollapseTransition>
         </section>
         <div class="wrapper">
           <EditableBlock :hide-edit="preview">

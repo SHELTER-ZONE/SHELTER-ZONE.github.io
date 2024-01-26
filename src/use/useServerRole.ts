@@ -59,6 +59,14 @@ export const useServerRole = () => {
     return matchedRoles
   }
 
+  const roleTagTyping = computed(() => {
+    return (role: APIRole) => {
+      if (isMainRole.value(role)) return 'success'
+      else if (isDevTeamRole.value(role)) return 'warning'
+      return 'info'
+    }
+  })
+
   return {
     mainRolesConfig,
     devTeamRolesConfig,
@@ -69,5 +77,6 @@ export const useServerRole = () => {
     haveDevTeamRole,
     excludeOptionalRoles,
     isOptionalRole,
+    roleTagTyping,
   }
 }

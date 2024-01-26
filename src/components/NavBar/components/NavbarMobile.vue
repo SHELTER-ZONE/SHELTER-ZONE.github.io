@@ -18,7 +18,7 @@
       <n-icon v-if="toggle" size="30" @click="toggle = false"><Close /></n-icon>
     </section>
 
-    <n-collapse-transition :show="toggle">
+    <NCollapseTransition :show="toggle">
       <div class="flex flex-col gap-[20px]">
         <Divider size="1" />
 
@@ -41,7 +41,7 @@
           </n-scrollbar>
         </section>
       </div>
-    </n-collapse-transition>
+    </NCollapseTransition>
   </div>
 </template>
 

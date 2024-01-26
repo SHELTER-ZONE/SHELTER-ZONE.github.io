@@ -4,8 +4,12 @@
       <div v-if="showOtherRoles ? true : !isOptionalRole(role)">
         <n-tooltip trigger="hover">
           <template #trigger>
-            <BaseTag :type="tagTyping(role)" :class="{ 'optional-tag': isOptionalRole(role) }"
-              :disabled="isOptionalRole(role)" :bordered="false">
+            <BaseTag
+              :type="roleTagTyping(role)"
+              :class="{ 'optional-tag': isOptionalRole(role) }"
+              :disabled="isOptionalRole(role)"
+              :bordered="false"
+            >
               {{ role.name }}
             </BaseTag>
           </template>
@@ -41,7 +45,8 @@ const props = defineProps<UserServerRolesBlockProps>()
 
 const szGuildStore = useSZGuild()
 const { serverRoles } = storeToRefs(szGuildStore)
-const { isDevTeamRole, isMainRole, isOptionalRole } = useServerRole()
+const { isDevTeamRole, isMainRole, isOptionalRole, roleTagTyping } =
+  useServerRole()
 
 const dcMemberRoles = computed(() => get(props.dcMember, 'roles'))
 
@@ -49,15 +54,6 @@ const displayRoles = computed(() => {
   return filter(serverRoles.value, (role: APIRole) =>
     includes(dcMemberRoles.value, role.id),
   )
-})
-
-
-const tagTyping = computed(() => {
-  return (role: APIRole) => {
-    if (isMainRole.value(role)) return 'success'
-    else if (isDevTeamRole.value(role)) return 'warning'
-    return ''
-  }
 })
 </script>
 
