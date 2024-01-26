@@ -44,17 +44,25 @@ const shelterData = ref({
 })
 const discordId = computed(() => get(route.params, 'discordId'))
 const lastUser = reactive({
-  id: null,
+  discordId: null,
   timeStamp: null,
 })
 
 const recordLastUser = () => {
-  lastUser.id = discordId.value
+  lastUser.discordId = discordId.value
   lastUser.timeStamp = new Date()
 }
 
+const resetShelterData = () => {
+  shelterData.value = {
+    szUser: null,
+    dcMember: null,
+    dcUser: null,
+  }
+}
+
 const stillCachedUser = () => {
-  if (lastUser.id === discordId.value) {
+  if (lastUser.discordId === discordId.value) {
     if (dayjs(lastUser.timeStamp).add(5, 'minutes').isAfter(dayjs(), 'seconds'))
       return true
   }
@@ -64,74 +72,44 @@ const stillCachedUser = () => {
 watchEffect(async () => {
   if (!discordId.value) return
   if (stillCachedUser()) return
+  else resetShelterData()
   loading.value = true
   try {
     recordLastUser()
-    await Promise.all([
-      fetchDataToValue(
-        FindSZUser,
-        { discordId: discordId.value },
-        { ref: szUser },
-        null,
-        { throwError: true },
-      ),
-      fetchDataToValue(
-        FindDCMember,
-        { discordId: discordId.value },
-        { ref: dcMember },
-        null,
-        { throwError: true },
-      ),
-    ])
-    loading.value = false
-  } catch (error) {
-    loading.value = false
-  }
-
-  const displayData = computed(() => {
-    return {
-      szUser: omit(shelterData.value, 'DiscordMember') || null,
-      dcMember: get(shelterData.value, 'DiscordMember') || null,
-      dcUser: get(shelterData.value, 'DiscordMember.user') || null,
-    }
-  })
-
-  onBeforeMount(async () => {
-    if (!discordId.value) {
-      return
-    }
     const [shelter, err]: any = await FindShelter({ discordId: discordId.value as string })
+    loading.value = false
     if (err) {
       message.error(err.message)
       return
     }
     shelterData.value = shelter.data
+  } catch (error) {
     loading.value = false
-  })
+  }
+})
 
-// onBeforeMount(async () => {
-//   try {
-//     await Promise.all([
-//       fetchDataToValue(
-//         FindSZUser,
-//         { discordId: discordId.value },
-//         { ref: szUser },
-//         null,
-//         { throwError: true },
-//       ),
-//       fetchDataToValue(
-//         FindDCMember,
-//         { discordId: discordId.value },
-//         { ref: dcMember },
-//         null,
-//         { throwError: true },
-//       ),
-//     ])
-//     loading.value = false
-//   } catch (error) {
-//     loading.value = false
-//   }
-// })
+const displayData = computed(() => {
+  return {
+    szUser: omit(shelterData.value, 'DiscordMember') || null,
+    dcMember: get(shelterData.value, 'DiscordMember') || null,
+    dcUser: get(shelterData.value, 'DiscordMember.user') || null,
+  }
+})
+
+onBeforeMount(async () => {
+  if (!discordId.value) {
+    return
+  }
+
+  const [shelter, err]: any = await FindShelter({ discordId: discordId.value as string })
+  if (err) {
+    message.error(err.message)
+    return
+  }
+  shelterData.value = shelter.data
+  loading.value = false
+})
+
 </script>
 
 <style scoped lang="postcss">
