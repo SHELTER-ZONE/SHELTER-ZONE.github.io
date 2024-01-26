@@ -32,7 +32,7 @@ import ImagePlaceholder from '@/assets/default/image_placeholder.webp'
 
 <style scoped lang="postcss">
 .explore-user-item {
-  @apply w-[180px] h-full overflow-hidden rounded-normal;
+  @apply w-[200px] h-full overflow-hidden rounded-normal;
   @apply shadow-xl relative;
 }
 
