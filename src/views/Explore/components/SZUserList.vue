@@ -1,20 +1,13 @@
 <template>
   <main class="sz-user-list">
-    <router-link v-for="user in displayData" :key="user.id" :to="{
-      name: 'PersonalShelter',
-      params: { discordId: user.discordId },
-    }">
-      <ExploreUserItem :user="user" />
-    </router-link>
+    <ExploreUserItem v-for="user in displayData" :key="user.id" :user="user" />
   </main>
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import ExploreUserItem from './ExploreUserItem.vue'
-import type { APIGuildMember } from 'discord-api-types/v10'
 import { computed } from 'vue'
-import { get, find, map, filter, includes } from 'lodash-es'
+import { get, map } from 'lodash-es'
 import { useServerRole } from '@/use/useServerRole'
 import { discordUserAvatartUrl } from '@/utils/discord'
 
@@ -26,7 +19,7 @@ const props = withDefaults(defineProps<SZUserListProps>(), {
   sheltersList: () => [],
 })
 
-const { filterMainRoles } = useServerRole()
+const { excludeOptionalRoles } = useServerRole()
 
 const displayData = computed(() => {
   return map(props.sheltersList, (user) => {
@@ -36,7 +29,7 @@ const displayData = computed(() => {
       name: user.name,
       discordId: user.discordId,
       member,
-      mainRoles: filterMainRoles(get(member, 'roles', [])),
+      displayRoles: excludeOptionalRoles(get(member, 'roles', [])),
       avatartUrl: discordUserAvatartUrl(get(member, 'user')),
     }
   })
@@ -45,8 +38,12 @@ const displayData = computed(() => {
 
 <style scoped lang="postcss">
 .sz-user-list {
-  @apply grid grid-cols-3 gap-[40px];
+  @apply max-w-[900px] w-full;
+  @apply grid gap-[20px] justify-items-center;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  /* @apply grid grid-cols-5 gap-[40px];
+  @apply <laptop:(grid-cols-4);
   @apply <tablet:(gap-[20px]);
-  @apply <md:(grid-cols-2);
+  @apply <md:(grid-cols-2); */
 }
 </style>
