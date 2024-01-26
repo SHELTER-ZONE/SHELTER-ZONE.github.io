@@ -3,11 +3,11 @@
     <PageTitle :icon="Explore" title="Explore" />
     <div class="page-wrapper">
       <SZTeamMembersShelter />
-      <n-divider />
+      <!-- <n-divider /> -->
       <UserSearch v-model:search="search" @search="onSearch" :disabled="loading.search" />
-      <!-- <n-spin :show="loading.search"> -->
-      <SZUserList :sheltersList="sheltersList" />
-      <!-- </n-spin> -->
+      <n-spin :show="loading.search">
+        <SZUserList :sheltersList="sheltersList" />
+      </n-spin>
       <section class="flex justify-center ">
         <NPagination v-model:page="paginationData.curPage" :item-count="paginationData.totalData"
           :page-size="paginationData.limit" @update:page="onPageChange" />

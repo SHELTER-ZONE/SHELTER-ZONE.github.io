@@ -1,9 +1,12 @@
 <template>
-  <n-spin :show="loading">
-    <section>
-      <ExploreUserItem v-for="user in displayData" :key="user.id" :user="user" />
-    </section>
-  </n-spin>
+  <article>
+    <h2>SZ Dev Team</h2>
+    <n-spin :show="loading">
+      <section>
+        <ExploreUserItem v-for="user in displayData" :key="user.id" :user="user" />
+      </section>
+    </n-spin>
+  </article>
 </template>
 
 <script setup lang="ts">
@@ -18,7 +21,7 @@ import { GetShelterByDiscordIds } from '@/api/shelter'
 import { szTeamUserDiscordIds } from '@/configs/explore'
 import { useMessage, NSpin } from 'naive-ui'
 
-const { filterMainRoles } = useServerRole()
+const { excludeOptionalRoles } = useServerRole()
 const szGuildStore = useSZGuild()
 const { szTeamMembers } = storeToRefs(szGuildStore)
 const message = useMessage()
@@ -33,7 +36,7 @@ const displayData = computed(() => {
       name: user.name,
       discordId: user.discordId,
       member,
-      mainRoles: filterMainRoles(get(member, 'roles', [])),
+      displayRoles: excludeOptionalRoles(get(member, 'roles', [])),
       avatartUrl: discordUserAvatartUrl(get(member, 'user')),
     }
   })

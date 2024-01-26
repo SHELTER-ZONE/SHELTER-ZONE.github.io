@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<SZUserListProps>(), {
   sheltersList: () => [],
 })
 
-const { filterMainRoles } = useServerRole()
+const { excludeOptionalRoles } = useServerRole()
 
 const displayData = computed(() => {
   return map(props.sheltersList, (user) => {
@@ -29,7 +29,7 @@ const displayData = computed(() => {
       name: user.name,
       discordId: user.discordId,
       member,
-      mainRoles: filterMainRoles(get(member, 'roles', [])),
+      displayRoles: excludeOptionalRoles(get(member, 'roles', [])),
       avatartUrl: discordUserAvatartUrl(get(member, 'user')),
     }
   })
