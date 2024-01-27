@@ -113,6 +113,15 @@ export const routes = [
     meta: { title: '生態與資源', icon: AppConnectivity },
     component: () => import('@/views/Ecosystem/Ecosystem.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/NotFound/NotFound.vue'),
+    meta: {
+      title: '查無此頁面',
+      hidden: true,
+    },
+  },
 ]
 
 const router = createRouter({
