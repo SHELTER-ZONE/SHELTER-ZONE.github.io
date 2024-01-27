@@ -37,15 +37,23 @@ import { computed, ref, watchEffect } from 'vue'
 import { get, map, find, filter } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { usePage } from '@/use/usePage'
+import { useRoute } from 'vue-router'
+import { useSeoMeta } from '@unhead/vue'
 
+const route = useRoute()
 const { pageIcon } = usePage()
 const szGuildStore = useSZGuild()
 const { serverNews } = storeToRefs(szGuildStore)
 const selectNews = ref(serverNews.value[0])
 
+const getNewsTItle = (content: string) => {
+  if (!content) return ''
+  return get(content.split('\n'), `[0]`)
+}
+
 const displayNewsList = computed(() => {
   const dataList = map(serverNews.value, (news) => {
-    const title = get(news.content.split('\n'), `[0]`)
+    const title = getNewsTItle(get(news, 'content'))
     return {
       id: news.id,
       title: ellipsisText(title),
@@ -60,6 +68,21 @@ const onSelectNews = (id: string) => {
 
 watchEffect(() => {
   selectNews.value = serverNews.value[0]
+})
+
+useSeoMeta({
+  title: () => {
+    return `SHELTER ZONE | ${get(route, 'meta.title')} - ${getNewsTItle(
+      get(selectNews.value, 'content'),
+    )}`
+  },
+  ogTitle: () => {
+    return `SHELTER ZONE | ${get(route, 'meta.title')} - ${getNewsTItle(
+      get(selectNews.value, 'content'),
+    )}`
+  },
+  description: () => get(selectNews.value, 'content'),
+  ogDescription: () => get(selectNews.value, 'content'),
 })
 </script>
 
