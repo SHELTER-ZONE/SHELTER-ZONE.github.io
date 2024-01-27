@@ -31,12 +31,11 @@ import AreaBlock from '@/components/AreaBlock.vue'
 import { NSpin, useMessage } from 'naive-ui'
 import { FindShelter } from '@/api/shelter'
 
-import { onBeforeMount, ref, computed, watchEffect, reactive } from 'vue'
+import { onActivated, onBeforeMount, ref, computed, watch, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { get, omit } from 'lodash-es'
 import { Campsite } from '@vicons/carbon'
 import dayjs from 'dayjs'
-import { onActivated } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 const route = useRoute()
@@ -75,26 +74,30 @@ const stillCachedUser = () => {
   return false
 }
 
-watchEffect(async () => {
-  if (!discordId.value) return
-  if (stillCachedUser()) return
-  else resetShelterData()
-  loading.value = true
-  try {
-    recordLastUser()
-    const [shelter, err]: any = await FindShelter({
-      discordId: discordId.value as string,
-    })
-    loading.value = false
-    if (err) {
-      message.error(err.message)
-      return
+watch(
+  () => route.params,
+  async () => {
+    if (loading.value) return
+    if (!discordId.value) return
+    if (stillCachedUser()) return
+    else resetShelterData()
+    loading.value = true
+    try {
+      recordLastUser()
+      const [shelter, err]: any = await FindShelter({
+        discordId: discordId.value as string,
+      })
+      loading.value = false
+      if (err) {
+        message.error(err.message)
+        return
+      }
+      shelterData.value = shelter.data
+    } catch (error) {
+      loading.value = false
     }
-    shelterData.value = shelter.data
-  } catch (error) {
-    loading.value = false
-  }
-})
+  },
+)
 
 const displayData = computed(() => {
   return {
@@ -109,7 +112,6 @@ onBeforeMount(async () => {
   if (!discordId.value) {
     return
   }
-
   const [shelter, err]: any = await FindShelter({
     discordId: discordId.value as string,
   })
