@@ -3,12 +3,11 @@
     <section class="discord-message" v-html="htmlContent"></section>
 
     <section class="discord-attachments">
-      <img
+      <n-image
         v-for="image in message.attachments"
         :key="image.id"
         :src="image.url"
         :alt="image.filename"
-        srcset=""
       />
     </section>
   </article>
@@ -18,6 +17,7 @@
 import { computed } from 'vue'
 import { toHTML } from 'discord-markdown'
 import { get } from 'lodash-es'
+import { NImage } from 'naive-ui'
 
 interface DiscordContentProps {
   message: any
