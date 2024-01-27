@@ -20,7 +20,8 @@
         <n-spin :show="loading.search">
           <SZUserList
             :sheltersList="sheltersList"
-            :search="search.searchValue"
+            :loading="loading.search"
+            :loaded="loaded"
           />
         </n-spin>
 
@@ -52,6 +53,7 @@ import { usePagination } from '@/use/usePagination'
 const message = useMessage()
 const { paginationData, pageStartIndex } = usePagination({ limit: 20 })
 const sheltersList = ref([])
+const loaded = ref(false)
 const loading = reactive({
   search: false,
 })
@@ -80,6 +82,7 @@ const searchMemberData = useDebounceFn(
       })
 
       sheltersList.value = shelters.data
+      if (!loaded.value) loaded.value = true
       loading.search = false
     } catch (error) {
       console.log(error)
@@ -118,7 +121,7 @@ const onSearch = async ({
 }
 
 onMounted(async () => {
-  onSearch({})
+  await onSearch({})
 })
 </script>
 
