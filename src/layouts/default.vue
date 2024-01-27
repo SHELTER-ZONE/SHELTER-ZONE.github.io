@@ -31,26 +31,12 @@ import RequestSigninModal from '@/components/Modal/RequestSigninModal.vue'
 import SignoutModal from '@/components/Modal/SignoutModal.vue'
 import { RouterView } from 'vue-router'
 import { includes } from 'lodash-es'
-import { onMounted } from 'vue'
-import { useMessage } from 'naive-ui'
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 
 const navBarBlockList = ['RegisterProfile', 'discord callback']
 const appStore = useAppStore()
 const { keepAlivePagesName } = storeToRefs(appStore)
-const message = useMessage()
-
-onMounted(() => {
-  message.warning('網站目前正在建構中，諸多畫面與功能尚未完善，請多見諒', {
-    duration: 0,
-    closable: true,
-  })
-  message.info('目前可進行基本的註冊及登入', {
-    duration: 0,
-    closable: true,
-  })
-})
 </script>
 
 <style scoped lang="postcss">
