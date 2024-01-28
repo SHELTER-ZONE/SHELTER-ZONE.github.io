@@ -32,6 +32,7 @@ import NotFoundShelter from './components/NotFoundShelter.vue'
 // import Loading from '@/components/Loading.vue'
 import { NSpin, useMessage } from 'naive-ui'
 import { FindShelter } from '@/api/shelter'
+import { useSeoMeta } from '@unhead/vue'
 
 import { onActivated, onBeforeMount, ref, computed, watch, reactive } from 'vue'
 import { useRoute } from 'vue-router'
@@ -127,6 +128,23 @@ onBeforeMount(async () => {
 
 onActivated(() => {
   setPageKeepAlive(route.name as string, true)
+})
+
+useSeoMeta({
+  title: () =>
+    `SHELTER ZONE | 個人避難所 - ${get(
+      displayData.value,
+      'szUser.UserProfile.name',
+    )}`,
+  ogTitle: () =>
+    `SHELTER ZONE | 個人避難所 - ${get(
+      displayData.value,
+      'szUser.UserProfile.name',
+    )}`,
+  description: () =>
+    `個人避難所 - ${get(displayData.value, 'szUser.UserProfile.name')}`,
+  ogDescription: () =>
+    `個人避難所 - ${get(displayData.value, 'szUser.UserProfile.name')}`,
 })
 </script>
 
