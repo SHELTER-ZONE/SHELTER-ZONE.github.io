@@ -35,13 +35,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import { AirlineRapidBoard } from '@vicons/carbon'
 import { NIcon, NDivider } from 'naive-ui'
 import StepBar from '@/components/StepBar.vue'
 import VerifyForm from './components/VerifyForm.vue'
+import { useOauthStore } from '@/stores/oauth'
+import { storeToRefs } from 'pinia'
+import { get } from 'lodash-es'
 
+const oauthStore = useOauthStore()
 const stages = [
   'VerifyForm',
   'Important',
@@ -51,6 +55,7 @@ const stages = [
 ]
 const stageCmps = ref<any[]>([VerifyForm])
 const curStage = ref<number>(0)
+const { user } = storeToRefs(oauthStore)
 
 const formData = reactive({
   name: null,
@@ -75,6 +80,10 @@ onMounted(async () => {
       )
     }
   }
+  formData.name =
+    get(user.value, 'discord.global_name') ||
+    get(user.value, 'discord.username') ||
+    null
 })
 </script>
 

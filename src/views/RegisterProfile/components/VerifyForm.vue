@@ -101,7 +101,7 @@ const formRules: Record<string, FormItemRule> = {
 
 const fields = computed(() => [
   {
-    label: '避難者 ID',
+    label: '避難者名稱',
     key: 'name',
     type: 'text',
     maxlength: 20,
