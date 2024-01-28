@@ -2,7 +2,7 @@
   <main class="profile">
     <PageTitle :icon="Campsite" title="Personal Shelter" />
     <NotAccess v-if="!szUserProfile || !szJoined" />
-    <div class="f-row gap-[12px]">
+    <div v-if="szUserProfile && szJoined" class="f-row gap-[12px]">
       <!-- <router-link :to="{ name: 'PersonalShelter', params: { discordId } }"> -->
       <BaseButton type="info" @click="goToShelter">
         <template #icon>
