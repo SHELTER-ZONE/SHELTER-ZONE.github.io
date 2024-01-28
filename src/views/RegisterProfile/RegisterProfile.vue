@@ -1,7 +1,9 @@
 <template>
   <main class="register-profile">
     <SZBlockContainer class="w-full max-w-[500px] flex-1 m-auto">
-      <div class="flex flex-col justify-center items-center gap-[20px] py-[20px]">
+      <div
+        class="flex flex-col justify-center items-center gap-[20px] py-[20px]"
+      >
         <n-icon size="50">
           <AirlineRapidBoard />
         </n-icon>
@@ -10,14 +12,22 @@
 
       <n-divider />
 
-      <section v-if="curStage < stages.length - 2" class="mb-[40px] flex justify-center">
+      <section
+        v-if="curStage < stages.length - 2"
+        class="mb-[40px] flex justify-center"
+      >
         <StepBar :cur-step="curStage" :steps="stages.length - 2" />
       </section>
 
       <section class="flex-1 grid">
         <!-- <KeepAlive> -->
-        <component :is="stageCmps[curStage]" v-model:form="formData" :formData="formData" @complete="onStageComplete"
-          @previous="onPreviousStage" />
+        <component
+          :is="stageCmps[curStage]"
+          v-model:form="formData"
+          :formData="formData"
+          @complete="onStageComplete"
+          @previous="onPreviousStage"
+        />
         <!-- </KeepAlive> -->
       </section>
     </SZBlockContainer>
@@ -35,7 +45,7 @@ import VerifyForm from './components/VerifyForm.vue'
 const stages = [
   'VerifyForm',
   'Important',
-  'OTPVerify',
+  // 'OTPVerify',
   'Registering',
   'CompleteRegister',
 ]
