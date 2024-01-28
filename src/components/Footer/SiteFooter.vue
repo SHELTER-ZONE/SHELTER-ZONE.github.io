@@ -1,6 +1,6 @@
 <template>
   <footer class="site-footer">
-    <h2 class="footer-text">SHELTER ZONE @2018</h2>
+    <h2 class="footer-text">SHELTER ZONE @2018 - {{ nowYear }}</h2>
     <Divider vertical />
     <SocialLinks />
   </footer>
@@ -9,6 +9,10 @@
 <script setup lang="ts">
 import SocialLinks from './components/SocialLink.vue'
 import Divider from '@/components/Divider/Divider.vue'
+import dayjs from 'dayjs'
+import { computed } from 'vue'
+
+const nowYear = computed(() => dayjs().year())
 </script>
 
 <style scoped lang="postcss">

@@ -71,7 +71,7 @@ export const routes = [
     path: '/profile',
     name: 'Profile',
     meta: {
-      title: '個人避難所',
+      title: '編輯個人避難所',
       auth: true,
       hidden: true,
       keepAlive: true,
