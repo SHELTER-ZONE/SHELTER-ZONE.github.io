@@ -95,6 +95,7 @@ const formRules = {
   mainRole: {
     required: true,
     trigger: 'change',
+    message: '主要身分為必填',
   },
 }
 
