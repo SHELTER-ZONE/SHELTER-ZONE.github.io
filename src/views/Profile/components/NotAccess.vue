@@ -1,8 +1,8 @@
 <template>
   <div class="profile-not-access f-col-center">
     <div class="f-col-center gap-[10px]">
-      <n-icon :size="30" color="var(--danger)"><Locked /></n-icon>
-      <p class="text-danger text-lg font-bold">Access Denied</p>
+      <n-icon :size="40" color="var(--warning)"><AiResultsVeryHigh /></n-icon>
+      <p class="text-warning text-lg font-medium">還差一點點 (๑•̀ㅂ•́)و✧ !!</p>
     </div>
 
     <div class="discord-message">
@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { Locked } from '@vicons/carbon'
+import { AiResultsVeryHigh } from '@vicons/carbon'
 import { NIcon } from 'naive-ui'
 import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import JoinServerWarning from './JoinServerWarning.vue'
