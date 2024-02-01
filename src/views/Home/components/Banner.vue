@@ -5,16 +5,11 @@
         <h1 class="sz-name">SHELTER ZONE</h1>
         <h2 class="sub-title">your hub of technology.</h2>
       </div>
-      <n-button
-        v-if="!dcUser"
-        secondary
-        type="primary"
-        class="join-btn"
-        @click="onSignin"
-        :loading="loading"
-      >
-        加入成為避難者
-      </n-button>
+
+      <a :href="_SZ_DC_INVITE_URL" target="_blank" rel="noopener noreferrer">
+        <BaseButton secondary type="primary" class="join-btn">Join Discord</BaseButton>
+      </a>
+
     </div>
 
     <div class="banner-mask" />
@@ -26,25 +21,11 @@
 
 <script setup lang="ts">
 import banner from '@/assets/home/banner.jpg'
-import { useOauthStore } from '@/stores/oauth'
-import { NButton } from 'naive-ui'
+import BaseButton from '@/components/BaseButton.vue'
 import { onMounted } from 'vue'
-import { ref } from 'vue'
+import { _SZ_DC_INVITE_URL } from '@/configs/urls'
 import anime from 'animejs'
-import { computed } from 'vue'
 
-const oauthStore = useOauthStore()
-const dcUser = computed(() => oauthStore.user.discord)
-const loading = ref(false)
-
-const onSignin = async () => {
-  try {
-    loading.value = true
-    await oauthStore.signin()
-  } catch (error) {
-    loading.value = false
-  }
-}
 
 onMounted(() => {
   anime({
@@ -97,7 +78,7 @@ onMounted(() => {
 }
 
 .join-btn {
-  @apply text-normal rounded-0.5rem;
+  @apply text-normal rounded-0.5rem text-center tracking-[5px];
   @apply tablet:(text-lg p-2rem rounded-[1rem]);
   @apply overflow-hidden;
 }
@@ -111,10 +92,8 @@ onMounted(() => {
 .banner-gradient {
   @apply w-full h-[200px];
   @apply absolute left-0 right-0 bottom-0;
-  background: linear-gradient(
-    0deg,
-    var(--primary-bg) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(0deg,
+      var(--primary-bg) 0%,
+      rgba(0, 0, 0, 0) 100%);
 }
 </style>
