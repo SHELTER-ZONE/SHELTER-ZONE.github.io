@@ -123,7 +123,7 @@ export const useOauthStore = defineStore('oauth', () => {
 
   async function signin() {
     const loginUrl = await getDCAuthorizeUrl()
-    if (!loginUrl) return
+    if (!loginUrl) return null
     const win: Window = window
     win.location = loginUrl
   }

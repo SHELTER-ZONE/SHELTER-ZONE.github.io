@@ -35,7 +35,14 @@ discord.interceptors.request.use((config) => {
   return config
 })
 
-const formatResponse = (response: AxiosResponse) => {
+const formatResponse = (response: AxiosResponse, responseCode?: string) => {
+  if (responseCode === 'ERR_NETWORK') {
+    return {
+      status: 530,
+      code: responseCode,
+      message: 'network error',
+    }
+  }
   const data = response.data
 
   const status = get(data, 'status') || response.status
@@ -60,7 +67,7 @@ const handleSuccessRes = (response: any): any => {
 }
 
 const handleErrorRes = (error: any) => {
-  return [null, formatResponse(error.response), error.response]
+  return [null, formatResponse(error.response, error.code), error.response]
 }
 
 //= > use

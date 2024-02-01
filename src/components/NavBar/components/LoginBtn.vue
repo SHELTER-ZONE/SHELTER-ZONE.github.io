@@ -1,7 +1,9 @@
 <template>
   <NButton secondary type="primary" @click="onSignin" :loading="loading">
     <div class="f-row gap-[5px]">
-      <n-icon><Login /></n-icon>
+      <n-icon>
+        <Login />
+      </n-icon>
       <p>{{ translate('common.login') }}</p>
     </div>
   </NButton>
@@ -19,12 +21,9 @@ const { translate } = useLocale()
 const loading = ref(false)
 
 const onSignin = async () => {
-  try {
-    loading.value = true
-    await signin()
-  } catch (error) {
-    loading.value = false
-  }
+  loading.value = true
+  const res = await signin()
+  if (!res) loading.value = false
 }
 </script>
 
