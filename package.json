@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@shelter-zone/shelter-ui": "^0.0.17",
+    "@tabler/icons-vue": "^2.47.0",
     "@unhead/vue": "^1.8.9",
     "@vueuse/core": "^10.7.2",
     "animejs": "^3.2.1",
@@ -23,6 +24,7 @@
     "discord-markdown": "^2.5.1",
     "lodash-es": "^4.17.21",
     "pinia": "^2.1.7",
+    "unplugin-auto-import": "^0.17.5",
     "vue": "^3.4.15",
     "vue-hotjar-next": "^2.0.1",
     "vue-i18n": "^9.7.1",

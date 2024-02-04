@@ -44,8 +44,8 @@ import { get, trimEnd, isNull } from 'lodash-es'
 import notifyMessage from '@/configs/notifyMessage'
 
 interface ProfileTextBlockProps {
-  editMode: boolean
-  preview: boolean
+  editMode?: boolean
+  preview?: boolean
 }
 
 const emits = defineEmits(['confirm'])

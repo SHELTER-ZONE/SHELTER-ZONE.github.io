@@ -41,7 +41,7 @@ import { useServerRole } from '@/use/useServerRole'
 export interface UserServerRolesBlockProps {
   dcMember: APIGuildMember | null
   showOtherRoles?: boolean
-  preview: boolean
+  preview?: boolean
 }
 
 const props = withDefaults(defineProps<UserServerRolesBlockProps>(), {
