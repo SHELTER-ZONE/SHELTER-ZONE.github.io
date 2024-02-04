@@ -40,6 +40,7 @@
         </div>
 
         <EditableBlock
+          v-show="previewDisplayArea.serverRoles"
           :hide-edit="preview"
           @edit="editModal.serverRoles = true"
         >
@@ -50,7 +51,11 @@
           />
         </EditableBlock>
 
-        <EditableBlock :hide-edit="preview" @edit="editMode.profileText = true">
+        <EditableBlock
+          v-show="previewDisplayArea.profileText"
+          :hide-edit="preview"
+          @edit="editMode.profileText = true"
+        >
           <UserProfileTextBlock
             :editMode="editMode.profileText && !preview"
             :preview="preview"
@@ -83,7 +88,7 @@ import BannerBlock from './components/BannerBlock.vue'
 import EditServerTagsModal from './components/EditServerTagsModal.vue'
 import UserProfileTextBlock from '@/components/UserProfileTextBlock.vue'
 import { reactive, computed, ref } from 'vue'
-import { get, set } from 'lodash-es'
+import { get, trim } from 'lodash-es'
 import { useRoute, useRouter } from 'vue-router'
 import { NCollapseTransition } from 'naive-ui'
 import { useAppStore } from '@/stores/app'
@@ -105,6 +110,20 @@ const editMode = reactive({
 })
 
 const preview = ref(false)
+
+const previewDisplayArea = computed(() => {
+  if (!preview.value)
+    return {
+      serverRoles: true,
+      profileText: true,
+    }
+
+  const userServerRoles = get(user.value, 'discordMember.roles', [])
+  return {
+    serverRoles: userServerRoles.length ? true : false,
+    profileText: trim(get(szUserProfile.value, 'profileText')) ? true : false,
+  }
+})
 
 const goToShelter = () => {
   appStore.setPageKeepAlive('PersonalShelter', false)

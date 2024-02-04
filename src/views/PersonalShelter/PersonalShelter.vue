@@ -40,7 +40,7 @@ import { useSeoMeta } from '@unhead/vue'
 
 import { onActivated, onBeforeMount, ref, computed, watch, reactive } from 'vue'
 import { useRoute } from 'vue-router'
-import { get, omit } from 'lodash-es'
+import { get, omit, trim } from 'lodash-es'
 import { Campsite } from '@vicons/carbon'
 import dayjs from 'dayjs'
 import { useAppStore } from '@/stores/app'
@@ -118,7 +118,7 @@ const showArea = computed(() => {
   const userServerRoles = get(displayData.value, 'dcMember.roles', [])
   return {
     serverRoles: userServerRoles.length ? true : false,
-    profileText: get(displayData.value, 'szUser.UserProfile.profileText'),
+    profileText: trim(get(displayData.value, 'szUser.UserProfile.profileText')),
   }
 })
 

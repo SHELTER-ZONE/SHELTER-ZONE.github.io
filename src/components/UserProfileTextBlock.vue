@@ -40,7 +40,7 @@ import { UpdateSZUserProfile } from '@/api/szUserProfile'
 import { useFetch } from '@/use/useFetch'
 import { useOauthStore } from '@/stores/oauth'
 import { storeToRefs } from 'pinia'
-import { get } from 'lodash-es'
+import { get, trimEnd, isNull } from 'lodash-es'
 import notifyMessage from '@/configs/notifyMessage'
 
 interface ProfileTextBlockProps {
@@ -75,7 +75,9 @@ const onUpdate = async () => {
     UpdateSZUserProfile,
     {
       userProfileId: get(szUserProfile.value, 'id'),
-      profileText: profileText.value,
+      profileText: isNull(profileText.value)
+        ? null
+        : trimEnd(profileText.value),
     },
     async () => {
       try {
