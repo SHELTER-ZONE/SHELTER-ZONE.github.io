@@ -1,13 +1,15 @@
-import {
-  LogoGithub,
-  LogoDiscord,
-  LogoInstagram,
-  LogoYoutube,
-} from '@vicons/carbon'
+import { LogoGithub, LogoInstagram, LogoYoutube, Link } from '@vicons/carbon'
 
 export const socialLinkTypeIconConfigs = {
   github: LogoGithub,
-  discord: LogoDiscord,
   instagram: LogoInstagram,
   youtube: LogoYoutube,
+  custom: Link,
 }
+
+export const socialLinksTypesConfig = [
+  'github',
+  'instagram',
+  'youtube',
+  'custom',
+]

@@ -5,7 +5,7 @@ import { omit } from 'lodash-es'
 export type SocialLinkItem = {
   type: 'discord' | 'github' | 'youtube' | 'instagram' | 'custom'
   name: string | null
-  link: string
+  link: string | null
 }
 
 export interface UpdateSZUserProfilePayload {

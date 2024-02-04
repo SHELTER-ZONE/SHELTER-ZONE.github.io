@@ -36,7 +36,15 @@
           <EditableBlock :hide-edit="preview">
             <UserBaseInfoBlock :dc-user="user.discord" :sz-user="user.sz" />
           </EditableBlock>
-          <DailyCheckRecordBlock :sz-user="user.sz" />
+          <div>
+            <DailyCheckRecordBlock :sz-user="user.sz" />
+            <EditableBlock
+              :hide-edit="preview"
+              @edit="editModal.socialLinks = true"
+            >
+              <UserSocialLinks :social-links="szUserProfile?.socialLinks" />
+            </EditableBlock>
+          </div>
         </div>
 
         <EditableBlock
@@ -71,6 +79,10 @@
     :dc-member="user.discordMember"
     @close="editModal.serverRoles = false"
   />
+  <EditSocialLinksModal
+    v-if="editModal.socialLinks"
+    @close="editModal.socialLinks = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -80,16 +92,14 @@ import EditableBlock from '@/components/EditableBlock.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
-import { useOauthStore } from '@/stores/oauth'
-import { storeToRefs } from 'pinia'
+import UserSocialLinks from '@/components/UserSocialLinks.vue'
 import { Campsite, DataViewAlt, Edit } from '@vicons/carbon'
 import NotAccess from './components/NotAccess.vue'
 import BannerBlock from './components/BannerBlock.vue'
 import EditServerTagsModal from './components/EditServerTagsModal.vue'
+import EditSocialLinksModal from './components/EditSocialLinksModal.vue'
 import UserProfileTextBlock from '@/components/UserProfileTextBlock.vue'
-import { reactive, computed, ref } from 'vue'
 import { get, trim } from 'lodash-es'
-import { useRoute, useRouter } from 'vue-router'
 import { NCollapseTransition } from 'naive-ui'
 import { useAppStore } from '@/stores/app'
 
@@ -103,6 +113,7 @@ const discordId = computed(() => get(user.value, 'discord.id'))
 
 const editModal = reactive({
   serverRoles: false,
+  socialLinks: false,
 })
 
 const editMode = reactive({

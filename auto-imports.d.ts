@@ -94,6 +94,7 @@ declare global {
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
   const socialLinkTypeIconConfigs: typeof import('./src/configs/socialLinks')['socialLinkTypeIconConfigs']
+  const socialLinksTypesConfig: typeof import('./src/configs/socialLinks')['socialLinksTypesConfig']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const szTeamUserDiscordIds: typeof import('./src/configs/explore')['szTeamUserDiscordIds']
   const teamTypeColorConfig: typeof import('./src/configs/team')['teamTypeColorConfig']

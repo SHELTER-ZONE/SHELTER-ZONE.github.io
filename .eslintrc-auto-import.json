@@ -136,6 +136,7 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "socialLinkTypeIconConfigs": true
+    "socialLinkTypeIconConfigs": true,
+    "socialLinksTypesConfig": true
   }
 }
