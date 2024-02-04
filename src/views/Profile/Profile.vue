@@ -38,6 +38,7 @@
           </EditableBlock>
           <DailyCheckRecordBlock :sz-user="user.sz" />
         </div>
+
         <EditableBlock
           :hide-edit="preview"
           @edit="editModal.serverRoles = true"
@@ -45,6 +46,15 @@
           <UserServerRolesBlock
             :dc-member="user.discordMember"
             :showOtherRoles="!preview"
+            :preview="preview"
+          />
+        </EditableBlock>
+
+        <EditableBlock :hide-edit="preview" @edit="editMode.profileText = true">
+          <UserProfileTextBlock
+            :editMode="editMode.profileText && !preview"
+            :preview="preview"
+            @confirm="editMode.profileText = false"
           />
         </EditableBlock>
       </main>
@@ -62,15 +72,16 @@
 import PageTitle from '@/components/PageTitle.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import EditableBlock from '@/components/EditableBlock.vue'
+import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
+import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
+import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
 import { useOauthStore } from '@/stores/oauth'
 import { storeToRefs } from 'pinia'
 import { Campsite, DataViewAlt, Edit } from '@vicons/carbon'
 import NotAccess from './components/NotAccess.vue'
-import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
-import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import BannerBlock from './components/BannerBlock.vue'
-import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
 import EditServerTagsModal from './components/EditServerTagsModal.vue'
+import UserProfileTextBlock from '@/components/UserProfileTextBlock.vue'
 import { reactive, computed, ref } from 'vue'
 import { get, set } from 'lodash-es'
 import { useRoute, useRouter } from 'vue-router'
@@ -88,6 +99,11 @@ const discordId = computed(() => get(user.value, 'discord.id'))
 const editModal = reactive({
   serverRoles: false,
 })
+
+const editMode = reactive({
+  profileText: false,
+})
+
 const preview = ref(false)
 
 const goToShelter = () => {
