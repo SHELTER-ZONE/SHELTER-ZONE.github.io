@@ -23,13 +23,15 @@
     </template>
   </div>
 
-  <div v-else class="text-center">尚未擁有任何標籤</div>
+  <div v-if="!displayRoles.length && !preview" class="text-center">
+    尚未擁有任何標籤
+  </div>
 </template>
 
 <script setup lang="ts">
 import BaseTag from '@/components/BaseTag.vue'
 import { NTooltip } from 'naive-ui'
-import { computed } from 'vue'
+import { computed, withDefaults } from 'vue'
 import { storeToRefs } from 'pinia'
 import { get, filter, includes, map } from 'lodash-es'
 import { useSZGuild } from '@/stores/szGuild'
@@ -39,9 +41,13 @@ import { useServerRole } from '@/use/useServerRole'
 export interface UserServerRolesBlockProps {
   dcMember: APIGuildMember | null
   showOtherRoles?: boolean
+  preview?: boolean
 }
 
-const props = defineProps<UserServerRolesBlockProps>()
+const props = withDefaults(defineProps<UserServerRolesBlockProps>(), {
+  dcMember: null,
+  preview: true,
+})
 
 const szGuildStore = useSZGuild()
 const { serverRoles } = storeToRefs(szGuildStore)

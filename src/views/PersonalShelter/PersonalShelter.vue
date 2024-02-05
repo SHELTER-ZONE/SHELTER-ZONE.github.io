@@ -14,8 +14,14 @@
           </AreaBlock>
           <DailyCheckRecordBlock :sz-user="displayData.szUser" />
         </div>
-        <AreaBlock>
+        <AreaBlock v-if="showArea.socialLinks">
+          <UserSocialLinks :socialLinks="displayData.socialLinks" />
+        </AreaBlock>
+        <AreaBlock v-if="showArea.serverRoles">
           <UserServerRolesBlock :dc-member="displayData.dcMember" />
+        </AreaBlock>
+        <AreaBlock v-if="showArea.profileText">
+          <UserProfileTextBlock />
         </AreaBlock>
       </div>
     </n-spin>
@@ -27,6 +33,8 @@ import PageTitle from '@/components/PageTitle.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
+import UserProfileTextBlock from '@/components/UserProfileTextBlock.vue'
+import UserSocialLinks from '@/components/UserSocialLinks.vue'
 import AreaBlock from '@/components/AreaBlock.vue'
 import NotFoundShelter from './components/NotFoundShelter.vue'
 // import Loading from '@/components/Loading.vue'
@@ -36,7 +44,7 @@ import { useSeoMeta } from '@unhead/vue'
 
 import { onActivated, onBeforeMount, ref, computed, watch, reactive } from 'vue'
 import { useRoute } from 'vue-router'
-import { get, omit } from 'lodash-es'
+import { get, omit, trim } from 'lodash-es'
 import { Campsite } from '@vicons/carbon'
 import dayjs from 'dayjs'
 import { useAppStore } from '@/stores/app'
@@ -107,6 +115,16 @@ const displayData = computed(() => {
     szUser: omit(shelterData.value, 'DiscordMember') || null,
     dcMember: get(shelterData.value, 'DiscordMember') || null,
     dcUser: get(shelterData.value, 'DiscordMember.user') || null,
+    socialLinks: get(shelterData.value, 'UserProfile.socialLinks') || [],
+  }
+})
+
+const showArea = computed(() => {
+  const userServerRoles = get(displayData.value, 'dcMember.roles', [])
+  return {
+    serverRoles: userServerRoles.length ? true : false,
+    profileText: trim(get(displayData.value, 'szUser.UserProfile.profileText')),
+    socialLinks: displayData.value.socialLinks.length,
   }
 })
 
