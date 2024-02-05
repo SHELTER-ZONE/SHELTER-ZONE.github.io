@@ -1,1 +1,6 @@
 @import url('./n-select.css');
+
+
+.n-modal-scroll-content {
+    @apply justify-center;
+}

@@ -38,13 +38,42 @@
           </EditableBlock>
           <DailyCheckRecordBlock :sz-user="user.sz" />
         </div>
+
+        <!-- SocialLinks -->
         <EditableBlock
+          :hide-edit="preview"
+          @edit="editModal.socialLinks = true"
+          v-show="previewDisplayArea.socialLinks"
+        >
+          <UserSocialLinks
+            :social-links="szUserProfile?.socialLinks"
+            :preview="preview"
+          />
+        </EditableBlock>
+
+        <!-- Server Roles -->
+        <EditableBlock
+          v-show="previewDisplayArea.serverRoles"
           :hide-edit="preview"
           @edit="editModal.serverRoles = true"
         >
           <UserServerRolesBlock
             :dc-member="user.discordMember"
             :showOtherRoles="!preview"
+            :preview="preview"
+          />
+        </EditableBlock>
+
+        <!-- ProfileText -->
+        <EditableBlock
+          v-show="previewDisplayArea.profileText"
+          :hide-edit="preview"
+          @edit="editMode.profileText = true"
+        >
+          <UserProfileTextBlock
+            :editMode="editMode.profileText && !preview"
+            :preview="preview"
+            @confirm="editMode.profileText = false"
           />
         </EditableBlock>
       </main>
@@ -56,24 +85,27 @@
     :dc-member="user.discordMember"
     @close="editModal.serverRoles = false"
   />
+  <EditSocialLinksModal
+    v-if="editModal.socialLinks"
+    @close="editModal.socialLinks = false"
+  />
 </template>
 
 <script setup lang="ts">
 import PageTitle from '@/components/PageTitle.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import EditableBlock from '@/components/EditableBlock.vue'
-import { useOauthStore } from '@/stores/oauth'
-import { storeToRefs } from 'pinia'
-import { Campsite, DataViewAlt, Edit } from '@vicons/carbon'
-import NotAccess from './components/NotAccess.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
-import BannerBlock from './components/BannerBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
+import UserSocialLinks from '@/components/UserSocialLinks.vue'
+import { Campsite, DataViewAlt, Edit } from '@vicons/carbon'
+import NotAccess from './components/NotAccess.vue'
+import BannerBlock from './components/BannerBlock.vue'
 import EditServerTagsModal from './components/EditServerTagsModal.vue'
-import { reactive, computed, ref } from 'vue'
-import { get, set } from 'lodash-es'
-import { useRoute, useRouter } from 'vue-router'
+import EditSocialLinksModal from './components/EditSocialLinksModal.vue'
+import UserProfileTextBlock from '@/components/UserProfileTextBlock.vue'
+import { get, trim } from 'lodash-es'
 import { NCollapseTransition } from 'naive-ui'
 import { useAppStore } from '@/stores/app'
 
@@ -87,8 +119,30 @@ const discordId = computed(() => get(user.value, 'discord.id'))
 
 const editModal = reactive({
   serverRoles: false,
+  socialLinks: false,
 })
+
+const editMode = reactive({
+  profileText: false,
+})
+
 const preview = ref(false)
+
+const previewDisplayArea = computed(() => {
+  if (!preview.value)
+    return {
+      serverRoles: true,
+      profileText: true,
+      socialLinks: true,
+    }
+
+  const userServerRoles = get(user.value, 'discordMember.roles', [])
+  return {
+    serverRoles: userServerRoles.length ? true : false,
+    profileText: trim(get(szUserProfile.value, 'profileText')) ? true : false,
+    socialLinks: get(szUserProfile.value, 'socialLinks', []).length,
+  }
+})
 
 const goToShelter = () => {
   appStore.setPageKeepAlive('PersonalShelter', false)
