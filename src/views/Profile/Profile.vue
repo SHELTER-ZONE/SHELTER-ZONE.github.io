@@ -36,17 +36,18 @@
           <EditableBlock :hide-edit="preview">
             <UserBaseInfoBlock :dc-user="user.discord" :sz-user="user.sz" />
           </EditableBlock>
-          <div>
-            <DailyCheckRecordBlock :sz-user="user.sz" />
-            <EditableBlock
-              :hide-edit="preview"
-              @edit="editModal.socialLinks = true"
-            >
-              <UserSocialLinks :social-links="szUserProfile?.socialLinks" />
-            </EditableBlock>
-          </div>
+          <DailyCheckRecordBlock :sz-user="user.sz" />
         </div>
 
+        <!-- SocialLinks -->
+        <EditableBlock
+          :hide-edit="preview"
+          @edit="editModal.socialLinks = true"
+        >
+          <UserSocialLinks :social-links="szUserProfile?.socialLinks" />
+        </EditableBlock>
+
+        <!-- Server Roles -->
         <EditableBlock
           v-show="previewDisplayArea.serverRoles"
           :hide-edit="preview"
@@ -59,6 +60,7 @@
           />
         </EditableBlock>
 
+        <!-- ProfileText -->
         <EditableBlock
           v-show="previewDisplayArea.profileText"
           :hide-edit="preview"

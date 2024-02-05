@@ -2,8 +2,15 @@ import { apiAuth } from '@/lib/axios'
 import type { APISZUserProfileCreate } from '@shelter-zone/sz-api-types/v3'
 import { omit } from 'lodash-es'
 
+export type SocialLinkType =
+  | 'discord'
+  | 'github'
+  | 'youtube'
+  | 'instagram'
+  | 'custom'
+
 export type SocialLinkItem = {
-  type: 'discord' | 'github' | 'youtube' | 'instagram' | 'custom'
+  type: SocialLinkType
   name: string | null
   link: string | null
 }

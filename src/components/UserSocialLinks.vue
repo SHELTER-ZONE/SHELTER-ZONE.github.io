@@ -1,13 +1,15 @@
 <template>
-  <div>
+  <div class="f-row gap-[20px]">
     <a
       v-for="item in displayData"
       :key="item.link"
       :href="item.link"
       target="_blank"
       rel="noopener noreferrer"
+      class="social-link-item"
     >
       <n-icon><component :is="item.icon" /></n-icon>
+      <span>{{ item.name }}</span>
     </a>
   </div>
 </template>
@@ -31,4 +33,10 @@ const displayData = computed(() => {
 })
 </script>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+.social-link-item {
+  @apply flex items-center gap-[5px] w-fit;
+  @apply transition-all ease-in-out duration-300;
+  @apply hover:(text-primary);
+}
+</style>
