@@ -14,6 +14,9 @@
           </AreaBlock>
           <DailyCheckRecordBlock :sz-user="displayData.szUser" />
         </div>
+        <AreaBlock v-if="showArea.socialLinks">
+          <UserSocialLinks :socialLinks="displayData.socialLinks" />
+        </AreaBlock>
         <AreaBlock v-if="showArea.serverRoles">
           <UserServerRolesBlock :dc-member="displayData.dcMember" />
         </AreaBlock>
@@ -31,6 +34,7 @@ import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
 import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
 import UserProfileTextBlock from '@/components/UserProfileTextBlock.vue'
+import UserSocialLinks from '@/components/UserSocialLinks.vue'
 import AreaBlock from '@/components/AreaBlock.vue'
 import NotFoundShelter from './components/NotFoundShelter.vue'
 // import Loading from '@/components/Loading.vue'
@@ -111,6 +115,7 @@ const displayData = computed(() => {
     szUser: omit(shelterData.value, 'DiscordMember') || null,
     dcMember: get(shelterData.value, 'DiscordMember') || null,
     dcUser: get(shelterData.value, 'DiscordMember.user') || null,
+    socialLinks: get(shelterData.value, 'UserProfile.socialLinks') || [],
   }
 })
 
@@ -119,6 +124,7 @@ const showArea = computed(() => {
   return {
     serverRoles: userServerRoles.length ? true : false,
     profileText: trim(get(displayData.value, 'szUser.UserProfile.profileText')),
+    socialLinks: displayData.value.socialLinks.length,
   }
 })
 

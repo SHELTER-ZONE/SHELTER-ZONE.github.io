@@ -43,8 +43,12 @@
         <EditableBlock
           :hide-edit="preview"
           @edit="editModal.socialLinks = true"
+          v-show="previewDisplayArea.socialLinks"
         >
-          <UserSocialLinks :social-links="szUserProfile?.socialLinks" />
+          <UserSocialLinks
+            :social-links="szUserProfile?.socialLinks"
+            :preview="preview"
+          />
         </EditableBlock>
 
         <!-- Server Roles -->
@@ -129,12 +133,14 @@ const previewDisplayArea = computed(() => {
     return {
       serverRoles: true,
       profileText: true,
+      socialLinks: true,
     }
 
   const userServerRoles = get(user.value, 'discordMember.roles', [])
   return {
     serverRoles: userServerRoles.length ? true : false,
     profileText: trim(get(szUserProfile.value, 'profileText')) ? true : false,
+    socialLinks: get(szUserProfile.value, 'socialLinks', []).length,
   }
 })
 

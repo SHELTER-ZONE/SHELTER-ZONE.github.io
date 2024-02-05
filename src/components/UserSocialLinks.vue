@@ -12,6 +12,10 @@
       <span>{{ item.name }}</span>
     </a>
   </div>
+
+  <div v-if="!preview && !socialLinks.length" class="text-center">
+    (社群/自訂連結) 尚未新增任何連結
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -21,9 +25,13 @@ import { NIcon } from 'naive-ui'
 
 interface UserSocialLinksProps {
   socialLinks: SocialLinkItem[]
+  preview?: boolean
 }
 
-const props = defineProps<UserSocialLinksProps>()
+const props = withDefaults(defineProps<UserSocialLinksProps>(), {
+  socialLinks: () => [],
+  preview: true,
+})
 
 const displayData = computed(() => {
   return map(props.socialLinks, (item: SocialLinkItem) => ({
