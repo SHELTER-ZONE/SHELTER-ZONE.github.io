@@ -42,6 +42,9 @@
             >
               <n-input
                 clearable
+                placeholder="Title"
+                maxlength="20"
+                :show-count="config.type === 'custom'"
                 v-model:value="config.name"
                 :disabled="config.type !== 'custom'"
               />
@@ -52,7 +55,14 @@
               class="w-full"
             >
               <div class="f-row w-full gap-[10px]">
-                <n-input class="w-full" clearable v-model:value="config.link" />
+                <n-input
+                  class="w-full"
+                  placeholder="URL"
+                  clearable
+                  maxlength="250"
+                  :show-count="config.type === 'custom'"
+                  v-model:value="config.link"
+                />
                 <BaseButton @click="removeLink(idx)">
                   <n-icon color="var(--danger)"><TrashCan /></n-icon>
                 </BaseButton>
