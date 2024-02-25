@@ -6,20 +6,24 @@
       <div v-if="loading || displayData.dcMember" class="f-col">
         <!-- <BannerBlock /> -->
         <div class="wrapper">
-          <AreaBlock>
+          <AreaBlock class="flex-shrink-0">
             <UserBaseInfoBlock
               :sz-user="displayData.szUser"
               :dc-user="displayData.dcUser"
             />
           </AreaBlock>
-          <DailyCheckRecordBlock :sz-user="displayData.szUser" />
+
+          <div class="tag-area">
+            <!-- <DailyCheckRecordBlock :sz-user="displayData.szUser" /> -->
+            <AreaBlock v-if="showArea.serverRoles" class="h-full">
+              <UserServerRolesBlock :dc-member="displayData.dcMember" />
+            </AreaBlock>
+          </div>
         </div>
         <AreaBlock v-if="showArea.socialLinks">
           <UserSocialLinks :socialLinks="displayData.socialLinks" />
         </AreaBlock>
-        <AreaBlock v-if="showArea.serverRoles">
-          <UserServerRolesBlock :dc-member="displayData.dcMember" />
-        </AreaBlock>
+
         <AreaBlock v-if="showArea.profileText">
           <UserProfileTextBlock />
         </AreaBlock>
@@ -177,5 +181,10 @@ useSeoMeta({
 .wrapper {
   @apply full flex flex-col justify-center items-center gap-[30px];
   @apply tablet:(flex-row items-start);
+  @apply <tablet:(gap-[0px]);
+}
+
+.tag-area {
+  @apply flex flex-col !self-stretch;
 }
 </style>

@@ -33,10 +33,26 @@
           </NCollapseTransition>
         </section>
         <div class="wrapper">
-          <EditableBlock :hide-edit="preview">
+          <EditableBlock :hide-edit="preview" class="flex-shrink-0">
             <UserBaseInfoBlock :dc-user="user.discord" :sz-user="user.sz" />
           </EditableBlock>
-          <DailyCheckRecordBlock :sz-user="user.sz" />
+
+          <div class="f-col !self-stretch">
+            <!-- <DailyCheckRecordBlock :sz-user="user.sz" /> -->
+            <!-- Server Roles -->
+            <EditableBlock
+              class="h-full"
+              v-show="previewDisplayArea.serverRoles"
+              :hide-edit="preview"
+              @edit="editModal.serverRoles = true"
+            >
+              <UserServerRolesBlock
+                :dc-member="user.discordMember"
+                :showOtherRoles="!preview"
+                :preview="preview"
+              />
+            </EditableBlock>
+          </div>
         </div>
 
         <!-- SocialLinks -->
@@ -47,19 +63,6 @@
         >
           <UserSocialLinks
             :social-links="szUserProfile?.socialLinks"
-            :preview="preview"
-          />
-        </EditableBlock>
-
-        <!-- Server Roles -->
-        <EditableBlock
-          v-show="previewDisplayArea.serverRoles"
-          :hide-edit="preview"
-          @edit="editModal.serverRoles = true"
-        >
-          <UserServerRolesBlock
-            :dc-member="user.discordMember"
-            :showOtherRoles="!preview"
             :preview="preview"
           />
         </EditableBlock>
