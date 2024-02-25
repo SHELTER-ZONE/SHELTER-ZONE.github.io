@@ -13,3 +13,9 @@ export const socialLinksTypesConfig = [
   'youtube',
   'custom',
 ]
+
+export const socialLinkTemplateConfigs = {
+  github: { prefix: 'https://github.com/' },
+  instagram: { prefix: 'https://www.instagram.com/' },
+  youtube: { prefix: 'https://www.youtube.com/c/' },
+}

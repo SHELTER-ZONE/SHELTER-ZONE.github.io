@@ -5,7 +5,7 @@
     :on-update:show="updateModalShow"
     :close-on-esc="false"
     :mask-closable="false"
-    style="width: 500px"
+    style="max-width: 500px; width: 100%"
   >
     <header>
       <p class="modal-title">
@@ -19,65 +19,96 @@
         :rules="formRules"
         ref="formRef"
         label-placement="top"
+        class="flex flex-col gap-[20px]"
       >
-        <n-form-item
+        <SZBlockContainer
           v-for="(config, idx) in formData.linksConfig"
           :key="`config-${idx}`"
-          :show-feedback="false"
         >
-          <template #label>
+          <div
+            class="flex justify-between w-full items-center pb-[20px] text-primary"
+          >
             <div class="f-row gap-[5px]">
               <n-icon :size="20">
                 <component :is="get(socialLinkTypeIconConfigs, config.type)" />
               </n-icon>
               <p>{{ config.type === 'custom' ? 'Custom' : config.name }}</p>
             </div>
-          </template>
-
-          <div class="f-row w-full gap-[10px]">
-            <n-form-item
-              :show-label="false"
-              :path="`linksConfig[${idx}].name`"
-              class="w-[200px]"
-            >
-              <n-input
-                clearable
-                v-model:value="config.name"
-                :disabled="config.type !== 'custom'"
-              />
-            </n-form-item>
-            <n-form-item
-              :show-label="false"
-              :path="`linksConfig[${idx}].link`"
-              class="w-full"
-            >
-              <div class="f-row w-full gap-[10px]">
-                <n-input class="w-full" clearable v-model:value="config.link" />
-                <BaseButton @click="removeLink(idx)">
-                  <n-icon color="var(--danger)"><TrashCan /></n-icon>
-                </BaseButton>
-              </div>
-            </n-form-item>
+            <BaseButton @click="removeLink(idx)">
+              <n-icon color="var(--danger)"><TrashCan /></n-icon>
+            </BaseButton>
           </div>
-        </n-form-item>
+
+          <n-form-item :show-feedback="false" :show-label="false">
+            <div class="flex flex-col w-full">
+              <!-- 名稱輸入 -->
+              <n-form-item
+                :show-label="false"
+                :path="`linksConfig[${idx}].name`"
+              >
+                <n-input
+                  clearable
+                  placeholder="請輸入連結名稱"
+                  maxlength="20"
+                  :show-count="config.type === 'custom'"
+                  v-model:value="config.name"
+                  :disabled="config.type !== 'custom'"
+                />
+              </n-form-item>
+
+              <!-- 連結輸入 -->
+              <n-form-item
+                :show-label="false"
+                :path="`linksConfig[${idx}].link`"
+                class="w-full"
+              >
+                <div class="f-row w-full gap-[10px] justify-between">
+                  <n-input
+                    v-if="config.type === 'custom'"
+                    placeholder="請輸入"
+                    clearable
+                    maxlength="250"
+                    show-count
+                    v-model:value="config.link"
+                    class="w-full"
+                  />
+
+                  <div v-else class="flex flex-col w-full gap-[5px]">
+                    <p class="truncate" v-if="templateLinkPrefix(config.type)">
+                      {{ templateLinkPrefix(config.type) }}
+                    </p>
+                    <n-input
+                      v-model:value="config.link"
+                      clearable
+                      placeholder="請輸入"
+                    />
+                    <p v-if="templateLinkPrefix(config.type)">
+                      {{ templateLinkSuffix(config.type) }}
+                    </p>
+                  </div>
+                </div>
+              </n-form-item>
+            </div>
+          </n-form-item>
+        </SZBlockContainer>
       </n-form>
 
-      <div class="add-link-btns" v-if="formData.linksConfig.length < maxLinks">
-        <BaseButton
-          type="info"
-          v-for="social in remainSocialTypeOptions"
-          :key="social.value"
-          @click="addLink(social.value)"
-        >
-          <template #icon><Add /></template>
-          <div class="f-row gap-[5px]">
-            <n-icon><component :is="social.icon" /></n-icon>
-            {{ social.label }}
-          </div>
-        </BaseButton>
-      </div>
       <n-divider v-if="formData.linksConfig.length < maxLinks" class="!m-0" />
     </main>
+    <div class="add-link-btns" v-if="formData.linksConfig.length < maxLinks">
+      <BaseButton
+        type="info"
+        v-for="social in remainSocialTypeOptions"
+        :key="social.value"
+        @click="addLink(social.value)"
+      >
+        <template #icon><Add /></template>
+        <div class="f-row gap-[5px]">
+          <n-icon><component :is="social.icon" /></n-icon>
+          {{ social.label }}
+        </div>
+      </BaseButton>
+    </div>
     <footer class="btn-container">
       <BaseButton class="w-[100px]" @click="updateModalShow(false)">
         取消
@@ -96,29 +127,37 @@
 
 <script setup lang="ts">
 import BaseModal from '@/components/Modal/BaseModal.vue'
+import AreaBlock from '@/components/AreaBlock.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import {
   socialLinkTypeIconConfigs,
   socialLinksTypesConfig,
+  socialLinkTemplateConfigs,
 } from '@/configs/socialLinks'
 import {
   NInput,
   NIcon,
-  NButton,
   NDivider,
   NForm,
   NFormItem,
   useMessage,
+  type FormItemRule,
 } from 'naive-ui'
-import { Edit, Close, Add, TrashCan, Link } from '@vicons/carbon'
-import { get, filter, map, includes, upperFirst, cloneDeep } from 'lodash-es'
-import type { SocialLinkItem, SocialLinkType } from '@/api/szUserProfile'
+import { Edit, Add, TrashCan } from '@vicons/carbon'
 import {
-  githubUrlRegex,
-  youtubeChannelUrlRegex,
-  instagramUrlRegex,
-  urlRegex,
-} from '@/utils/validate'
+  get,
+  filter,
+  map,
+  includes,
+  upperFirst,
+  replace,
+  trimStart,
+  trimEnd,
+  cloneDeep,
+} from 'lodash-es'
+import type { SocialLinkType, SocialLinkItem } from '@/api/szUserProfile'
+import { urlRegex } from '@/utils/validate'
+import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 
 const emits = defineEmits(['close'])
 const oauthStore = useOauthStore()
@@ -128,37 +167,47 @@ const { clearFormvalidation, verifyForm } = useForm()
 const message = useMessage()
 const loading = ref<boolean>(false)
 const maxLinks = 5
+
 const formRef = ref(null)
+const formData = reactive({
+  linksConfig: [],
+})
 const formRules = computed(() => {
   const data = {}
   for (const idx in formData.linksConfig) {
-    const item = formData.linksConfig[idx]
-    const key = `linksConfig[${idx}].link`
-    let rules = {
-      require: true,
+    const item: SocialLinkItem = formData.linksConfig[idx]
+    const linkKey = `linksConfig[${idx}].link`
+    const nameKey = `linksConfig[${idx}].name`
+    let rules: FormItemRule = {
+      required: true,
       trigger: ['blur', 'input'],
     }
-    if (item.type === 'github') {
-      rules.validator = (rule, val) => githubUrlRegex(val)
-      rules.message = '請輸入正確的 Github 個人網址'
-    } else if (item.type === 'youtube') {
-      rules.validator = (rule, val) => youtubeChannelUrlRegex(val)
-      rules.message = '請輸入正確的 Youtube 個人網址'
-    } else if (item.type === 'instagram') {
-      rules.validator = (rule, val) => instagramUrlRegex(val)
-      rules.message = '請輸入正確的 Instagram 個人網址'
-    } else if (item.type === 'custom') {
+    if (item.type === 'custom') {
+      data[nameKey] = {
+        required: true,
+        trigger: ['blur', 'input'],
+        message: '請輸入連結名稱',
+      }
       rules.validator = (rule, val) => urlRegex(val)
       rules.message = '請輸入正確的網址格式'
+    } else {
+      rules.message = '請輸入'
     }
 
-    data[key] = rules
+    data[linkKey] = rules
   }
   return data
 })
 
-const formData = reactive({
-  linksConfig: [],
+const templateLinkPrefix = computed(() => {
+  return (type: Exclude<SocialLinkType, 'custom'>) => {
+    return get(socialLinkTemplateConfigs, `${type}.prefix`)
+  }
+})
+const templateLinkSuffix = computed(() => {
+  return (type: Exclude<SocialLinkType, 'custom'>) => {
+    return get(socialLinkTemplateConfigs, `${type}.suffix`)
+  }
 })
 
 const remainSocialTypeOptions = computed(() => {
@@ -192,21 +241,63 @@ const addLink = (socialType: SocialLinkType) => {
 }
 
 const syncData = () => {
-  formData.linksConfig = cloneDeep(get(szUserProfile.value, 'socialLinks'))
+  const socialLinks = map(
+    get(toValue(szUserProfile), 'socialLinks'),
+    (item: SocialLinkItem) => {
+      if (item.type !== 'custom') {
+        const linkPrefix = get(
+          socialLinkTemplateConfigs,
+          `${item.type}.prefix`,
+          '',
+        )
+        const linkSuffix = get(
+          socialLinkTemplateConfigs,
+          `${item.type}.suffix`,
+          '',
+        )
+
+        item.link = replace(item.link as string, linkPrefix, '')
+        item.link = replace(item.link as string, linkSuffix, '')
+      }
+      item.link = trimStart(trimEnd(item.link as string))
+      return item
+    },
+  )
+
+  formData.linksConfig = cloneDeep(socialLinks)
 }
+
+const submitData = computed(() => {
+  return map(formData.linksConfig, (item: SocialLinkItem) => {
+    if (item.type !== 'custom') {
+      const linkPrefix = get(
+        socialLinkTemplateConfigs,
+        `${item.type}.prefix`,
+        '',
+      )
+      const linkSuffix = get(
+        socialLinkTemplateConfigs,
+        `${item.type}.suffix`,
+        '',
+      )
+      item.link = `${linkPrefix}${item.link}${linkSuffix}`
+    }
+    item.link = trimStart(trimEnd(item.link as string))
+    return item
+  })
+})
 
 const onConfirm = async () => {
   loading.value = true
   try {
     const [pass] = await verifyForm(formRef)
-    console.log('pass', pass)
     if (!pass) {
       loading.value = false
       return
     }
     const [, err] = await UpdateSZUserProfile({
       userProfileId: get(szUserProfile.value, 'id'),
-      socialLinks: formData.linksConfig,
+      socialLinks: submitData.value,
     })
     if (err) {
       loading.value = false
@@ -215,6 +306,7 @@ const onConfirm = async () => {
     }
     await oauthStore.findMeSZUser()
     loading.value = false
+    message.success(notifyMessage.updateSuccess)
     emits('close')
   } catch (error) {
     loading.value = false
@@ -236,15 +328,15 @@ onMounted(() => {
   @apply text-action text-md flex items-center gap-[7px] mb-[20px];
 }
 
-.edit-social-links-modal {
-  @apply w-[500px];
-}
-
 .add-link-btns {
-  @apply grid grid-cols-3 gap-[10px] py-[20px];
+  @apply flex flex-wrap gap-[10px] py-[20px];
 }
 
 .btn-container {
   @apply flex items-center justify-end gap-[10px] pt-[20px];
+}
+
+:deep(.n-form-item-label.n-form-item-label--right-mark) {
+  @apply !w-full;
 }
 </style>

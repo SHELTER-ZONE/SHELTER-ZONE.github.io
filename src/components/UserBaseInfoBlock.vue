@@ -57,6 +57,14 @@ const userAvatar = computed(() => discordUserAvatartUrl(props.dcUser))
 
 const szUserProfile = computed(() => get(props.szUser, 'UserProfile'))
 
+const reputation = computed(() => {
+  return `${get(szUserProfile.value, 'reputation', 0)} / ${get(
+    szUserProfile.value,
+    'accReputation',
+    0,
+  )}`
+})
+
 const displayData = computed(() => {
   return {
     name: { icon: null, value: get(szUserProfile.value, 'name', '--------') },
@@ -77,8 +85,8 @@ const displayData = computed(() => {
     rep: {
       icon: ConditionPoint,
       iconColor: 'var(--warning)',
-      tipInfo: '聲望值',
-      value: get(szUserProfile.value, 'reputation'),
+      tipInfo: '活躍點數: 當前持有 / 歷史總累計',
+      value: reputation.value,
     },
     contributes: {
       icon: DirectLink,
