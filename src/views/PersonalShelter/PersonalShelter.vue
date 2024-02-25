@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import PageTitle from '@/components/PageTitle.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
-import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
+// import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
 import UserProfileTextBlock from '@/components/UserProfileTextBlock.vue'
 import UserSocialLinks from '@/components/UserSocialLinks.vue'

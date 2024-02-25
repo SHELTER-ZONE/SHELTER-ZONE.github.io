@@ -22,10 +22,7 @@
         模式: {{ preview ? '預覽' : '編輯' }}
       </BaseButton>
     </div>
-    <article
-      v-if="szUserProfile && szJoined"
-      class="f-col-center gap-[20px] pb-[40px] w-full"
-    >
+    <article v-if="szUserProfile && szJoined" class="profile-layout">
       <main class="f-col" :class="{ 'gap-[30px]': !preview }">
         <section>
           <NCollapseTransition :show="!preview">
@@ -99,7 +96,7 @@ import PageTitle from '@/components/PageTitle.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import EditableBlock from '@/components/EditableBlock.vue'
 import UserBaseInfoBlock from '@/components/UserBaseInfoBlock.vue'
-import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
+// import DailyCheckRecordBlock from '@/components/DailyCheckRecordBlock.vue'
 import UserServerRolesBlock from '@/components/UserServerRolesBlock.vue'
 import UserSocialLinks from '@/components/UserSocialLinks.vue'
 import { Campsite, DataViewAlt, Edit } from '@vicons/carbon'
@@ -169,6 +166,9 @@ const goToShelter = () => {
   @apply text-normal;
 }
 
+.profile-layout {
+  @apply flex flex-col justify-center items-center gap-[20px] pb-[40px] w-full;
+}
 .wrapper {
   @apply full flex flex-col justify-center items-center gap-[30px];
   @apply tablet:(flex-row items-start);
