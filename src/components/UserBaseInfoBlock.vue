@@ -58,9 +58,10 @@ const userAvatar = computed(() => discordUserAvatartUrl(props.dcUser))
 const szUserProfile = computed(() => get(props.szUser, 'UserProfile'))
 
 const reputation = computed(() => {
-  return `${get(szUserProfile.value, 'reputation')} / ${get(
+  return `${get(szUserProfile.value, 'reputation', 0)} / ${get(
     szUserProfile.value,
     'accReputation',
+    0,
   )}`
 })
 

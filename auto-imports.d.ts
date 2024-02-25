@@ -93,6 +93,7 @@ declare global {
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
+  const socialLinkTemplateConfigs: typeof import('./src/configs/socialLinks')['socialLinkTemplateConfigs']
   const socialLinkTypeIconConfigs: typeof import('./src/configs/socialLinks')['socialLinkTypeIconConfigs']
   const socialLinksTypesConfig: typeof import('./src/configs/socialLinks')['socialLinksTypesConfig']
   const storeToRefs: typeof import('pinia')['storeToRefs']

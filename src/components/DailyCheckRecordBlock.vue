@@ -1,13 +1,11 @@
 <template>
   <AreaBlock class="daily-check-record-block">
-    <div class="f-col gap-[5px]">
-      <div class="f-row gap-[5px]">
-        <n-icon size="18"><CheckmarkOutline /></n-icon>
-        <p class="font-medium">最後簽到</p>
-      </div>
-
-      <p>{{ dailyCheckRecord || '尚未有簽到記錄' }}</p>
+    <div class="f-row gap-[5px]">
+      <n-icon size="18"><CheckmarkOutline /></n-icon>
+      <p class="font-medium">最後簽到</p>
     </div>
+
+    <p>{{ dailyCheckRecord || '尚未有簽到記錄' }}</p>
   </AreaBlock>
 </template>
 
@@ -31,4 +29,8 @@ const dailyCheckRecord = computed(() => {
 })
 </script>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+.daily-check-record-block {
+  @apply flex flex-col  justify-center gap-[5px];
+}
+</style>

@@ -1,35 +1,37 @@
 <template>
-  <div class="profile-text-block">
-    <n-spin :show="loading">
-      <n-input
-        v-if="editMode"
-        type="textarea"
-        v-model:value="profileText"
-        :maxlength="2000"
-        show-count
-        :autosize="{
-          minRows: 10,
-        }"
-      />
+  <SZBlockContainer>
+    <div class="profile-text-block">
+      <n-spin :show="loading">
+        <n-input
+          v-if="editMode"
+          type="textarea"
+          v-model:value="profileText"
+          :maxlength="2000"
+          show-count
+          :autosize="{
+            minRows: 10,
+          }"
+        />
 
-      <div v-show="!editMode">
-        <pre v-if="szUserProfile.profileText">{{
-          szUserProfile.profileText
-        }}</pre>
-        <div
-          v-if="!preview && !szUserProfile.profileText"
-          class="full flex justify-center items-center"
-        >
-          <span>(個人介紹) 尚未填寫任何內容</span>
+        <div v-show="!editMode">
+          <pre v-if="szUserProfile.profileText">{{
+            szUserProfile.profileText
+          }}</pre>
+          <div
+            v-if="!preview && !szUserProfile.profileText"
+            class="full flex justify-center items-center"
+          >
+            <span>(個人介紹) 尚未填寫任何內容</span>
+          </div>
         </div>
-      </div>
 
-      <div v-if="editMode" class="f-row justify-end pt-[20px] gap-[10px]">
-        <BaseButton @click="emits('confirm')"> Cancel </BaseButton>
-        <BaseButton type="primary" @click="onUpdate"> Confirm </BaseButton>
-      </div>
-    </n-spin>
-  </div>
+        <div v-if="editMode" class="f-row justify-end pt-[20px] gap-[10px]">
+          <BaseButton @click="emits('confirm')"> Cancel </BaseButton>
+          <BaseButton type="primary" @click="onUpdate"> Confirm </BaseButton>
+        </div>
+      </n-spin>
+    </div>
+  </SZBlockContainer>
 </template>
 
 <script setup lang="ts">
@@ -42,6 +44,7 @@ import { useOauthStore } from '@/stores/oauth'
 import { storeToRefs } from 'pinia'
 import { get, trimEnd, isNull } from 'lodash-es'
 import notifyMessage from '@/configs/notifyMessage'
+import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 
 interface ProfileTextBlockProps {
   editMode?: boolean
@@ -111,6 +114,6 @@ const onUpdate = async () => {
 
 pre {
   font-family: 'Quicksand';
-  @apply text-normal;
+  @apply text-normal text-base-prime;
 }
 </style>

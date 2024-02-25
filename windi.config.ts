@@ -30,6 +30,7 @@ export default defineConfig({
         'secondary-bg': 'var(--secondary-bg)',
         primary: 'var(--primary)',
         base: 'var(--base)',
+        'base-prime': 'var(--base-prime)',
         danger: 'var(--danger)',
         warning: 'var(--warning)',
         action: 'var(--action)',

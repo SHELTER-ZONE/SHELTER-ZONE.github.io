@@ -1,5 +1,5 @@
 <template>
-  <div class="f-row gap-[20px]">
+  <div class="user-social-links">
     <a
       v-for="item in displayData"
       :key="item.link"
@@ -42,9 +42,14 @@ const displayData = computed(() => {
 </script>
 
 <style scoped lang="postcss">
+.user-social-links {
+  @apply flex items-center flex-wrap gap-[20px];
+  @apply <tablet:(justify-center);
+}
 .social-link-item {
   @apply flex items-center gap-[5px] w-fit;
   @apply transition-all ease-in-out duration-300;
   @apply hover:(text-primary);
+  @apply text-normal font-bold;
 }
 </style>

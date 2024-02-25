@@ -1,5 +1,5 @@
 <template>
-  <div class="f-row gap-[10px]" v-if="displayRoles.length">
+  <div class="user-server-roles-block" v-if="displayRoles.length">
     <template v-for="role in displayRoles" :key="role.id">
       <div v-if="showOtherRoles ? true : !isOptionalRole(role)">
         <n-tooltip trigger="hover">
@@ -64,6 +64,9 @@ const displayRoles = computed(() => {
 </script>
 
 <style scoped lang="postcss">
+.user-server-roles-block {
+  @apply flex items-center flex-wrap gap-[10px];
+}
 .optional-tag {
   @apply bg-base text-white;
 }
