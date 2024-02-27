@@ -14,11 +14,11 @@
         />
 
         <div v-show="!editMode">
-          <pre v-if="szUserProfile.profileText">{{
-            szUserProfile.profileText
+          <pre v-if="profileData.profileText">{{
+            profileData.profileText
           }}</pre>
           <div
-            v-if="!preview && !szUserProfile.profileText"
+            v-if="!preview && !profileData.profileText"
             class="full flex justify-center items-center"
           >
             <span>(個人介紹) 尚未填寫任何內容</span>
@@ -49,6 +49,7 @@ import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 interface ProfileTextBlockProps {
   editMode?: boolean
   preview?: boolean
+  szUser: any
 }
 
 const emits = defineEmits(['confirm'])
@@ -61,14 +62,15 @@ const props = withDefaults(defineProps<ProfileTextBlockProps>(), {
 const { fetchData } = useFetch()
 const message = useMessage()
 const oauthStore = useOauthStore()
-const { szUserProfile } = storeToRefs(oauthStore)
+// const { szUserProfile } = storeToRefs(oauthStore)
 
 const profileText = ref<string | null>(null)
 const loading = ref<boolean>(false)
 
+const profileData = computed(() => get(props.szUser, 'UserProfile') || {})
+
 watchEffect(() => {
-  if (props.editMode)
-    profileText.value = get(szUserProfile.value, 'profileText')
+  if (props.editMode) profileText.value = get(profileData.value, 'profileText')
 })
 
 const onUpdate = async () => {
@@ -77,7 +79,7 @@ const onUpdate = async () => {
   await fetchData(
     UpdateSZUserProfile,
     {
-      userProfileId: get(szUserProfile.value, 'id'),
+      userProfileId: get(profileData.value, 'id'),
       profileText: isNull(profileText.value)
         ? null
         : trimEnd(profileText.value),

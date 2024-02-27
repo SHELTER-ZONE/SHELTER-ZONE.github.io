@@ -71,6 +71,7 @@
           @edit="editMode.profileText = true"
         >
           <UserProfileTextBlock
+            :sz-user="user.sz"
             :editMode="editMode.profileText && !preview"
             :preview="preview"
             @confirm="editMode.profileText = false"
