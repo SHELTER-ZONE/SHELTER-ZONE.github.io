@@ -25,7 +25,7 @@
         </AreaBlock>
 
         <AreaBlock v-if="showArea.profileText">
-          <UserProfileTextBlock />
+          <UserProfileTextBlock :sz-user="displayData.szUser" />
         </AreaBlock>
       </div>
     </n-spin>
