@@ -13,7 +13,7 @@ declare global {
   const FindDiscordServerConfig: typeof import('./src/api/discordServerConfig')['FindDiscordServerConfig']
   const FindMeDCGuilds: typeof import('./src/api/discord')['FindMeDCGuilds']
   const FindMeDCUser: typeof import('./src/api/discord')['FindMeDCUser']
-  const FindSZUser: typeof import('./src/api/user')['FindSZUser']
+  const FindSZUser: typeof import('./src/api/szUser')['FindSZUser']
   const FindShelter: typeof import('./src/api/shelter')['FindShelter']
   const GenerateOTP: typeof import('./src/api/otp')['GenerateOTP']
   const GetAllMembersCount: typeof import('./src/api/bot')['GetAllMembersCount']
