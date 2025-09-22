@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
 import { createHead } from '@unhead/vue'
+import 'virtual:uno.css'
 
 import VueHotjar from 'vue-hotjar-next'
 
@@ -16,7 +17,6 @@ const { message: $message } = createDiscreteApi(['message'], {
 
 window.$message = $message
 
-import 'virtual:windi.css'
 import './assets/base.css'
 import '@/styles/index.css'
 import '@shelter-zone/shelter-ui/style'

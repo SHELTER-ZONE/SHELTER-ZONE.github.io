@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
+import UnoCSS from 'unocss/vite'
 import { fileURLToPath, URL } from 'node:url'
-import WindiCSS from 'vite-plugin-windicss'
 import vue from '@vitejs/plugin-vue'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -9,7 +9,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 export default defineConfig({
   plugins: [
     vue(),
-    WindiCSS(),
+    UnoCSS(),
     VueDevTools(),
     AutoImport({
       include: [
