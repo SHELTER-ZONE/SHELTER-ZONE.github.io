@@ -38,7 +38,6 @@ import { get, map, find, filter } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { usePage } from '@/use/usePage'
 import { useRoute } from 'vue-router'
-import { useSeoMeta } from '@unhead/vue'
 
 const route = useRoute()
 const { pageIcon } = usePage()
@@ -68,21 +67,6 @@ const onSelectNews = (id: string) => {
 
 watchEffect(() => {
   selectNews.value = serverNews.value[0]
-})
-
-useSeoMeta({
-  title: () => {
-    return `SHELTER ZONE | ${get(route, 'meta.title')} - ${getNewsTItle(
-      get(selectNews.value, 'content'),
-    )}`
-  },
-  ogTitle: () => {
-    return `SHELTER ZONE | ${get(route, 'meta.title')} - ${getNewsTItle(
-      get(selectNews.value, 'content'),
-    )}`
-  },
-  description: () => get(selectNews.value, 'content'),
-  ogDescription: () => get(selectNews.value, 'content'),
 })
 </script>
 

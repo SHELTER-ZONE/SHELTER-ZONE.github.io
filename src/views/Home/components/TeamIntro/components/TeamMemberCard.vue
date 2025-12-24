@@ -1,5 +1,5 @@
 <template>
-  <SZHighLightContainer
+  <SHBorderContainer
     class="team-member-card"
     :color="data?.color"
     glow="4.5"
@@ -41,12 +41,12 @@
         </div>
       </div>
     </div>
-  </SZHighLightContainer>
+  </SHBorderContainer>
 </template>
 
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { SZHighLightContainer } from '@shelter-zone/shelter-ui'
+import { SHBorderContainer } from '@proladon/shelter-ui'
 import { NTag, NIcon } from 'naive-ui'
 import {
   FlashFilled,

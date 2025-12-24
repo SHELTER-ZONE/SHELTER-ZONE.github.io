@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
-import { createHead } from '@unhead/vue'
 import 'virtual:uno.css'
+import '@proladon/shelter-ui/dist/index.css'
 
 import VueHotjar from 'vue-hotjar-next'
 
@@ -30,12 +30,9 @@ const i18n = createI18n({
 
 const app = createApp(App)
 
-const head = createHead()
-
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
-app.use(head)
 
 app.use(VueHotjar, {
   id: 3829652,

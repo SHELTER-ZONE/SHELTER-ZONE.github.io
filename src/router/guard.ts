@@ -4,11 +4,9 @@ import { useAppStore } from '@/stores/app'
 import { get } from 'lodash-es'
 
 import dayjs from 'dayjs'
-import { useFormatSeoMeta } from '@/lib/unhead'
 
 export const registerRouterGuard = (router: Router) => {
   router.beforeEach(async (to, from, next) => {
-    useFormatSeoMeta({ title: '載入中', description: '載入中' })
     const { loggedIn, szRegistered } = useOauthStore()
     // checkExpiresIn() // 檢查登入是否已過期
     // if (to.meta.registeredBlock && szRegistered) return next({ name: 'Home' })

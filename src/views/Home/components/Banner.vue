@@ -7,12 +7,12 @@
       </div>
 
       <a :href="_SZ_DC_INVITE_URL" target="_blank" rel="noopener noreferrer">
-        <BaseButton secondary type="primary" class="join-btn">Join Discord</BaseButton>
+        <BaseButton secondary type="primary" class="join-btn"
+          >Join Discord</BaseButton
+        >
       </a>
-
     </div>
 
-    <div class="banner-mask" />
     <img :src="banner" alt="SHELTER ZONE" />
 
     <div class="banner-gradient" />
@@ -22,28 +22,7 @@
 <script setup lang="ts">
 import banner from '@/assets/home/banner.jpg'
 import BaseButton from '@/components/BaseButton.vue'
-import { onMounted } from 'vue'
 import { _SZ_DC_INVITE_URL } from '@/configs/urls'
-import anime from 'animejs'
-
-
-onMounted(() => {
-  anime({
-    targets: '.banner-mask',
-    opacity: [1, 0],
-    easing: 'easeOutElastic',
-    duration: 7500,
-    delay: 1500,
-  })
-  anime
-    .timeline({
-      easing: 'easeOutElastic',
-      duration: 7500,
-      delay: 1500,
-    })
-    .add({ targets: '.sz-name', color: '#DEDEDE' }, 0)
-    .add({ targets: '.sub-title', color: '#DEDEDE' }, 0)
-})
 </script>
 
 <style scoped lang="postcss">
@@ -83,17 +62,13 @@ onMounted(() => {
   @apply overflow-hidden;
 }
 
-.banner-mask {
-  @apply w-full h-full;
-  @apply bg-[#111111];
-  @apply absolute left-0 right-0 bottom-0 top-0 z-1;
-}
-
 .banner-gradient {
   @apply w-full h-[200px];
   @apply absolute left-0 right-0 bottom-0;
-  background: linear-gradient(0deg,
-      var(--primary-bg) 0%,
-      rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    0deg,
+    var(--primary-bg) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 </style>
