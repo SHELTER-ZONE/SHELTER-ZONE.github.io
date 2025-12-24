@@ -7,9 +7,9 @@
             <n-icon size="24"><Help /></n-icon>
             <p class="modal-title">收不到驗證碼</p>
           </div>
-          <n-button text @click="$emit('close')">
+          <SHButton text @click="$emit('close')">
             <n-icon size="30"><Close /></n-icon>
-          </n-button>
+          </SHButton>
         </header>
 
         <div class="modal-content">
@@ -25,7 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { NModal, NIcon, NButton } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NModal, NIcon } from 'naive-ui'
 import { Close, Help } from '@vicons/carbon'
 </script>
 

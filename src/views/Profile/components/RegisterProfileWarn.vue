@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { NButton, NAlert } from 'naive-ui'
+import { NAlert } from 'naive-ui'
 import { AirlineRapidBoard, FingerprintRecognition } from '@vicons/carbon'
 import { SZInviteLink } from '@/configs/links'
 import { useOauthStore } from '@/stores/oauth'

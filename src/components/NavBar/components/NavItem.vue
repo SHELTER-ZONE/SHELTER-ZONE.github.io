@@ -4,7 +4,7 @@
     :to="{ name: routeData.name }"
     @click="emits('change')"
   >
-    <n-button
+    <SHButton
       text
       style="font-size: 18px"
       class="flex items-center"
@@ -19,13 +19,14 @@
         /></n-icon>
         <p>{{ get(routeData, 'meta.title') }}</p>
       </div>
-    </n-button>
+    </SHButton>
   </RouterLink>
 </template>
 
 <script setup lang="ts">
 import { RouterLink, useRoute, type RouteRecordRaw } from 'vue-router'
-import { NButton, NIcon } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NIcon } from 'naive-ui'
 import { get } from 'lodash-es'
 import { computed } from 'vue'
 

@@ -1,17 +1,18 @@
 <template>
-  <NButton secondary type="primary" @click="onSignin" :loading="loading">
+  <SHButton secondary type="primary" @click="onSignin" :loading="loading">
     <div class="f-row gap-[5px]">
       <n-icon>
         <Login />
       </n-icon>
       <p>{{ translate('common.login') }}</p>
     </div>
-  </NButton>
+  </SHButton>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { NButton, NIcon } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NIcon } from 'naive-ui'
 import { Login } from '@vicons/carbon'
 import { useOauthStore } from '@/stores/oauth'
 import { useLocale } from '@/use/useLocale'

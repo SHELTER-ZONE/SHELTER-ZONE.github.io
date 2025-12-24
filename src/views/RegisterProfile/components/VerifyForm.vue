@@ -39,15 +39,16 @@
       </div>
     </n-form>
 
-    <n-button secondary type="primary" block @click="onConfirm"
-      >下一步</n-button
+    <SHButton secondary type="primary" block @click="onConfirm"
+      >下一步</SHButton
     >
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { NForm, NFormItem, NButton, type FormItemRule } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NForm, NFormItem, type FormItemRule } from 'naive-ui'
 import Tip from '@/components/Tip.vue'
 
 // config

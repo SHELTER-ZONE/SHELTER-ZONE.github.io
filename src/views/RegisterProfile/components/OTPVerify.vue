@@ -1,6 +1,12 @@
 <template>
   <div class="otp-verify">
-    <OTPInput :inputCount="8" :disabled="verifying" :error="otpError" v-model:value="otpCode" :onVerify="verifyOTP" />
+    <OTPInput
+      :inputCount="8"
+      :disabled="verifying"
+      :error="otpError"
+      v-model:value="otpCode"
+      :onVerify="verifyOTP"
+    />
     <p class="text-center text-sm">
       <n-icon>
         <CharacterPatterns />
@@ -9,12 +15,25 @@
     </p>
 
     <section class="flex flex-col gap-15px">
-      <n-button :disabled="cooldown" :loading="verifying" secondary type="info" @click="generateOTP">
-        <p>重新取得 OTP 驗證碼 <span v-if="cooldown">( <n-countdown :duration="30000" :on-finish="onCooldownFinish" /> )</span>
+      <SHButton
+        :disabled="cooldown"
+        :loading="verifying"
+        secondary
+        type="info"
+        @click="generateOTP"
+      >
+        <p>
+          重新取得 OTP 驗證碼
+          <span v-if="cooldown"
+            >(
+            <n-countdown :duration="30000" :on-finish="onCooldownFinish" />
+            )</span
+          >
         </p>
-
-      </n-button>
-      <n-button text class="underline" @click="showHelpModal = !showHelpModal">沒有收到驗證碼?</n-button>
+      </SHButton>
+      <SHButton text class="underline" @click="showHelpModal = !showHelpModal"
+        >沒有收到驗證碼?</SHButton
+      >
     </section>
   </div>
   <OTPHelpModal v-model:show="showHelpModal" @close="showHelpModal = false" />
@@ -23,7 +42,8 @@
 <script setup lang="ts">
 import { ref, nextTick, onMounted, type Ref } from 'vue'
 import OTPInput from '@/components/OTPInput.vue'
-import { NButton, NCountdown, NIcon, useMessage } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NCountdown, NIcon, useMessage } from 'naive-ui'
 import { VerifyOTP, GenerateOTP } from '@/api/otp'
 import { useOauthStore } from '@/stores/oauth'
 import { get } from 'lodash-es'

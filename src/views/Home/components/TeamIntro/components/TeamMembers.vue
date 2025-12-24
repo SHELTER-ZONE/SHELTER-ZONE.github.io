@@ -11,9 +11,9 @@
 
     <div class="f-row-center">
       <router-link :to="{ name: 'SZTeam' }">
-        <n-button secondary type="info" class="text-lg p-1.5rem"
+        <SHButton secondary type="info" class="text-lg p-1.5rem"
           >瞭解更多
-        </n-button>
+        </SHButton>
       </router-link>
     </div>
   </div>
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import TeamMemberCard from './TeamMemberCard.vue'
 import { LogoGithub, LogoYoutube } from '@vicons/carbon'
-import { NButton } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
 import { RouterLink } from 'vue-router'
 
 const avatarUrl = (userId: string, avatarId: string): string => {

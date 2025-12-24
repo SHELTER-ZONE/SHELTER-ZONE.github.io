@@ -8,17 +8,17 @@
       :options="options"
       @select="onOptionSelect"
     >
-      <n-button class="user-btn" quaternary>
+      <SHButton class="user-btn" quaternary>
         <template #icon v-if="!szUserProfile">
           <n-icon :size="24" color="var(--warning)"><WarningFilled /></n-icon>
         </template>
-        <n-button type="primary" text>
+        <SHButton type="primary" text>
           <div class="flex items-center gap-[10px]">
             <n-avatar :src="userAvatar" />
             <n-icon :size="18"><ChevronDown /></n-icon>
           </div>
-        </n-button>
-      </n-button>
+        </SHButton>
+      </SHButton>
     </NDropdown>
   </div>
 </template>
@@ -26,7 +26,8 @@
 <script setup lang="ts">
 import LoginBtn from './LoginBtn.vue'
 import { computed } from 'vue'
-import { NButton, NDropdown, NIcon, NAvatar } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NDropdown, NIcon, NAvatar } from 'naive-ui'
 import { useOauthStore } from '@/stores/oauth'
 import { ChevronDown, WarningFilled, Campsite, Logout } from '@vicons/carbon'
 import { get } from 'lodash-es'

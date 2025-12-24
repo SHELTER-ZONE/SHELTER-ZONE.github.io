@@ -20,9 +20,9 @@
     <slot name="footer">
       <section class="footer">
         <slot name="action-button">
-          <n-button block secondary :type="actionType" @click="emits('action')">
+          <SHButton block secondary :type="actionType" @click="emits('action')">
             {{ actionName }}
-          </n-button>
+          </SHButton>
         </slot>
 
         <slot name="hint">
@@ -35,7 +35,8 @@
 
 <script setup lang="ts">
 import AreaBlock from '@/components/AreaBlock.vue'
-import { NIcon, NButton } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NIcon } from 'naive-ui'
 import { withDefaults } from 'vue'
 
 export interface ActionBlockProps {

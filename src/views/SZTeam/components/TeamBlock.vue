@@ -28,7 +28,7 @@
         </section>
       </main>
       <!-- <footer>
-        <n-button type="primary" block secondary>Join Team</n-button>
+        <SHButton type="primary" block secondary>Join Team</SHButton>
       </footer> -->
     </article>
   </SZBlockContainer>
@@ -37,9 +37,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { SZBlockContainer } from '@shelter-zone/shelter-ui'
+import { SHButton } from '@proladon/shelter-ui'
 import { chunk, get } from 'lodash-es'
-import { NButton, NIcon } from 'naive-ui'
+import { NIcon } from 'naive-ui'
 import { teamTypeIconConfig, teamTypeColorConfig } from '@/configs/team'
 import type { TeamBlockProps } from '../types'
 

@@ -12,9 +12,9 @@
             {{ get(errorPageData, 'message') }}
           </p>
 
-          <n-button text class="underline" @click="show = !show">
+          <SHButton text class="underline" @click="show = !show">
             {{ show ? 'hide' : 'show' }} detail
-          </n-button>
+          </SHButton>
         </section>
 
         <NCollapseTransition :show="show">
@@ -37,7 +37,7 @@
         <n-divider />
 
         <section class="btn-container">
-          <n-button
+          <SHButton
             class="w-full"
             secondary
             type="warning"
@@ -48,15 +48,15 @@
               <n-icon><Report /> </n-icon>
             </template>
             Report Error
-          </n-button>
+          </SHButton>
 
           <router-link :to="{ name: 'Home' }" @click="resetErrorPageData">
-            <n-button class="w-full" secondary type="primary">
+            <SHButton class="w-full" secondary type="primary">
               <template #icon>
                 <n-icon><Home /> </n-icon>
               </template>
               Go Home
-            </n-button>
+            </SHButton>
           </router-link>
         </section>
       </div>
@@ -66,9 +66,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { SHButton } from '@proladon/shelter-ui'
 import {
   NIcon,
-  NButton,
   NDivider,
   NCollapseTransition,
   NAlert,

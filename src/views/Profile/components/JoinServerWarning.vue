@@ -14,21 +14,22 @@
       </p>
     </div>
     <template #hint>
-      <n-button
+      <SHButton
         text
         class="text-sm underline"
         :loading="loading"
         @click="checkJoin"
       >
         我已經加入，點擊此處驗證
-      </n-button>
+      </SHButton>
     </template>
   </ActionBlock>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { NButton, NAlert } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NAlert } from 'naive-ui'
 import { LogoDiscord } from '@vicons/carbon'
 import { SZInviteLink } from '@/configs/links'
 import { useOauthStore } from '@/stores/oauth'

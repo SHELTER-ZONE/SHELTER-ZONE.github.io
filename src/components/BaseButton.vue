@@ -1,10 +1,5 @@
 <template>
-  <n-button
-    class="base-button"
-    secondary
-    :style="computedStyle"
-    v-bind="$attrs"
-  >
+  <SHButton class="base-button" :style="computedStyle" v-bind="$attrs">
     <template
       v-for="(slot, index) of Object.keys($slots)"
       :key="index"
@@ -12,12 +7,12 @@
     >
       <slot :name="slot"></slot>
     </template>
-  </n-button>
+  </SHButton>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { NButton } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
 
 export interface BaseButtonProps {
   border?: boolean

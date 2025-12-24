@@ -5,8 +5,8 @@
     </header>
     <main class="modal-content">確認登出？</main>
     <footer class="modal-footer">
-      <n-button class="flex-1" secondary @click="onCancel">取消</n-button>
-      <n-button
+      <SHButton class="flex-1" secondary @click="onCancel">取消</SHButton>
+      <SHButton
         class="flex-1"
         secondary
         type="error"
@@ -14,14 +14,15 @@
         @click="onSignout"
       >
         登出
-      </n-button>
+      </SHButton>
     </footer>
   </BaseModal>
 </template>
 
 <script setup lang="ts">
 import BaseModal from './BaseModal.vue'
-import { NButton, NIcon, useMessage } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NIcon, useMessage } from 'naive-ui'
 import { Logout } from '@vicons/carbon'
 import { useAppStore } from '@/stores/app'
 import { useOauthStore } from '@/stores/oauth'

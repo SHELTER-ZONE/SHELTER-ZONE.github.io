@@ -1,6 +1,6 @@
 <template>
   <NDropdown trigger="click" :options="languageOptions" :on-select="onChange">
-    <NButton quaternary type="info">
+    <SHButton quaternary type="info">
       <template #icon>
         <NIcon><Translate /></NIcon>
       </template>
@@ -9,13 +9,14 @@
         <p>{{ get(localeOptions[locale], 'label') }}</p>
         <NIcon><ChevronDown /></NIcon>
       </div>
-    </NButton>
+    </SHButton>
   </NDropdown>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { NIcon, NButton, NDropdown } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NIcon, NDropdown } from 'naive-ui'
 import { Translate } from '@vicons/carbon'
 import { useLocale, type Locale } from '@/use/useLocale'
 import { ChevronDown } from '@vicons/carbon'

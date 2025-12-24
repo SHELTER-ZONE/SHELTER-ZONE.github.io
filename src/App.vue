@@ -1,18 +1,22 @@
 <template>
-  <Provider class="bg-primary-bg">
-    <!-- <div v-if="appStore.appLoading" class="loading-wrapper">
-      <NSpin />
-    </div> -->
-    <AppLoading v-if="appStore.appLoading" />
+  <SHConfigProvider>
+    <SHNotificationProvider>
+      <Provider class="bg-primary-bg">
+        <!-- <div v-if="appStore.appLoading" class="loading-wrapper">
+          <NSpin />
+        </div> -->
+        <AppLoading v-if="appStore.appLoading" />
 
-    <component v-if="!appStore.appLoading" :is="activeLayout" />
-    <ServiceDownModal v-if="serviceDown" />
-  </Provider>
+        <component v-if="!appStore.appLoading" :is="activeLayout" />
+        <ServiceDownModal v-if="serviceDown" />
+      </Provider>
+    </SHNotificationProvider>
+  </SHConfigProvider>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, type Component } from 'vue'
-import { NSpin } from 'naive-ui'
+import { SHConfigProvider, SHNotificationProvider } from '@proladon/shelter-ui'
 import Provider from '@/components/Provider.vue'
 import Default from '@/layouts/default.vue'
 import AppLoading from './components/AppLoading.vue'
@@ -20,7 +24,6 @@ import AppLoading from './components/AppLoading.vue'
 import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
 import { useOauthStore } from './stores/oauth'
-import { checkExpiresIn } from '@/router/guard'
 import { useSZGuild } from './stores/szGuild'
 import { HealthyCheck } from './api/app'
 import ServiceDownModal from './components/ServiceDownModal.vue'

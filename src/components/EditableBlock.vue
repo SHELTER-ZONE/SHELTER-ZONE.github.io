@@ -6,18 +6,19 @@
       'editable-block-hover-effect': !hideEdit,
     }"
   >
-    <button
+    <SHButton
       class="edit-btn"
       @click="onEdit"
       :style="hideEdit ? `opacity: 0; cursor: default` : ''"
     >
       <n-icon color="var(--primary-bg)"><Edit /></n-icon>
-    </button>
+    </SHButton>
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
+import { SHButton } from '@proladon/shelter-ui'
 import { NIcon } from 'naive-ui'
 import { Edit } from '@vicons/carbon'
 

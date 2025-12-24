@@ -20,7 +20,7 @@
         </n-checkbox>
       </div>
 
-      <n-button
+      <SHButton
         v-if="agree"
         block
         secondary
@@ -34,14 +34,15 @@
           :on-finish="onCooldown"
         />
         <span v-else>下一步</span>
-      </n-button>
+      </SHButton>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { NButton, NCountdown, NCheckbox, NDivider, NIcon } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NCountdown, NCheckbox, NDivider, NIcon } from 'naive-ui'
 import { ErrorFilled, WarningHexFilled, WarningAltFilled } from '@vicons/carbon'
 import AreaBlock from '@/components/AreaBlock.vue'
 

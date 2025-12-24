@@ -17,14 +17,15 @@
     </section>
 
     <RouterLink :to="{ name: 'Profile' }">
-      <n-button secondary type="info">前往個人避難所</n-button>
+      <SHButton secondary type="info">前往個人避難所</SHButton>
     </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { NButton, NIcon } from 'naive-ui'
+import { SHButton } from '@proladon/shelter-ui'
+import { NIcon } from 'naive-ui'
 import { Unlocked, CheckmarkOutline } from '@vicons/carbon'
 
 const unlockItems = [
