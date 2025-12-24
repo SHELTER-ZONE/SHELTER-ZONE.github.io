@@ -19,7 +19,7 @@ window.$message = $message
 
 import './assets/base.css'
 import '@/styles/index.css'
-import '@shelter-zone/shelter-ui/style'
+import '@shelter-zone/shelter-ui/index.css'
 
 const i18n = createI18n({
   legacy: false,
