@@ -40,34 +40,6 @@ export const routes = [
     component: () => import('@/views/Callback/Callback.vue'),
   },
   {
-    path: '/news',
-    name: 'News',
-    meta: {
-      title: '最新公告',
-      icon: Rss,
-    },
-    component: () => import('@/views/News/News.vue'),
-  },
-  {
-    path: '/about',
-    name: 'About',
-    meta: {
-      title: '關於',
-      icon: Magnify,
-    },
-    component: () => import('@/views/About/About.vue'),
-  },
-  {
-    path: '/sz-team',
-    name: 'SZTeam',
-    meta: {
-      title: 'SZ 開發團隊',
-      icon: Code,
-    },
-    component: () => import('@/views/SZTeam/SZTeam.vue'),
-  },
-
-  {
     path: '/profile',
     name: 'Profile',
     meta: {
@@ -77,41 +49,6 @@ export const routes = [
       keepAlive: true,
     },
     component: () => import('@/views/Profile/Profile.vue'),
-  },
-  {
-    path: '/register/profile',
-    name: 'RegisterProfile',
-    meta: {
-      title: '避難者驗證',
-      hidden: true,
-    },
-    component: () => import('@/views/RegisterProfile/RegisterProfile.vue'),
-  },
-  {
-    path: '/explore',
-    name: 'Explore',
-    meta: {
-      title: '探索避難所',
-      icon: Explore,
-      keepAlive: true,
-    },
-    component: () => import('@/views/Explore/Explore.vue'),
-  },
-  {
-    path: '/shelter/:discordId',
-    name: 'PersonalShelter',
-    meta: {
-      title: '避難所',
-      hidden: true,
-      keepAlive: true,
-    },
-    component: () => import('@/views/PersonalShelter/PersonalShelter.vue'),
-  },
-  {
-    path: '/ecosystem',
-    name: 'Ecosystem',
-    meta: { title: '生態與資源', icon: AppConnectivity },
-    component: () => import('@/views/Ecosystem/Ecosystem.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

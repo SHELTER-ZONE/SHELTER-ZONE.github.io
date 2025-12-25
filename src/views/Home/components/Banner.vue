@@ -57,9 +57,9 @@ import { _SZ_DC_INVITE_URL } from '@/configs/urls'
 }
 
 .join-btn {
-  @apply text-normal rounded-0.5rem text-center tracking-[5px];
-  @apply tablet:(text-lg p-2rem rounded-[1rem]);
-  @apply overflow-hidden;
+  /* @apply text-normal rounded-0.5rem text-center tracking-[5px]; */
+  /* @apply tablet:(text-lg p-2rem rounded-[1rem]); */
+  /* @apply overflow-hidden; */
 }
 
 .banner-gradient {

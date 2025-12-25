@@ -10,35 +10,34 @@
     </div>
 
     <section class="f-col-center max-w-[600px] w-full gap-[30px]">
-      <StatusMask
-        :show="szJoined"
+      <SHBlockArea
+        :active="szJoined"
         status="complete"
         text="已完成"
         :icon-size="30"
       >
         <JoinServerWarning />
-      </StatusMask>
+      </SHBlockArea>
 
-      <StatusMask
-        :show="szUserProfile"
+      <SHBlockArea
+        :active="szUserProfile"
         status="complete"
         text="已完成"
         :icon-size="30"
       >
         <RegisterProfileWarn />
-      </StatusMask>
+      </SHBlockArea>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { AiResultsVeryHigh } from '@vicons/carbon'
+import { SHBlockArea } from '@proladon/shelter-ui'
 import { NIcon } from 'naive-ui'
-import { SZBlockContainer } from '@shelter-zone/shelter-ui'
 import JoinServerWarning from './JoinServerWarning.vue'
 import RegisterProfileWarn from './RegisterProfileWarn.vue'
 import { useOauthStore } from '@/stores/oauth'
-import StatusMask from '@/components/StatusMask.vue'
 import { storeToRefs } from 'pinia'
 const oauthStore = useOauthStore()
 const { szJoined, szUserProfile } = storeToRefs(oauthStore)

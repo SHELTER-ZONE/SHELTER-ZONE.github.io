@@ -17,6 +17,7 @@
     "@proladon/shelter-ui": "^0.1.27",
     "@shelter-zone/shelter-ui": "^0.1.8",
     "@tabler/icons-vue": "^3.36.0",
+    "@unocss/reset": "^66.5.10",
     "@vueuse/core": "^14.1.0",
     "axios": "^1.13.2",
     "dayjs": "^1.11.19",
@@ -25,7 +26,6 @@
     "pinia": "^3.0.4",
     "unplugin-auto-import": "^20.3.0",
     "vue": "^3.5.26",
-    "vue-hotjar-next": "^2.1.0",
     "vue-i18n": "^11.2.7",
     "vue-router": "^4.6.4"
   },
