@@ -1,12 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { createRouterGuards } from './guard'
 import type { App } from 'vue'
+import Landing from '@/views/Landing/Landing.vue'
 
 const routes = [
   {
     name: 'Landing',
     path: '/',
-    component: () => import('@/views/Landing/Landing.vue'),
+    component: Landing,
+  },
+  {
+    name: 'Callback',
+    path: '/callback',
+    component: () => import('@/views/Callback/Callback.vue'),
+  },
+  {
+    name: 'Error',
+    path: '/error',
+    component: () => import('@/views/Error/Error.vue'),
+  },
+  // 404 頁面必須放在最後
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFoundCatch',
+    component: () => import('@/views/NotFound/NotFound.vue'),
   },
 ]
 

@@ -22,7 +22,7 @@ export default defineConfig({
         /\.md$/, // .md
       ],
       imports: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
-      dirs: ['./src/stores', './src/api/**/*.ts', './src/use/**/*.ts'],
+      dirs: ['./src/stores', './src/api/**/*.ts', './src/composables/**/*.ts'],
       dts: true,
       eslintrc: {
         enabled: true, // Default `false`
