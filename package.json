@@ -20,6 +20,7 @@
     "@proladon/shelter-ui": "^0.1.27",
     "@tabler/icons-vue": "^3.36.0",
     "@unocss/reset": "^66.5.11",
+    "axios": "^1.13.2",
     "pinia": "^3.0.4",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3"
