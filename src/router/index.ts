@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { createRouterGuards } from './guard'
-import { App } from 'vue'
+import type { App } from 'vue'
 
 const routes = [
   {

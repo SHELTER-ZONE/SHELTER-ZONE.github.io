@@ -28,6 +28,7 @@ export default defineConfig({
         enabled: true, // Default `false`
       },
     }),
+    Components({}),
   ],
   resolve: {
     alias: {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="default-layout">
     <AppHeadbar />
 
     <RouterView />
@@ -10,4 +10,8 @@
 import AppHeadbar from '../components/AppHeadbar.vue'
 </script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+#default-layout {
+  @apply full bg-bg.primary text-text.base;
+}
+</style>

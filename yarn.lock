@@ -1197,7 +1197,7 @@
     "@unocss/core" "66.5.11"
     "@unocss/preset-wind3" "66.5.11"
 
-"@unocss/reset@66.5.11", "@unocss/reset@^66.5.10":
+"@unocss/reset@66.5.11", "@unocss/reset@^66.5.10", "@unocss/reset@^66.5.11":
   version "66.5.11"
   resolved "https://registry.yarnpkg.com/@unocss/reset/-/reset-66.5.11.tgz#88f5992a076711e926b6dca60933d50c50ce97b7"
   integrity sha512-Q7HudqDXj+IG2nUpUPKb70xwKqbyO6Lkf9igyXQ2XUypnqN9WZYm8leEnweBKiBuROrY1E8c+CqnS8bO/vUTNw==

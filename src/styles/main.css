@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html,
+body,
+#app {
+  @apply full bg-bg.primary;
+}
+
+textarea,
+input {
+  /* outline: none !important; */
+  /* -webkit-appearance: none; */
+  /* -moz-appearance: none; */
+  /* appearance: none; */
+  border: none;
+}
+
+html,
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply bg-bg.primary;
+}
