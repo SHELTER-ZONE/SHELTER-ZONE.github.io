@@ -1,27 +1,31 @@
-import { defineConfig } from 'vite'
-import UnoCSS from 'unocss/vite'
 import { fileURLToPath, URL } from 'node:url'
+import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import VueDevTools from 'vite-plugin-vue-devtools'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import vueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    vueJsx(),
+    vueDevTools(),
     UnoCSS(),
-    VueDevTools(),
     AutoImport({
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
         /\.vue$/,
         /\.vue\?vue/, // .vue
+        /\.md$/, // .md
       ],
-      imports: ['vue', 'vue-router', 'pinia'],
-      dirs: ['./src/stores', './src/use', './src/configs', './src/api'],
+      imports: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
+      dirs: ['./src/stores', './src/api/**/*.ts', './src/use/**/*.ts'],
       dts: true,
       eslintrc: {
-        enabled: true,
+        enabled: true, // Default `false`
       },
     }),
   ],

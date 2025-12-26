@@ -1,36 +1,14 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { createI18n } from 'vue-i18n'
-import 'virtual:uno.css'
-import '@unocss/reset/eric-meyer.css'
-import '@proladon/shelter-ui/dist/index.css'
 
 import App from './App.vue'
-import router from './router'
-import messages from './locale'
-import { createDiscreteApi, darkTheme } from 'naive-ui'
-
-const { message: $message } = createDiscreteApi(['message'], {
-  configProviderProps: { theme: darkTheme },
-})
-
-window.$message = $message
-
-import './assets/base.css'
-import '@/styles/index.css'
-import '@shelter-zone/shelter-ui/index.css'
-
-const i18n = createI18n({
-  legacy: false,
-  locale: 'tw', // set locale
-  fallbackLocale: 'en', // set fallback locale
-  messages,
-})
+import router, { setupRouter } from './router'
+import 'virtual:uno.css'
 
 const app = createApp(App)
 
+setupRouter(app)
+
 app.use(createPinia())
 app.use(router)
-app.use(i18n)
-
 app.mount('#app')

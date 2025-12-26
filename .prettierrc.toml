@@ -1,7 +1,0 @@
-semi=false
-singleQuote=true
-trailingComma='all'
-endOfLine='lf'
-quoteProps='as-needed'
-bracketSpacing=true
-arrowParens='always'

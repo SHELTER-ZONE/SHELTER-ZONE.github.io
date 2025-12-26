@@ -14,9 +14,6 @@ dist-ssr
 coverage
 *.local
 
-/cypress/videos/
-/cypress/screenshots/
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -27,9 +24,13 @@ coverage
 *.sln
 *.sw?
 
+*.tsbuildinfo
 
-yarn.lock
+.eslintcache
 
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
 
-auto-imports.d.ts
-.eslintrc-auto-import.json
+# Vitest
+__screenshots__/
