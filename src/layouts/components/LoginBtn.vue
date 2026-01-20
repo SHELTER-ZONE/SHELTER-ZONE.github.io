@@ -12,8 +12,10 @@ const loading = ref(false)
 
 const handleLogin = async () => {
   loading.value = true
-  const redirectUrl = `${window.location.origin}/callback`
-  const [data, error] = await GetDCAuthorizeUrl({ redirectUrl })
+  const redirectUrl = `${window.location.origin}/discord/callback`
+  const [authUrl, error] = await GetDCAuthorizeUrl({ redirectUrl })
+
+  console.log('authUrl', authUrl)
 
   if (error) {
     notification.error({
@@ -24,8 +26,8 @@ const handleLogin = async () => {
     return
   }
 
-  if (data?.url) {
-    window.location.href = data.url
+  if (authUrl) {
+    window.location.href = authUrl
   } else {
     loading.value = false
   }

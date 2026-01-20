@@ -1,9 +1,10 @@
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user'
 import axios, { type InternalAxiosRequestConfig, type AxiosResponse } from 'axios'
+import { get } from 'lodash-es'
 
 // 成功響應處理（返回 tuple）
 const SuccessRes = <T>(response: AxiosResponse<T>): [T, null, any] => {
-  return [response.data, null, response]
+  return [get(response.data, 'data') || response.data, null, response]
 }
 
 // 錯誤響應處理（返回 tuple）
@@ -20,7 +21,7 @@ const getBackendHost = () => {
 }
 
 export const api = axios.create({
-  baseURL: `${getBackendHost()}/api-admin`,
+  baseURL: `${getBackendHost()}`,
 })
 
 api.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {

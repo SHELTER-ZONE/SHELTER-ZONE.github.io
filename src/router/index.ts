@@ -10,8 +10,8 @@ const routes = [
     component: Landing,
   },
   {
-    name: 'Callback',
-    path: '/callback',
+    name: 'DiscordCallback',
+    path: '/discord/callback',
     component: () => import('@/views/Callback/Callback.vue'),
   },
   {

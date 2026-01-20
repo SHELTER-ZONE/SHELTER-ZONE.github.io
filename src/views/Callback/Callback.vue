@@ -30,6 +30,7 @@ const emitError = (errorData: {
   [propName: string]: any
 }) => {
   errorPageData.value = errorData
+  errorPageData.value.timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss')
   router.replace({ name: 'Error', query: { errorType: 'User Login Faild' } })
 }
 
@@ -44,7 +45,7 @@ const verifyCode = (): string => {
 
 const userLogin = async (code: string) => {
   statusMessage.value = '驗證避難者信息中'
-  const redirectUrl = `${window.location.origin}/callback`
+  const redirectUrl = `${window.location.origin}/discord/callback`
   const [data, error] = await DiscordOauthLogin({ code, redirectUrl })
   if (error) {
     throw error
@@ -75,7 +76,6 @@ const handleLogin = async () => {
       headers: get(error, 'config.headers'),
       payload: get(error, 'config.data'),
       page: route.fullPath,
-      timestamp: dayjs().format('YYYY/MM/DD HH:mm:ss'),
     })
   }
 }
