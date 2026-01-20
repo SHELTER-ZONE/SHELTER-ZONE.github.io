@@ -15,6 +15,11 @@ const routes = [
     component: () => import('@/views/Callback/Callback.vue'),
   },
   {
+    name: 'Profile',
+    path: '/profile',
+    component: () => import('@/views/Profile/Profile.vue'),
+  },
+  {
     name: 'Error',
     path: '/error',
     component: () => import('@/views/Error/Error.vue'),
